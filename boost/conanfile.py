@@ -55,8 +55,8 @@ class BoostConan(ConanFile):
                  (self.FOLDER_NAME, command, " ".join(flags)))
 
     def build(self):
-        self.output.info("Building %s with settings: %s options: %s" % (self.FOLDER_NAME, self.settings, self.options))
         self.bootstrap()
+        self.output.info("Building %s" % (self.FOLDER_NAME))
 
         flags = []
         cxx_flags = []
