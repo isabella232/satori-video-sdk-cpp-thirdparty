@@ -33,7 +33,7 @@ class BoostConan(ConanFile):
         os.unlink(zip_name)
 
     def bootstrap(self):
-        command = "bootstrap" if self.settings.os == "Windows" else "bash -x ./bootstrap.sh"
+        command = "bootstrap" if self.settings.os == "Windows" else "./bootstrap.sh"
         flags = []
         flags.append("link=%s" %
                      ("static" if not self.options.shared else "shared"))
@@ -55,9 +55,8 @@ class BoostConan(ConanFile):
                  (self.FOLDER_NAME, command, " ".join(flags)))
 
     def build(self):
+        self.output.info("Building %s with settings: %s options: %s" % (self.FOLDER_NAME, self.settings, self.options))
         self.bootstrap()
-
-        self.output.info("Building %s" % self.FOLDER_NAME)
 
         flags = []
         cxx_flags = []
