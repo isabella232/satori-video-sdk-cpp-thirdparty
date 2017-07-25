@@ -69,4 +69,5 @@ class OpencvConan(ConanFile):
                               "opencv_video",
                               "opencv_videoio",
                               "opencv_videostab",
-                              "z"]
+                              "z",
+                              "thread"]
