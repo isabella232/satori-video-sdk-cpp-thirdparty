@@ -21,12 +21,16 @@ class LibcborConan(ConanFile):
         cmake = CMake(self)
 
         cmake_options = []
-        if self.options.shared:
-            cmake_options.append("-DBUILD_SHARED_LIBS=ON")
+        cmake_options.append("-DCMAKE_VERBOSE_MAKEFILE=ON")
+        cmake_options.append("-DCMAKE_BUILD_TYPE=%s" %
+                             self.settings.build_type)
+        cmake_options.append("-DBUILD_SHARED_LIBS=%s" %
+                             ("ON" if self.options.shared else "OFF"))
         if self.options.fPIC:
             cmake_options.append("-DCMAKE_C_FLAGS=-fPIC")
+            cmake_options.append("-DCMAKE_CXX_FLAGS=-fPIC")
 
-        self.run('cmake -DCMAKE_VERBOSE_MAKEFILE=ON libcbor %s %s' %
+        self.run('cmake libcbor %s %s' %
                  (cmake.command_line, " ".join(cmake_options)))
         self.run("cmake --build . %s --target cbor" % cmake.build_config)
         if self.options.shared:
@@ -36,7 +40,7 @@ class LibcborConan(ConanFile):
     def package(self):
         self.copy("*.h", dst="include", src="libcbor/src")
         self.copy("*.h", dst="include/cbor", src="cbor")
-        self.copy("*hello.lib", dst="lib", keep_path=False)
+        self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.so", dst="lib", keep_path=False)
         self.copy("*.so.*", dst="lib", keep_path=False)

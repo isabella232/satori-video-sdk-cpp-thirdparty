@@ -83,7 +83,9 @@ class BoostConan(ConanFile):
         else:
             self.copy(pattern="*.a", dst="lib", src="%s/stage/lib" %
                       self.FOLDER_NAME)
-            self.copy(pattern="*.lib", dst="lib", src="%s/stage/lib" % self.FOLDER_NAME)
+            self.copy(pattern="*.lib", dst="lib",
+                      src="%s/stage/lib" % self.FOLDER_NAME)
+                      src="%s/stage/lib" % self.FOLDER_NAME)
         pass
 
     def package_info(self):

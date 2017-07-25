@@ -1,10 +1,10 @@
 .RECIPEPREFIX = >
-.PHONY: all libcbor boost
+.PHONY: all libcbor boost opencv
 
-CONAN_LOGIN_COMMAND=conan remote add video http://10.199.28.20:80/ && conan user --remote video -p 52WnSCzO1BoI video-rw
+CONAN_LOGIN_COMMAND=conan remote add video http://10.199.28.20:80/ && conan user --remote video -p ${CONAN_PASSWORD} ${CONAN_USER}
 CONAN_UPLOAD_COMMAND=conan upload --confirm --remote video --all '*@satorivideo/*' && echo 'SUCCESS'
 
-all: libcbor boost
+all: libcbor boost gettext opencv
 
 libcbor:
 > docker build -t $@ $@
@@ -12,6 +12,16 @@ libcbor:
 > echo "DONE"
 
 boost:
+> docker build -t $@ $@
+>- docker run --rm $@ bash -ceux "${CONAN_LOGIN_COMMAND} && ${CONAN_UPLOAD_COMMAND}"
+> echo "DONE"
+
+opencv:
+> docker build -t $@ $@
+>- docker run --rm $@ bash -ceux "${CONAN_LOGIN_COMMAND} && ${CONAN_UPLOAD_COMMAND}"
+> echo "DONE"
+
+gettext:
 > docker build -t $@ $@
 >- docker run --rm $@ bash -ceux "${CONAN_LOGIN_COMMAND} && ${CONAN_UPLOAD_COMMAND}"
 > echo "DONE"
