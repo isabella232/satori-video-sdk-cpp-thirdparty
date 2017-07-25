@@ -85,8 +85,6 @@ class BoostConan(ConanFile):
                       self.FOLDER_NAME)
             self.copy(pattern="*.lib", dst="lib",
                       src="%s/stage/lib" % self.FOLDER_NAME)
-                      src="%s/stage/lib" % self.FOLDER_NAME)
-        pass
 
     def package_info(self):
         libs = []
