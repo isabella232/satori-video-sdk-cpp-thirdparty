@@ -25,13 +25,25 @@ class OpencvConan(ConanFile):
 
         cmake_options = []
         cmake_options.append("-GNinja")
+        cmake_options.append("-DCMAKE_VERBOSE_MAKEFILE=ON")
+
+        # turn off extra deps
+        cmake_options.append("-DWITH_JASPER=OFF")
+        cmake_options.append("-DWITH_JPEG=OFF")
+        cmake_options.append("-DWITH_LAPACK=OFF")
+        cmake_options.append("-DWITH_OPENCL=OFF")
+        cmake_options.append("-DWITH_OPENEXR=OFF")
+        cmake_options.append("-DWITH_PNG=OFF")
+        cmake_options.append("-DWITH_TIFF=OFF")
+        cmake_options.append("-DWITH_WEBP=OFF")
+
+        # turn off extra targets
         cmake_options.append("-DBUILD_EXAMPLES=OFF")
         cmake_options.append("-DBUILD_opencv_apps=OFF")
         cmake_options.append("-DBUILD_TESTS=OFF")
         cmake_options.append("-DBUILD_PERF_TESTS=OFF")
-        cmake_options.append("-DCMAKE_VERBOSE_MAKEFILE=ON")
-        cmake_options.append("-DWITH_OPENCL=OFF")
-        cmake_options.append("-DWITH_LAPACK=OFF")
+
+        # build options
         cmake_options.append("-DCMAKE_BUILD_TYPE=%s" %
                              self.settings.build_type)
         cmake_options.append("-DCMAKE_INSTALL_PREFIX=install")
@@ -71,3 +83,7 @@ class OpencvConan(ConanFile):
                               "opencv_videostab",
                               "z",
                               "pthread"]
+
+        if self.settings.os == "Macos":
+            self.cpp_info.exelinkflags.append("-framework Foundation")
+            self.cpp_info.exelinkflags.append("-framework AppKit")
