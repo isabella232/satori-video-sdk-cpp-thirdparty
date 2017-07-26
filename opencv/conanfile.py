@@ -28,6 +28,7 @@ class OpencvConan(ConanFile):
         cmake_options.append("-DCMAKE_VERBOSE_MAKEFILE=ON")
 
         # turn off extra deps
+        cmake_options.append("-DWITH_GSTREAMER=OFF")
         cmake_options.append("-DWITH_JASPER=OFF")
         cmake_options.append("-DWITH_JPEG=OFF")
         cmake_options.append("-DWITH_LAPACK=OFF")

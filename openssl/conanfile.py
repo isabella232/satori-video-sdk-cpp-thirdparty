@@ -27,7 +27,8 @@ class OpensslConan(ConanFile):
 
         prefix = os.path.abspath("install")
         configure_args.append("--prefix=%s" % prefix)
-        configure_args.append("pic" if self.options.fPIC else "no-pic")
+        if not self.options.fPIC:
+            configure_args.append("no-pic")
         configure_args.append("shared" if self.options.shared else "no-shared")
 
         env_build = AutoToolsBuildEnvironment(self)
@@ -36,7 +37,7 @@ class OpensslConan(ConanFile):
         with tools.environment_append(env_vars):
             self.output.info("Build environment: %s" % env_vars)
             self.output.info("config %s" % " ".join(configure_args))
-            self.run("cd %s && ./config %s" %
+            self.run("cd %s && ./config -v %s" %
                      (self.folder_name, " ".join(configure_args)))
             self.run("cd %s && make depend -j%s" %
                      (self.folder_name, tools.cpu_count()))
