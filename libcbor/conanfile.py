@@ -21,7 +21,6 @@ class LibcborConan(ConanFile):
         cmake = CMake(self)
 
         cmake_options = []
-        cmake_options.append("-DCMAKE_AR=/usr/bin/gcc-ar")
         cmake_options.append("-DCMAKE_VERBOSE_MAKEFILE=ON")
         cmake_options.append("-DCMAKE_BUILD_TYPE=%s" %
                              self.settings.build_type)
