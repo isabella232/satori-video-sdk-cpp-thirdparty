@@ -5,6 +5,8 @@ import os
 class RapidjsonTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
+    options = {"fPIC": [True, False]}
+    default_options = "fPIC=False"
 
     def build(self):
         cmake = CMake(self)
