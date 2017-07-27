@@ -11,8 +11,7 @@ class LibcborTestConan(ConanFile):
     generators = "cmake"
     options = {"shared": [True, False],
                "fPIC": [True, False]}
-    default_options = "shared=True", "fPIC=False"
-
+    default_options = "shared=False", "fPIC=False"
 
     def build(self):
         cmake = CMake(self)
@@ -23,8 +22,6 @@ class LibcborTestConan(ConanFile):
 
     def imports(self):
         self.copy("libcbor-test", dst="bin")
-        self.copy("*.dll", dst="bin", src="bin")
-        self.copy("*.dylib*", dst="bin", src="lib")
 
     def test(self):
         env_build = RunEnvironment(self)

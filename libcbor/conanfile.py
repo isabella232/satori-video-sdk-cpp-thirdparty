@@ -9,7 +9,7 @@ class LibcborConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False],
                "fPIC": [True, False]}
-    default_options = "shared=True", "fPIC=False"
+    default_options = "shared=False", "fPIC=False"
     generators = "cmake"
 
     def source(self):
