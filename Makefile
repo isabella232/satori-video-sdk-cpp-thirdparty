@@ -1,4 +1,4 @@
-LIBS=libcbor boost opencv openssl gsl beast rapidjson
+LIBS=gsl rapidjson libcbor boost beast opencv openssl 
 
 .RECIPEPREFIX = >
 .PHONY: all ${LIBS}
