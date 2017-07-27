@@ -1,4 +1,4 @@
-from conans import ConanFile, CMake
+from conans import ConanFile, CMake, tools
 
 
 class LibcborConan(ConanFile):
@@ -15,12 +15,13 @@ class LibcborConan(ConanFile):
     def source(self):
         self.run(
             "git clone --depth 1 --branch v%s https://github.com/PJK/libcbor.git" % self.version)
-        self.run("cd libcbor")
+        tools.replace_in_file("libcbor/CMakeLists.txt", "-flto", "")
 
     def build(self):
         cmake = CMake(self)
 
         cmake_options = []
+        cmake_options.append("-DCMAKE_AR=/usr/bin/gcc-ar")
         cmake_options.append("-DCMAKE_VERBOSE_MAKEFILE=ON")
         cmake_options.append("-DCMAKE_BUILD_TYPE=%s" %
                              self.settings.build_type)
@@ -30,8 +31,10 @@ class LibcborConan(ConanFile):
             cmake_options.append("-DCMAKE_C_FLAGS=-fPIC")
             cmake_options.append("-DCMAKE_CXX_FLAGS=-fPIC")
 
-        self.run('cmake libcbor %s %s' %
-                 (cmake.command_line, " ".join(cmake_options)))
+        cmake_command = ('cmake libcbor %s %s' %
+                         (cmake.command_line, " ".join(cmake_options)))
+        self.output.info(cmake_command)
+        self.run(cmake_command)
         self.run("cmake --build . %s --target cbor" % cmake.build_config)
         if self.options.shared:
             self.run("cmake --build . %s --target cbor_shared" %
