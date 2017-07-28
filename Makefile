@@ -21,7 +21,8 @@ all: video-thirdparty ${LIBS}
 # Builds and uploads the package
 ${LIBS}: CONAN_CREATE_COMMAND=conan ${CONAN_OPTIONS_$@}
 ${LIBS}: 
->- docker run --rm video-thirdparty bash -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Release && ${CONAN_UPLOAD_COMMAND}"
+> docker run --rm video-thirdparty bash -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Release && ${CONAN_UPLOAD_COMMAND}"
+> docker run --rm video-thirdparty bash -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Debug && ${CONAN_UPLOAD_COMMAND}"
 > echo "DONE"
 
 video-thirdparty:
