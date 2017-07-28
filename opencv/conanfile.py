@@ -30,11 +30,10 @@ class OpencvConan(ConanFile):
         # turn off extra deps
         cmake_options.append("-DWITH_GSTREAMER=OFF")
         cmake_options.append("-DWITH_JASPER=OFF")
-        cmake_options.append("-DWITH_JPEG=OFF")
+        cmake_options.append("-DWITH_ITT=OFF")
         cmake_options.append("-DWITH_LAPACK=OFF")
         cmake_options.append("-DWITH_OPENCL=OFF")
         cmake_options.append("-DWITH_OPENEXR=OFF")
-        cmake_options.append("-DWITH_PNG=OFF")
         cmake_options.append("-DWITH_TIFF=OFF")
         cmake_options.append("-DWITH_WEBP=OFF")
 
@@ -50,6 +49,7 @@ class OpencvConan(ConanFile):
         cmake_options.append("-DCMAKE_INSTALL_PREFIX=install")
         cmake_options.append("-DBUILD_SHARED_LIBS=%s" %
                              ("ON" if self.options.shared else "OFF"))
+        cmake_options.append("-DOPENCV_EXTRA_MODULES_PATH=opencv_contrib/modules")
         if self.options.fPIC:
             cmake_options.append("-DCMAKE_C_FLAGS=-fPIC")
             cmake_options.append("-DCMAKE_CXX_FLAGS=-fPIC")
@@ -66,24 +66,50 @@ class OpencvConan(ConanFile):
         self.copy("*", src="install")
 
     def package_info(self):
-        self.cpp_info.libs = ["opencv_videostab",
-                              "opencv_photo",
-                              "opencv_stitching",
-                              "opencv_objdetect",
-                              "opencv_video",
-                              "opencv_ml",
-                              "opencv_calib3d",
-                              "opencv_features2d",
-                              "opencv_highgui",
-                              "opencv_flann",
-                              "opencv_imgproc",
-                              "opencv_imgcodecs",
-                              "opencv_shape",
-                              "opencv_superres",
-                              "opencv_videoio",
-                              "opencv_core",
-                              "z",
-                              "pthread"]
+        self.cpp_info.libs =   ["opencv_aruco",
+                                "opencv_img_hash",
+                                "opencv_stereo",
+                                "opencv_bgsegm",
+                                "opencv_imgcodecs",
+                                "opencv_stitching",
+                                "opencv_bioinspired",
+                                "opencv_imgproc",
+                                "opencv_structured_light",
+                                "opencv_calib3d",
+                                "opencv_line_descriptor",
+                                "opencv_superres",
+                                "opencv_ccalib",
+                                "opencv_ml",
+                                "opencv_surface_matching",
+                                "opencv_core",
+                                "opencv_objdetect",
+                                "opencv_text",
+                                "opencv_datasets",
+                                "opencv_optflow",
+                                "opencv_tracking",
+                                "opencv_dnn",
+                                "opencv_phase_unwrapping",
+                                "opencv_video",
+                                "opencv_dpm",
+                                "opencv_photo",
+                                "opencv_videoio",
+                                "opencv_face",
+                                "opencv_plot",
+                                "opencv_videostab",
+                                "opencv_features2d",
+                                "opencv_reg",
+                                "opencv_xfeatures2d",
+                                "opencv_flann",
+                                "opencv_rgbd",
+                                "opencv_ximgproc",
+                                "opencv_fuzzy",
+                                "opencv_saliency",
+                                "opencv_xobjdetect",
+                                "opencv_highgui",
+                                "opencv_shape",
+                                "opencv_xphoto",
+                                "z",
+                                "pthread"]
 
         if self.settings.os == "Macos":
             self.cpp_info.exelinkflags.append("-framework Foundation")
