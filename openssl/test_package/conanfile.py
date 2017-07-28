@@ -5,8 +5,8 @@ import os
 class OpensslTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    options = {"fPIC": [True, False]}
-    default_options = "fPIC=False"
+    options = {"fPIC": [True, False], "shared": [True, False]}
+    default_options = "fPIC=False", "shared=False"
 
     def build(self):
         cmake = CMake(self)
