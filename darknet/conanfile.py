@@ -4,13 +4,15 @@ from conans import ConanFile, CMake, tools
 class DarknetConan(ConanFile):
     name = "Darknet"
     version = "0.1.0"
+    # this packet has no releases, it is known stable commit
+    revision = "7a223d8591e0a497889b9fce9bc43ac4bd3969fd"
     license = "MIT"
     url = "https://github.com/pjreddie/darknet"
     settings = "os", "compiler", "build_type", "arch"
 
     def source(self):
-        self.run( # this packet has no releases, it is known stable commit
-            "git clone https://github.com/pjreddie/darknet && cd darknet && git reset 7a223d8591e0a497889b9fce9bc43ac4bd3969fd --hard")
+        self.run(
+            "git clone https://github.com/pjreddie/darknet && cd darknet && git checkout %s" % self.revision)
         if self.settings.os == "Macos":
             tools.replace_in_file("darknet/src/utils.c", "clock_gettime(CLOCK_REALTIME, &now)", "")
         else:
