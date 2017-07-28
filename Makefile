@@ -1,4 +1,4 @@
-LIBS=gsl rapidjson libcbor boost beast opencv openssl 
+LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet
 
 .RECIPEPREFIX = >
 .PHONY: all ${LIBS}
@@ -14,6 +14,7 @@ CONAN_OPTIONS_openssl=${COMMON_CONAN_OPTIONS} --options fPIC=True --options shar
 CONAN_OPTIONS_gsl=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_rapidjson=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_beast=${COMMON_CONAN_OPTIONS}
+CONAN_OPTIONS_darknet=${COMMON_CONAN_OPTIONS}
 
 all: ${LIBS}
 
