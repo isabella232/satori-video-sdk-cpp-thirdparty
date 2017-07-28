@@ -50,4 +50,4 @@ class OpensslConan(ConanFile):
         self.copy("*", src="install")
 
     def package_info(self):
-        self.cpp_info.libs = ["ssl", "crypto"]
+        self.cpp_info.libs = ["ssl", "crypto", "dl", "pthread"]
