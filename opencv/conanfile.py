@@ -67,7 +67,6 @@ class OpencvConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs =   ["opencv_aruco",
-                                "opencv_img_hash",
                                 "opencv_stereo",
                                 "opencv_bgsegm",
                                 "opencv_imgcodecs",
