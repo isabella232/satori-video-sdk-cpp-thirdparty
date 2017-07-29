@@ -43,6 +43,10 @@ class OpencvConan(ConanFile):
         cmake_options.append("-DBUILD_TESTS=OFF")
         cmake_options.append("-DBUILD_PERF_TESTS=OFF")
 
+        # enable OpenMP on linux
+        if self.settings.os != "Macos":
+            cmake_options.append("-DWITH_OPENMP=ON")
+
         # build options
         cmake_options.append("-DCMAKE_BUILD_TYPE=%s" %
                              self.settings.build_type)
