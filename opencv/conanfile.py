@@ -63,6 +63,7 @@ class OpencvConan(ConanFile):
         self.run("cmake --build . %s --target install" % cmake.build_config)
 
     def package(self):
+        self.copy("*", src="3rdparty/lib", dst="lib", keep_path=False)
         self.copy("*", src="install")
 
     def package_info(self):
@@ -80,7 +81,6 @@ class OpencvConan(ConanFile):
                                 "opencv_ccalib",
                                 "opencv_ml",
                                 "opencv_surface_matching",
-                                "opencv_core",
                                 "opencv_objdetect",
                                 "opencv_text",
                                 "opencv_datasets",
@@ -107,6 +107,9 @@ class OpencvConan(ConanFile):
                                 "opencv_highgui",
                                 "opencv_shape",
                                 "opencv_xphoto",
+                                "opencv_core",
+                                "libjpeg",
+                                "libpng",
                                 "z",
                                 "pthread"]
 
