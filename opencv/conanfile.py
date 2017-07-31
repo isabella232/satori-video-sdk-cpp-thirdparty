@@ -43,6 +43,7 @@ class OpencvConan(ConanFile):
         cmake_options.append("-DBUILD_opencv_apps=OFF")
         cmake_options.append("-DBUILD_TESTS=OFF")
         cmake_options.append("-DBUILD_PERF_TESTS=OFF")
+        cmake_options.append("-DENABLE_CCACHE=OFF")
 
         # build options
         cmake_options.append("-DCMAKE_BUILD_TYPE=%s" %
