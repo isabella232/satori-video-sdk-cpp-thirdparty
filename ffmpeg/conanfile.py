@@ -75,3 +75,8 @@ class FfmpegConan(ConanFile):
 
         if self.settings.os == "Macos":
             self.cpp_info.libs.append("iconv")
+            self.cpp_info.exelinkflags.append("-framework AVFoundation")
+            self.cpp_info.exelinkflags.append("-framework CoreGraphics")
+            self.cpp_info.exelinkflags.append("-framework CoreMedia")
+            self.cpp_info.exelinkflags.append("-framework Foundation")
+            self.cpp_info.exelinkflags.append("-framework QuartzCore")
