@@ -11,7 +11,6 @@ class OpensslConan(ConanFile):
     options = {"shared": [True, False],
                "fPIC": [True, False]}
     default_options = "shared=False", "fPIC=False"
-    generators = "cmake"
     folder_name = "openssl-%s" % version
 
     def source(self):
