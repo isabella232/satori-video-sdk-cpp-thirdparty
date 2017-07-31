@@ -12,6 +12,12 @@ class FfmpegConan(ConanFile):
     default_options = "shared=False", "fPIC=False"
     requires = "Libvpx/1.6.1@satorivideo/master"
 
+    def requirements(self):
+      if self.options.shared:
+      	self.options["Libvpx"].shared = True
+      if self.options.fPIC:
+        self.options["Libvpx"].fPIC = True
+        
     def source(self):
         self.run(
             "git clone --depth 1 -b n%s https://github.com/FFmpeg/FFmpeg.git" % self.version)
