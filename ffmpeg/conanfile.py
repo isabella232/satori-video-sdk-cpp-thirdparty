@@ -61,9 +61,9 @@ class FfmpegConan(ConanFile):
         with tools.environment_append(env_vars):
             self.output.info("Build environment: %s" % env_vars)
             self.output.info("configure %s" % " ".join(configure_args))
-            self.run("cd ffmpeg && ./configure %s" %
+            self.run("cd FFmpeg && ./configure %s" %
                      " ".join(configure_args))
-            self.run("cd ffmpeg && V=1 make -j%s all install" %
+            self.run("cd FFmpeg && V=1 make -j%s all install" %
                      tools.cpu_count())
 
     def package(self):
