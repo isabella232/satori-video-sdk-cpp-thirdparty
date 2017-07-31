@@ -4,7 +4,7 @@ import os
 
 class OpencvConan(ConanFile):
     name = "Opencv"
-    version = "3.2.0"
+    version = "3.2.0_01"
     license = "3-clause BSD License"
     url = "http://opencv.org/"
     settings = "os", "compiler", "build_type", "arch"
