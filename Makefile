@@ -1,4 +1,4 @@
-LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet
+LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet libvpx ffmpeg
 
 .RECIPEPREFIX = >
 .PHONY: all video-thirdparty ${LIBS}
