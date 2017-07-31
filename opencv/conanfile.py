@@ -5,6 +5,7 @@ import os
 class OpencvConan(ConanFile):
     name = "Opencv"
     version = "3.2.0_01"
+    source_version = "3.2.0"
     license = "3-clause BSD License"
     url = "http://opencv.org/"
     settings = "os", "compiler", "build_type", "arch"
@@ -16,9 +17,9 @@ class OpencvConan(ConanFile):
 
     def source(self):
         self.run(
-            "git clone --depth 1 -b %s https://github.com/opencv/opencv.git" % self.version)
+            "git clone --depth 1 -b %s https://github.com/opencv/opencv.git" % self.source_version)
         self.run(
-            "git clone --depth 1 -b %s https://github.com/opencv/opencv_contrib.git" % self.version)
+            "git clone --depth 1 -b %s https://github.com/opencv/opencv_contrib.git" % self.source_version)
 
     def build(self):
         cmake = CMake(self)
