@@ -11,6 +11,8 @@ CONAN_OPTIONS_libcbor=${COMMON_CONAN_OPTIONS} --options fPIC=True --options shar
 CONAN_OPTIONS_boost=${COMMON_CONAN_OPTIONS} --options fPIC=True --options shared=False
 CONAN_OPTIONS_opencv=${COMMON_CONAN_OPTIONS} --options fPIC=True --options shared=False
 CONAN_OPTIONS_openssl=${COMMON_CONAN_OPTIONS} --options fPIC=True --options shared=False
+CONAN_OPTIONS_libvpx=${COMMON_CONAN_OPTIONS} --options fPIC=True --options shared=False
+CONAN_OPTIONS_ffmpeg=${COMMON_CONAN_OPTIONS} --options fPIC=True --options shared=False
 CONAN_OPTIONS_gsl=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_rapidjson=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_beast=${COMMON_CONAN_OPTIONS}
