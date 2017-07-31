@@ -69,6 +69,7 @@ class OpencvConan(ConanFile):
         self.copy("*", src="install")
 
     def package_info(self):
+        # imgcodecs: imgproc
         self.cpp_info.libs =   ["opencv_aruco",
                                 "opencv_stereo",
                                 "opencv_tracking",
@@ -85,6 +86,7 @@ class OpencvConan(ConanFile):
                                 "opencv_ml",
                                 "opencv_surface_matching",
                                 "opencv_objdetect",
+                                "opencv_imgcodecs",
                                 "opencv_imgproc",
                                 "opencv_text",
                                 "opencv_datasets",
@@ -92,7 +94,6 @@ class OpencvConan(ConanFile):
                                 "opencv_dnn",
                                 "opencv_phase_unwrapping",
                                 "opencv_dpm",
-                                "opencv_imgcodecs",
                                 "opencv_photo",
                                 "opencv_face",
                                 "opencv_plot",
