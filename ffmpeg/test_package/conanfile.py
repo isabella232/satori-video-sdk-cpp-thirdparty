@@ -4,6 +4,8 @@ import os
 class FfmpegTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
+    options = {"shared": [True, False], "fPIC": [True, False]}
+    default_options = "shared=False", "fPIC=False"
 
     def build(self):
         cmake = CMake(self)
