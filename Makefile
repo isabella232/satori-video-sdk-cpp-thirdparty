@@ -28,4 +28,4 @@ ${LIBS}:
 > echo "DONE"
 
 video-thirdparty:
-> docker build -t $@ .
+> docker build --pull -t $@ .
