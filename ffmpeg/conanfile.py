@@ -135,6 +135,7 @@ class FfmpegConan(ConanFile):
             configure_args.append("--disable-pthreads")
             configure_args.append("--disable-static")
             configure_args.append("--enable-shared")
+            configure_args.append("--disable-stripping")
 
         if self.settings.build_type == "Debug":
             configure_args.append("--enable-debug=3")
