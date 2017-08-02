@@ -98,6 +98,8 @@ class FfmpegConan(ConanFile):
         self.cpp_info.libs = ["avcodec", "avutil",
                               "avdevice", "avformat",
                               "swscale", "pthread", "dl"]
+
+        if self.settings.os == "Macos":
             self.cpp_info.exelinkflags.append("-framework AVFoundation")
             self.cpp_info.exelinkflags.append("-framework CoreGraphics")
             self.cpp_info.exelinkflags.append("-framework CoreMedia")
