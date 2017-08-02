@@ -32,13 +32,13 @@ class LibvpxConan(ConanFile):
         configure_args.append("--disable-tools")
         configure_args.append("--disable-docs")
 
-        if self.settings.compiler == "emcc":
-            if not self.options.shared:
-                raise Exception(
-                    "emcc should be used with shared libraries only.")
-            configure_args.append("--target=generic-gnu")
-            configure_args.append("--disable-static")
-            configure_args.append("--enable-shared")
+        # if self.settings.compiler == "emcc":
+        #     if not self.options.shared:
+        #         raise Exception(
+        #             "emcc should be used with shared libraries only.")
+        #     configure_args.append("--target=generic-gnu")
+        #     configure_args.append("--disable-static")
+        #     configure_args.append("--enable-shared")
 
         if self.settings.build_type == "Debug":
             configure_args.append("--enable-debug")

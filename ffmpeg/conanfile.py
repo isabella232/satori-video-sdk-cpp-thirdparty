@@ -13,11 +13,11 @@ class FfmpegConan(ConanFile):
     requires = "Libvpx/1.6.1@satorivideo/master"
 
     def requirements(self):
-      if self.options.shared:
-      	self.options["Libvpx"].shared = True
-      if self.options.fPIC:
-        self.options["Libvpx"].fPIC = True
-        
+        if self.options.shared:
+            self.options["Libvpx"].shared = True
+        if self.options.fPIC:
+            self.options["Libvpx"].fPIC = True
+
     def source(self):
         self.run(
             "git clone --depth 1 -b n%s https://github.com/FFmpeg/FFmpeg.git" % self.version)
@@ -61,19 +61,19 @@ class FfmpegConan(ConanFile):
         configure_args.append("--enable-encoder=mjpeg")
         configure_args.append("--enable-protocol=file")
 
-        if self.settings.compiler == "emcc":
-            if not self.options.shared:
-                raise Exception(
-                    "emcc should be used with shared libraries only.")
-            configure_args.append("--enable-cross-compile")
-            configure_args.append("--target-os=none")
-            configure_args.append("--arch=x86")
-            configure_args.append("--disable-asm")
-            configure_args.append("--disable-runtime-cpudetect")
-            configure_args.append("--disable-fast-unaligned")
-            configure_args.append("--disable-pthreads")
-            configure_args.append("--disable-static")
-            configure_args.append("--enable-shared")
+        # if self.settings.compiler == "emcc":
+        #     if not self.options.shared:
+        #         raise Exception(
+        #             "emcc should be used with shared libraries only.")
+        #     configure_args.append("--enable-cross-compile")
+        #     configure_args.append("--target-os=none")
+        #     configure_args.append("--arch=x86")
+        #     configure_args.append("--disable-asm")
+        #     configure_args.append("--disable-runtime-cpudetect")
+        #     configure_args.append("--disable-fast-unaligned")
+        #     configure_args.append("--disable-pthreads")
+        #     configure_args.append("--disable-static")
+        #     configure_args.append("--enable-shared")
 
         if self.settings.build_type == "Debug":
             configure_args.append("--enable-debug=3")
@@ -95,11 +95,8 @@ class FfmpegConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["avcodec", "avutil",
-                              "avdevice", "avformat", 
+                              "avdevice", "avformat",
                               "swscale", "pthread", "dl"]
-
-        if self.settings.os == "Macos":
-            self.cpp_info.libs.append("iconv")
             self.cpp_info.exelinkflags.append("-framework AVFoundation")
             self.cpp_info.exelinkflags.append("-framework CoreGraphics")
             self.cpp_info.exelinkflags.append("-framework CoreMedia")
