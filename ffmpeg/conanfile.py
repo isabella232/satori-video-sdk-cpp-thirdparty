@@ -2,6 +2,62 @@ from conans import ConanFile, AutoToolsBuildEnvironment, tools
 import os
 
 
+EMCC_PATCH = """
+diff --git a/libavcodec/log2_tab.c b/libavcodec/log2_tab.c
+index 47a1df0..e415363 100644
+--- a/libavcodec/log2_tab.c
++++ b/libavcodec/log2_tab.c
+@@ -1 +1,2 @@
+-#include "libavutil/log2_tab.c"
++#define ff_log2_tab ff_log2_tab_avcodec
++# include "libavutil/log2_tab.c"
+diff --git a/libavcodec/reverse.c b/libavcodec/reverse.c
+index 440bada..c7b3ca0 100644
+--- a/libavcodec/reverse.c
++++ b/libavcodec/reverse.c
+@@ -1 +1,2 @@
+-#include "libavutil/reverse.c"
++#define ff_reverse ff_reverse_avutil
++# include "libavutil/reverse.c"
+diff --git a/libavfilter/log2_tab.c b/libavfilter/log2_tab.c
+index 47a1df0..db4d753 100644
+--- a/libavfilter/log2_tab.c
++++ b/libavfilter/log2_tab.c
+@@ -1 +1,2 @@
+-#include "libavutil/log2_tab.c"
++#define ff_log2_tab ff_log2_tab_avfilter
++# include "libavutil/log2_tab.c"
+diff --git a/libavutil/timer.h b/libavutil/timer.h
+index ed3b047..001842d 100644
+--- a/libavutil/timer.h
++++ b/libavutil/timer.h
+@@ -50,6 +50,7 @@
+ 
+ #if !defined(AV_READ_TIME)
+ #   if HAVE_GETHRTIME
++extern int gethrtime(void);
+ #       define AV_READ_TIME gethrtime
+ #   elif HAVE_MACH_ABSOLUTE_TIME
+ #       define AV_READ_TIME mach_absolute_time
+diff --git a/libswresample/log2_tab.c b/libswresample/log2_tab.c
+index 47a1df0..88d5f40 100644
+--- a/libswresample/log2_tab.c
++++ b/libswresample/log2_tab.c
+@@ -1 +1,2 @@
+-#include "libavutil/log2_tab.c"
++#define ff_log2_tab ff_log2_tab_swresample
++# include "libavutil/log2_tab.c"
+diff --git a/libswscale/log2_tab.c b/libswscale/log2_tab.c
+index 47a1df0..7b0cb50 100644
+--- a/libswscale/log2_tab.c
++++ b/libswscale/log2_tab.c
+@@ -1 +1,2 @@
+-#include "libavutil/log2_tab.c"
++#define ff_log2_tab ff_log2_tab_swscale
++# include "libavutil/log2_tab.c"
+"""
+
+
 class FfmpegConan(ConanFile):
     name = "Ffmpeg"
     version = "3.3.3"
@@ -23,7 +79,11 @@ class FfmpegConan(ConanFile):
             "git clone --depth 1 -b n%s https://github.com/FFmpeg/FFmpeg.git" % self.version)
 
     def build(self):
-        self.output.info("Environment: %s" % os.environ)
+        if self.options.emcc:
+            self.output.info("Applying emcc patch")
+            tools.patch(patch_string=EMCC_PATCH,
+                        base_path="FFmpeg")
+
         configure_args = []
 
         prefix = os.path.abspath("install")
@@ -93,6 +153,7 @@ class FfmpegConan(ConanFile):
             self.output.info("configure %s" % " ".join(configure_args))
             self.run("cd FFmpeg && ./configure %s" %
                      " ".join(configure_args))
+
             self.run("cd FFmpeg && V=1 make -j%s all install" %
                      tools.cpu_count())
 
