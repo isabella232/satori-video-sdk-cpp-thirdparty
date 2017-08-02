@@ -82,6 +82,11 @@ class FfmpegConan(ConanFile):
             configure_args.append("--enable-debug=3")
             configure_args.append("--disable-stripping")
 
+        if os.environ["CC"]:
+            configure_args.append("--cc=%s" % os.environ["CC"])
+        if os.environ["CXX"]:
+            configure_args.append("--cxx=%s" % os.environ["CXX"])
+
         env_build = AutoToolsBuildEnvironment(self)
         env_vars = dict(env_build.vars)
         # env_vars["KERNEL_BITS"] = "64"
