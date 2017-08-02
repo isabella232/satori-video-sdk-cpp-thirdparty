@@ -14,18 +14,16 @@ class FfmpegConan(ConanFile):
     requires = "Libvpx/1.6.1@satorivideo/master"
 
     def requirements(self):
-        if self.options.shared:
-            self.options["Libvpx"].shared = True
-        if self.options.fPIC:
-            self.options["Libvpx"].fPIC = True
-        if self.options.emcc:
-            self.options["Libvpx"].emcc = True
+        self.options["Libvpx"].shared = self.options.shared
+        self.options["Libvpx"].fPIC = self.options.fPIC
+        self.options["Libvpx"].emcc = self.options.emcc
 
     def source(self):
         self.run(
             "git clone --depth 1 -b n%s https://github.com/FFmpeg/FFmpeg.git" % self.version)
 
     def build(self):
+        self.output.info("Environment: %s" % os.environ)
         configure_args = []
 
         prefix = os.path.abspath("install")
@@ -82,9 +80,9 @@ class FfmpegConan(ConanFile):
             configure_args.append("--enable-debug=3")
             configure_args.append("--disable-stripping")
 
-        if os.environ["CC"]:
+        if "CC" in os.environ:
             configure_args.append("--cc=%s" % os.environ["CC"])
-        if os.environ["CXX"]:
+        if "CXX" in os.environ:
             configure_args.append("--cxx=%s" % os.environ["CXX"])
 
         env_build = AutoToolsBuildEnvironment(self)
@@ -107,6 +105,7 @@ class FfmpegConan(ConanFile):
                               "swscale", "pthread", "dl"]
 
         if self.settings.os == "Macos":
+            self.cpp_info.libs.append("iconv")
             self.cpp_info.exelinkflags.append("-framework AVFoundation")
             self.cpp_info.exelinkflags.append("-framework CoreGraphics")
             self.cpp_info.exelinkflags.append("-framework CoreMedia")
