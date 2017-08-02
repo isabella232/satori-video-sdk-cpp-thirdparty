@@ -8,8 +8,9 @@ class FfmpegConan(ConanFile):
     license = "LGPL"
     url = "https://ffmpeg.org/"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "fPIC": [True, False]}
-    default_options = "shared=False", "fPIC=False"
+    options = {"shared": [True, False], "fPIC": [
+        True, False], "emcc": [True, False]}
+    default_options = "shared=False", "fPIC=False", "emcc=False"
     requires = "Libvpx/1.6.1@satorivideo/master"
 
     def requirements(self):
@@ -61,19 +62,19 @@ class FfmpegConan(ConanFile):
         configure_args.append("--enable-encoder=mjpeg")
         configure_args.append("--enable-protocol=file")
 
-        # if self.settings.compiler == "emcc":
-        #     if not self.options.shared:
-        #         raise Exception(
-        #             "emcc should be used with shared libraries only.")
-        #     configure_args.append("--enable-cross-compile")
-        #     configure_args.append("--target-os=none")
-        #     configure_args.append("--arch=x86")
-        #     configure_args.append("--disable-asm")
-        #     configure_args.append("--disable-runtime-cpudetect")
-        #     configure_args.append("--disable-fast-unaligned")
-        #     configure_args.append("--disable-pthreads")
-        #     configure_args.append("--disable-static")
-        #     configure_args.append("--enable-shared")
+        if self.options.emcc:
+            if not self.options.shared:
+                raise Exception(
+                    "emcc should be used with shared libraries only.")
+            configure_args.append("--enable-cross-compile")
+            configure_args.append("--target-os=none")
+            configure_args.append("--arch=x86")
+            configure_args.append("--disable-asm")
+            configure_args.append("--disable-runtime-cpudetect")
+            configure_args.append("--disable-fast-unaligned")
+            configure_args.append("--disable-pthreads")
+            configure_args.append("--disable-static")
+            configure_args.append("--enable-shared")
 
         if self.settings.build_type == "Debug":
             configure_args.append("--enable-debug=3")

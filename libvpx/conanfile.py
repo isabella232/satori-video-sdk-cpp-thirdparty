@@ -8,8 +8,9 @@ class LibvpxConan(ConanFile):
     license = "custom"
     url = "https://chromium.googlesource.com/webm/libvpx"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "fPIC": [True, False]}
-    default_options = "shared=False", "fPIC=False"
+    options = {"shared": [True, False], "fPIC": [
+        True, False], "emcc": [True, False]}
+    default_options = "shared=False", "fPIC=False", "emcc=False"
 
     def source(self):
         self.run(
@@ -32,13 +33,13 @@ class LibvpxConan(ConanFile):
         configure_args.append("--disable-tools")
         configure_args.append("--disable-docs")
 
-        # if self.settings.compiler == "emcc":
-        #     if not self.options.shared:
-        #         raise Exception(
-        #             "emcc should be used with shared libraries only.")
-        #     configure_args.append("--target=generic-gnu")
-        #     configure_args.append("--disable-static")
-        #     configure_args.append("--enable-shared")
+        if self.options.emcc:
+            if not self.options.shared:
+                raise Exception(
+                    "emcc should be used with shared libraries only.")
+            configure_args.append("--target=generic-gnu")
+            configure_args.append("--disable-static")
+            configure_args.append("--enable-shared")
 
         if self.settings.build_type == "Debug":
             configure_args.append("--enable-debug")
