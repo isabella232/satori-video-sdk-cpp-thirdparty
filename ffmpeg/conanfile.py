@@ -162,9 +162,9 @@ class FfmpegConan(ConanFile):
         self.copy("*", src="install")
 
     def package_info(self):
-        self.cpp_info.libs = ["avcodec", "avutil",
-                              "avdevice", "avformat",
-                              "swscale", "pthread", "dl"]
+        self.cpp_info.libs = ["swscale", "avdevice",
+                              "avformat", "avcodec", "avutil",
+                              "pthread", "dl"]
 
         if self.settings.os == "Macos":
             self.cpp_info.libs.append("iconv")
