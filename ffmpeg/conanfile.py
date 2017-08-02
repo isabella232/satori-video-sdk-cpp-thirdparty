@@ -18,6 +18,8 @@ class FfmpegConan(ConanFile):
             self.options["Libvpx"].shared = True
         if self.options.fPIC:
             self.options["Libvpx"].fPIC = True
+        if self.options.emcc:
+            self.options["Libvpx"].emcc = True
 
     def source(self):
         self.run(
