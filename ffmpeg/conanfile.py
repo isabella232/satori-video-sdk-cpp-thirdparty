@@ -153,6 +153,8 @@ class FfmpegConan(ConanFile):
                 self.output.info("Applying emcc patch")
                 tools.patch(patch_string=EMCC_PATCH,
                             base_path="FFmpeg")
+                self.output.info("Resulting config:")
+                self.run("cat FFmpeg/config.h")
 
             self.run("cd FFmpeg && V=1 make -j%s all install" %
                      tools.cpu_count())
