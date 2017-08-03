@@ -27,18 +27,6 @@ index 47a1df0..db4d753 100644
 -#include "libavutil/log2_tab.c"
 +#define ff_log2_tab ff_log2_tab_avfilter
 +# include "libavutil/log2_tab.c"
-diff --git a/libavutil/timer.h b/libavutil/timer.h
-index ed3b047..001842d 100644
---- a/libavutil/timer.h
-+++ b/libavutil/timer.h
-@@ -50,6 +50,7 @@
- 
- #if !defined(AV_READ_TIME)
- #   if HAVE_GETHRTIME
-+extern int gethrtime(void);
- #       define AV_READ_TIME gethrtime
- #   elif HAVE_MACH_ABSOLUTE_TIME
- #       define AV_READ_TIME mach_absolute_time
 diff --git a/libswresample/log2_tab.c b/libswresample/log2_tab.c
 index 47a1df0..88d5f40 100644
 --- a/libswresample/log2_tab.c
@@ -55,6 +43,17 @@ index 47a1df0..7b0cb50 100644
 -#include "libavutil/log2_tab.c"
 +#define ff_log2_tab ff_log2_tab_swscale
 +# include "libavutil/log2_tab.c"
+--- a/config.h
++++ b/config.h
+@@ -288,7 +288,7 @@
+ #define HAVE_FLT_LIM 1
+ #define HAVE_FORK 1
+ #define HAVE_GETADDRINFO 1
+-#define HAVE_GETHRTIME 1
++#define HAVE_GETHRTIME 0
+ #define HAVE_GETOPT 1
+ #define HAVE_GETPROCESSAFFINITYMASK 0
+ #define HAVE_GETPROCESSMEMORYINFO 0
 """
 
 
@@ -79,11 +78,6 @@ class FfmpegConan(ConanFile):
             "git clone --depth 1 -b n%s https://github.com/FFmpeg/FFmpeg.git" % self.version)
 
     def build(self):
-        if self.options.emcc:
-            self.output.info("Applying emcc patch")
-            tools.patch(patch_string=EMCC_PATCH,
-                        base_path="FFmpeg")
-
         configure_args = []
 
         prefix = os.path.abspath("install")
@@ -154,6 +148,11 @@ class FfmpegConan(ConanFile):
             self.output.info("configure %s" % " ".join(configure_args))
             self.run("cd FFmpeg && ./configure %s" %
                      " ".join(configure_args))
+
+            if self.options.emcc:
+                self.output.info("Applying emcc patch")
+                tools.patch(patch_string=EMCC_PATCH,
+                            base_path="FFmpeg")
 
             self.run("cd FFmpeg && V=1 make -j%s all install" %
                      tools.cpu_count())
