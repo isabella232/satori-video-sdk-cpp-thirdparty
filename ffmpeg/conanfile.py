@@ -78,6 +78,7 @@ class FfmpegConan(ConanFile):
             "git clone --depth 1 -b n%s https://github.com/FFmpeg/FFmpeg.git" % self.version)
 
     def build(self):
+        configure_cmd = "./configure"
         configure_args = []
 
         prefix = os.path.abspath("install")
@@ -120,6 +121,7 @@ class FfmpegConan(ConanFile):
             if not self.options.shared:
                 raise Exception(
                     "emcc should be used with shared libraries only.")
+            configure_cmd = "emconfigure %s" % configure_cmd
             configure_args.append("--enable-cross-compile")
             configure_args.append("--target-os=none")
             configure_args.append("--arch=x86")
@@ -145,9 +147,10 @@ class FfmpegConan(ConanFile):
         # env_vars["KERNEL_BITS"] = "64"
         with tools.environment_append(env_vars):
             self.output.info("Build environment: %s" % env_vars)
-            self.output.info("configure %s" % " ".join(configure_args))
-            self.run("cd FFmpeg && ./configure %s" %
-                     " ".join(configure_args))
+            self.output.info("%s %s" %
+                             (configure_cmd, " ".join(configure_args)))
+            self.run("cd FFmpeg && %s %s" %
+                     (configure_cmd, " ".join(configure_args)))
 
             if self.options.emcc:
                 self.output.info("Applying emcc patch")
