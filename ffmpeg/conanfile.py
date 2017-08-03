@@ -43,17 +43,6 @@ index 47a1df0..7b0cb50 100644
 -#include "libavutil/log2_tab.c"
 +#define ff_log2_tab ff_log2_tab_swscale
 +# include "libavutil/log2_tab.c"
---- a/config.h
-+++ b/config.h
-@@ -288,7 +288,7 @@
- #define HAVE_FLT_LIM 1
- #define HAVE_FORK 1
- #define HAVE_GETADDRINFO 1
--#define HAVE_GETHRTIME 1
-+#define HAVE_GETHRTIME 0
- #define HAVE_GETOPT 1
- #define HAVE_GETPROCESSAFFINITYMASK 0
- #define HAVE_GETPROCESSMEMORYINFO 0
 """
 
 
@@ -78,6 +67,11 @@ class FfmpegConan(ConanFile):
             "git clone --depth 1 -b n%s https://github.com/FFmpeg/FFmpeg.git" % self.version)
 
     def build(self):
+        if self.options.emcc:
+            self.output.info("Applying emcc patch")
+            tools.patch(patch_string=EMCC_PATCH,
+                        base_path="FFmpeg")
+
         configure_cmd = "./configure"
         configure_args = []
 
@@ -144,22 +138,12 @@ class FfmpegConan(ConanFile):
 
         env_build = AutoToolsBuildEnvironment(self)
         env_vars = dict(env_build.vars)
-        # env_vars["KERNEL_BITS"] = "64"
         with tools.environment_append(env_vars):
             self.output.info("Build environment: %s" % env_vars)
             self.output.info("%s %s" %
                              (configure_cmd, " ".join(configure_args)))
             self.run("cd FFmpeg && %s %s" %
                      (configure_cmd, " ".join(configure_args)))
-
-            if self.options.emcc:
-                self.output.info("Applying emcc patch")
-                tools.patch(patch_string=EMCC_PATCH,
-                            base_path="FFmpeg")
-                self.output.info("Config log:")
-                self.run("cat FFmpeg/config.log")
-                self.output.info("Resulting config:")
-                self.run("cat FFmpeg/config.h")
 
             self.run("cd FFmpeg && V=1 make -j%s all install" %
                      tools.cpu_count())
