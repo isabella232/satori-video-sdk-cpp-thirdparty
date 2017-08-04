@@ -4,8 +4,16 @@
 int main(int argc, char *argv[]) {
   cv::Mat A;
   cv::CascadeClassifier cascade;
-  cv::VideoCapture cap;
-  cv::Ptr<cv::Tracker> tracker = cv::Tracker::create("KCF");
+
+  if (argc > 1) {
+    cv::VideoCapture cap(argv[1]);
+    cv::Mat frame;
+    while (cap.grab()) {
+      cap >> frame;
+    }
+  }
+
+  cv::Ptr<cv::Tracker> tracker = cv::TrackerKCF::create();
   cv::Ptr<cv::BackgroundSubtractorKNN> extractor{
       cv::createBackgroundSubtractorKNN(500, 500.0, true)};
   return 0;
