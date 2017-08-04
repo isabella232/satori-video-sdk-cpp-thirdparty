@@ -3,12 +3,17 @@ from conans import ConanFile, CMake, tools
 
 class DarknetConan(ConanFile):
     name = "Darknet"
-    version = "0.1.0"
+    version = "0.1.1"
     # this packet has no releases, it is known stable commit
     revision = "7a223d8591e0a497889b9fce9bc43ac4bd3969fd"
     license = "MIT"
     url = "https://github.com/pjreddie/darknet"
     settings = "os", "compiler", "build_type", "arch"
+    # -fPIC is hardcoded to Makefile
+    options = {
+        "shared": [True, False]}
+    default_options = "shared=False"
+
 
     def source(self):
         self.run(
@@ -23,12 +28,15 @@ class DarknetConan(ConanFile):
 
     def package(self):
         self.copy("*.h", dst="include", src="darknet/include")
-        self.copy("*.lib", dst="lib", keep_path=False)
-        self.copy("*.dll", dst="bin", keep_path=False)
-        self.copy("*.so", dst="lib", keep_path=False)
-        self.copy("*.so.*", dst="lib", keep_path=False)
-        self.copy("*.dylib", dst="lib", keep_path=False)
-        self.copy("*.a", dst="lib", keep_path=False)
+
+        if self.options.shared:
+            self.copy("*.dll", dst="bin", keep_path=False)
+            self.copy("*.so", dst="lib", keep_path=False)
+            self.copy("*.so.*", dst="lib", keep_path=False)
+            self.copy("*.dylib", dst="lib", keep_path=False)
+        else:
+            self.copy("*.lib", dst="lib", keep_path=False)
+            self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = ["darknet"]
