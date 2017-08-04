@@ -4,7 +4,7 @@ import os
 
 class OpencvConan(ConanFile):
     name = "Opencv"
-    version = "3.3.0_00"
+    version = "3.3.0_01"
     source_version = "3.3.0"
     license = "3-clause BSD License"
     url = "http://opencv.org/"
@@ -46,8 +46,8 @@ class OpencvConan(ConanFile):
         cmake_options.append("-DENABLE_CCACHE=OFF")
 
         # enable OpenMP on linux
-        if self.settings.os != "Macos":
-            cmake_options.append("-DWITH_OPENMP=ON")
+#        if self.settings.os != "Macos":
+#            cmake_options.append("-DWITH_OPENMP=ON")
 
         # build options
         cmake_options.append("-DCMAKE_BUILD_TYPE=%s" %
