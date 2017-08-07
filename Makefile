@@ -1,4 +1,4 @@
-LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet libvpx ffmpeg
+LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet libvpx ffmpeg zlib
 
 .RECIPEPREFIX = >
 .PHONY: all video-thirdparty ${LIBS}
@@ -17,6 +17,7 @@ CONAN_OPTIONS_gsl=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_rapidjson=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_beast=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_darknet=${COMMON_CONAN_OPTIONS}
+CONAN_OPTIONS_zlib=${COMMON_CONAN_OPTIONS}
 
 all: video-thirdparty ${LIBS}
 
