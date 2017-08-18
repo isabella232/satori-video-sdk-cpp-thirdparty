@@ -48,23 +48,26 @@ index 47a1df0..7b0cb50 100644
 
 class FfmpegConan(ConanFile):
     name = "Ffmpeg"
-    version = "3.3.3"
+    version = "3.3.3_01"
+    source_version = "3.3.3"
     license = "LGPL"
     url = "https://ffmpeg.org/"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "fPIC": [
         True, False], "emcc": [True, False]}
     default_options = "shared=False", "fPIC=False", "emcc=False"
-    requires = "Libvpx/1.6.1@satorivideo/master"
+    requires = "Libvpx/1.6.1@satorivideo/master", "Zlib/1.2.11@satorivideo/master"
 
     def requirements(self):
         self.options["Libvpx"].shared = self.options.shared
         self.options["Libvpx"].fPIC = self.options.fPIC
         self.options["Libvpx"].emcc = self.options.emcc
+        self.options["Zlib"].shared = self.options.shared
+        self.options["Zlib"].fPIC = self.options.fPIC
 
     def source(self):
         self.run(
-            "git clone --depth 1 -b n%s https://github.com/FFmpeg/FFmpeg.git" % self.version)
+            "git clone --depth 1 -b n%s https://github.com/FFmpeg/FFmpeg.git" % self.source_version)
 
     def build(self):
         if self.options.emcc:
@@ -110,6 +113,7 @@ class FfmpegConan(ConanFile):
         configure_args.append("--enable-encoder=jpeg2000")
         configure_args.append("--enable-encoder=mjpeg")
         configure_args.append("--enable-protocol=file")
+        configure_args.append("--enable-muxer=matroska")
 
         if self.options.emcc:
             if not self.options.shared:
