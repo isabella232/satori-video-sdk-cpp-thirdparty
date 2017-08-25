@@ -32,6 +32,7 @@ class LibvpxConan(ConanFile):
         configure_args.append("--disable-examples")
         configure_args.append("--disable-tools")
         configure_args.append("--disable-docs")
+        configure_args.append("--disable-unit-tests")
 
         if self.options.emcc:
             if not self.options.shared:
