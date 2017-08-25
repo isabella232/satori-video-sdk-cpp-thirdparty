@@ -48,7 +48,7 @@ index 47a1df0..7b0cb50 100644
 
 class FfmpegConan(ConanFile):
     name = "Ffmpeg"
-    version = "3.3.3_01"
+    version = "3.3.3_02"
     source_version = "3.3.3"
     license = "LGPL"
     url = "https://ffmpeg.org/"
@@ -114,6 +114,7 @@ class FfmpegConan(ConanFile):
         configure_args.append("--enable-encoder=mjpeg")
         configure_args.append("--enable-protocol=file")
         configure_args.append("--enable-muxer=matroska")
+        configure_args.append("--enable-bsf=vp9_superframe")
 
         if self.options.emcc:
             if not self.options.shared:
