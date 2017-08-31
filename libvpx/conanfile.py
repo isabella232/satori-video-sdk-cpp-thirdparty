@@ -41,6 +41,7 @@ class LibvpxConan(ConanFile):
             configure_args.append("--target=generic-gnu")
             configure_args.append("--disable-static")
             configure_args.append("--enable-shared")
+            configure_args.append("--disable-multithread")
 
         if self.settings.build_type == "Debug":
             configure_args.append("--enable-debug")
