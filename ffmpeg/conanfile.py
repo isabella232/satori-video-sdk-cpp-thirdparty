@@ -48,7 +48,7 @@ index 47a1df0..7b0cb50 100644
 
 class FfmpegConan(ConanFile):
     name = "Ffmpeg"
-    version = "3.3.3_02"
+    version = "3.3.3_03"
     source_version = "3.3.3"
     license = "LGPL"
     url = "https://ffmpeg.org/"
@@ -56,7 +56,7 @@ class FfmpegConan(ConanFile):
     options = {"shared": [True, False], "fPIC": [
         True, False], "emcc": [True, False]}
     default_options = "shared=False", "fPIC=False", "emcc=False"
-    requires = "Libvpx/1.6.1@satorivideo/master", "Zlib/1.2.11@satorivideo/master"
+    requires = "Libvpx/1.6.1@satorivideo/master", "Zlib/1.2.11@satorivideo/master", "Bzip2/1.0.6@satorivideo/master"
 
     def requirements(self):
         self.options["Libvpx"].shared = self.options.shared
@@ -64,6 +64,8 @@ class FfmpegConan(ConanFile):
         self.options["Libvpx"].emcc = self.options.emcc
         self.options["Zlib"].shared = self.options.shared
         self.options["Zlib"].fPIC = self.options.fPIC
+        self.options["Bzip2"].shared = self.options.shared
+        self.options["Bzip2"].fPIC = self.options.fPIC
 
     def source(self):
         self.run(
@@ -110,6 +112,8 @@ class FfmpegConan(ConanFile):
         configure_args.append("--enable-encoder=libvpx_vp9")
         configure_args.append("--enable-decoder=rawvideo")
         configure_args.append("--enable-demuxer=mov")
+        configure_args.append("--enable-demuxer=matroska")
+        configure_args.append("--enable-demuxer=webm")
         configure_args.append("--enable-encoder=jpeg2000")
         configure_args.append("--enable-encoder=mjpeg")
         configure_args.append("--enable-protocol=file")

@@ -1,7 +1,7 @@
 from conans import ConanFile, CMake
 import os
 
-class GoogletestTestConan(ConanFile):
+class Bzip2TestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
     options = {"shared": [True, False], "fPIC": [True, False]}
