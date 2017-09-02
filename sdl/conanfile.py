@@ -48,4 +48,4 @@ class SdlConan(ConanFile):
         self.copy("*", src="install")
 
     def package_info(self):
-        self.cpp_info.libs = ["sdl"]
+        self.cpp_info.libs = ["SDL2"]
