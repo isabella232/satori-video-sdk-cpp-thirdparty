@@ -1,9 +1,9 @@
-#include <SDL2/SDL.h>
 #include <iostream>
+#include <SDL2/SDL.h>
 
 int main() {
-  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-    printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-    exit(1);
+  if (SDL_Init(SDL_INIT_TIMER) < 0) {
+    std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << "\n";
+    return 1;
   }
 }

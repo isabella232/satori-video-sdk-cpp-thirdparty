@@ -1,4 +1,4 @@
-from conans import ConanFile, tools, AutoToolsBuildEnvironment
+from conans import ConanFile, CMake, tools
 import os
 
 
@@ -21,28 +21,25 @@ class SdlConan(ConanFile):
         os.unlink(zip_name)
 
     def build(self):
-        configure_args = []
+        cmake = CMake(self)
 
-        prefix = os.path.abspath("install")
-        configure_args.append("--prefix=%s" % prefix)
-        configure_args.append(
-            "--enable-shared" if self.options.shared else "--disable-shared")
-        configure_args.append(
-            "--disable-static" if self.options.shared else "--enable-static")
+        cmake_options = []
+        cmake_options.append("-GNinja")
+        cmake_options.append("-DCMAKE_VERBOSE_MAKEFILE=ON")
+        cmake_options.append("-DCMAKE_BUILD_TYPE=%s" %
+                             self.settings.build_type)
+        cmake_options.append("-DBUILD_SHARED_LIBS=%s" %
+                             ("ON" if self.options.shared else "OFF"))
+        cmake_options.append("-DCMAKE_INSTALL_PREFIX=install")
         if self.options.fPIC:
-            configure_args.append("--with-pic")
+            cmake_options.append("-DCMAKE_C_FLAGS=-fPIC")
+            cmake_options.append("-DCMAKE_CXX_FLAGS=-fPIC")
 
-        env_build = AutoToolsBuildEnvironment(self)
-        env_vars = dict(env_build.vars)
-        with tools.environment_append(env_vars):
-            self.output.info("Build environment: %s" % env_vars)
-            self.output.info("config %s" % " ".join(configure_args))
-            self.run("cd %s && ./configure -v %s" %
-                     (self.folder_name, " ".join(configure_args)))
-            self.run("cd %s && make all -j%s" %
-                     (self.folder_name, tools.cpu_count()))
-            self.run("cd %s && make install" %
-                     self.folder_name)
+        cmake_command = ('cmake %s %s %s' %
+                         (self.folder_name, cmake.command_line, " ".join(cmake_options)))
+        self.output.info(cmake_command)
+        self.run(cmake_command)
+        self.run("cmake --build . %s --target install" % cmake.build_config)
 
     def package(self):
         self.copy("*", src="install")
