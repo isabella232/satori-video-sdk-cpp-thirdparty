@@ -17,4 +17,4 @@ class LoguruConan(ConanFile):
         self.copy("*.hpp", "include")
         
     def package_info(self):
-        self.cpp_info.libs = ["pthread"]
+        self.cpp_info.libs = ["pthread", "dl"]
