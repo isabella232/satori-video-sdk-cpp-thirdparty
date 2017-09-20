@@ -30,6 +30,8 @@ class SdlConan(ConanFile):
                              self.settings.build_type)
         cmake_options.append("-DBUILD_SHARED_LIBS=%s" %
                              ("ON" if self.options.shared else "OFF"))
+        cmake_options.append("-DSDL_SHARED_ENABLED_BY_DEFAULT=%s" %
+                             ("ON" if self.options.shared else "OFF"))
         cmake_options.append("-DCMAKE_INSTALL_PREFIX=install")
         if self.options.fPIC:
             cmake_options.append("-DCMAKE_C_FLAGS=-fPIC")
@@ -48,9 +50,11 @@ class SdlConan(ConanFile):
         self.cpp_info.libs = ["SDL2"]
 
         if self.settings.os == "Macos":
+            self.cpp_info.libs.append("iconv")
             self.cpp_info.exelinkflags.append("-framework AppKit")
             self.cpp_info.exelinkflags.append("-framework AudioToolbox")
             self.cpp_info.exelinkflags.append("-framework Carbon")
             self.cpp_info.exelinkflags.append("-framework CoreAudio")
+            self.cpp_info.exelinkflags.append("-framework CoreVideo")
             self.cpp_info.exelinkflags.append("-framework ForceFeedback")
             self.cpp_info.exelinkflags.append("-framework IOKit")
