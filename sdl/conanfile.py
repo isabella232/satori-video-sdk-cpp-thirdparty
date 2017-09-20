@@ -46,3 +46,11 @@ class SdlConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["SDL2"]
+
+        if self.settings.os == "Macos":
+            self.cpp_info.exelinkflags.append("-framework AppKit")
+            self.cpp_info.exelinkflags.append("-framework AudioToolbox")
+            self.cpp_info.exelinkflags.append("-framework Carbon")
+            self.cpp_info.exelinkflags.append("-framework CoreAudio")
+            self.cpp_info.exelinkflags.append("-framework ForceFeedback")
+            self.cpp_info.exelinkflags.append("-framework IOKit")
