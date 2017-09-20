@@ -14,6 +14,9 @@ class LibcborTestConan(ConanFile):
     default_options = "shared=False", "fPIC=False"
 
     def build(self):
+        self.output.info("conan options: %s" % self.options.values)
+        self.output.info("conan settings: %s" % self.settings.values_list)
+
         cmake = CMake(self)
         cmake.configure(source_dir=self.conanfile_directory, build_dir="./", defs={
             "CMAKE_VERBOSE_MAKEFILE": "ON"
