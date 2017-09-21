@@ -13,7 +13,14 @@ int main() {
   avcodec_register_all();
   av_register_all();
 
-  std::vector<std::string> decoders{"h264", "mjpeg", "rawvideo", "libvpx-vp9"};
+  AVCodec *codec = av_codec_next(nullptr);
+  while (codec != nullptr) {
+    std::cout << "*** Got codec: " << codec->name << "\n";
+    codec = av_codec_next(codec);
+  }
+
+  std::vector<std::string> decoders{"h264", "mjpeg", "rawvideo",
+                                    "libvpx" /* vp8 */, "libvpx-vp9" /* vp9 */};
   for (const std::string &d : decoders) {
     if (!avcodec_find_decoder_by_name(d.c_str())) {
       std::cerr << "*** Didn't find decoder '" << d << "'\n";

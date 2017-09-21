@@ -48,7 +48,7 @@ index 47a1df0..7b0cb50 100644
 
 class FfmpegConan(ConanFile):
     name = "Ffmpeg"
-    version = "3.3.3_03"
+    version = "3.3.3_04"
     source_version = "3.3.3"
     license = "LGPL"
     url = "https://ffmpeg.org/"
@@ -108,6 +108,7 @@ class FfmpegConan(ConanFile):
         configure_args.append("--enable-libvpx")
         configure_args.append("--enable-decoder=h264")
         configure_args.append("--enable-decoder=mjpeg")
+        configure_args.append("--enable-decoder=libvpx_vp8")
         configure_args.append("--enable-decoder=libvpx_vp9")
         configure_args.append("--enable-encoder=libvpx_vp9")
         configure_args.append("--enable-decoder=rawvideo")
