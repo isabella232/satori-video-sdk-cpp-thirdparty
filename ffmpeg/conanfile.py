@@ -108,6 +108,7 @@ class FfmpegConan(ConanFile):
         configure_args.append("--enable-libvpx")
         configure_args.append("--enable-decoder=h264")
         configure_args.append("--enable-decoder=mjpeg")
+        configure_args.append("--enable-decoder=libvpx_vp8")
         configure_args.append("--enable-decoder=libvpx_vp9")
         configure_args.append("--enable-encoder=libvpx_vp9")
         configure_args.append("--enable-decoder=rawvideo")
