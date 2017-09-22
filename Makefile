@@ -7,7 +7,7 @@ CONAN_LOGIN_COMMAND=conan remote add video http://10.199.28.20:80/ && conan user
 CONAN_UPLOAD_COMMAND=conan upload --confirm --remote video --all '*@satorivideo/*' && echo 'SUCCESS'
 
 COMMON_CONAN_OPTIONS=create satorivideo/master --build=missing -s compiler.libcxx=libstdc++11
-CONAN_OPTIONS_libcbor=${COMMON_CONAN_OPTIONS} --options fPIC=True --options shared=False
+CONAN_OPTIONS_libcbor=${COMMON_CONAN_OPTIONS} --options Libcbor:fPIC=True --options Libcbor:shared=False
 CONAN_OPTIONS_boost=${COMMON_CONAN_OPTIONS} --options fPIC=True --options shared=False
 CONAN_OPTIONS_opencv=${COMMON_CONAN_OPTIONS} --options fPIC=True --options shared=False
 CONAN_OPTIONS_openssl=${COMMON_CONAN_OPTIONS} --options fPIC=True --options shared=False
