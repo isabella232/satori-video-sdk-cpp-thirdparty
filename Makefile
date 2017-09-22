@@ -22,11 +22,11 @@ CONAN_OPTIONS_zlib=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_bzip2=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_loguru=${COMMON_CONAN_OPTIONS}
 
-all: video-thirdparty ${LIBS}
+all: ${LIBS}
 
 # Builds and uploads the package
 ${LIBS}: CONAN_CREATE_COMMAND=conan ${CONAN_OPTIONS_$@}
-${LIBS}: 
+${LIBS}: video-thirdparty 
 > docker run --rm video-thirdparty bash -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Release && ${CONAN_UPLOAD_COMMAND}"
 > docker run --rm video-thirdparty bash -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Debug && ${CONAN_UPLOAD_COMMAND}"
 > echo "DONE"
