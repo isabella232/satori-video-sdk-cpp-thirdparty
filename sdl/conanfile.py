@@ -47,7 +47,7 @@ class SdlConan(ConanFile):
         self.copy("*", src="install")
 
     def package_info(self):
-        self.cpp_info.libs = ["SDL2"]
+        self.cpp_info.libs = ["SDL2", "pthread", "dl"]
 
         if self.settings.os == "Macos":
             self.cpp_info.libs.append("iconv")
