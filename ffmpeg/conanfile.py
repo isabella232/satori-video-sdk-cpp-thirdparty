@@ -48,7 +48,7 @@ index 47a1df0..7b0cb50 100644
 
 class FfmpegConan(ConanFile):
     name = "Ffmpeg"
-    version = "3.3.3_04"
+    version = "3.3.3_05"
     source_version = "3.3.3"
     license = "LGPL"
     url = "https://ffmpeg.org/"
@@ -104,7 +104,7 @@ class FfmpegConan(ConanFile):
         configure_args.append("--enable-swscale")
         configure_args.append("--enable-indev=avfoundation")
 
-        # enable codecs/protocols
+        # enable codecs
         configure_args.append("--enable-libvpx")
         configure_args.append("--enable-decoder=h264")
         configure_args.append("--enable-decoder=mjpeg")
@@ -117,9 +117,15 @@ class FfmpegConan(ConanFile):
         configure_args.append("--enable-demuxer=webm")
         configure_args.append("--enable-encoder=jpeg2000")
         configure_args.append("--enable-encoder=mjpeg")
-        configure_args.append("--enable-protocol=file")
         configure_args.append("--enable-muxer=matroska")
         configure_args.append("--enable-bsf=vp9_superframe")
+
+        # protocols
+        configure_args.append("--enable-protocol=file")
+        configure_args.append("--enable-protocol=http")
+        configure_args.append("--enable-protocol=https")
+        configure_args.append("--enable-protocol=rtp")
+        configure_args.append("--enable-protocol=rtmp")
 
         if self.options.emcc:
             if not self.options.shared:
