@@ -112,13 +112,14 @@ class FfmpegConan(ConanFile):
         configure_args.append("--enable-decoder=libvpx_vp9")
         configure_args.append("--enable-encoder=libvpx_vp9")
         configure_args.append("--enable-decoder=rawvideo")
+        configure_args.append("--enable-encoder=jpeg2000")
+        configure_args.append("--enable-encoder=mjpeg")
+        configure_args.append("--enable-bsf=vp9_superframe")
         configure_args.append("--enable-demuxer=mov")
         configure_args.append("--enable-demuxer=matroska")
         configure_args.append("--enable-demuxer=webm")
-        configure_args.append("--enable-encoder=jpeg2000")
-        configure_args.append("--enable-encoder=mjpeg")
+        configure_args.append("--enable-demuxer=rtsp")
         configure_args.append("--enable-muxer=matroska")
-        configure_args.append("--enable-bsf=vp9_superframe")
 
         # protocols
         configure_args.append("--enable-protocol=file")
