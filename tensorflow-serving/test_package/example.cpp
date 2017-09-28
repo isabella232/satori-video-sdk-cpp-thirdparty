@@ -1,6 +1,8 @@
 #include <iostream>
-#include "hello.h"
+#include <tensorflow/core/framework/tensor.h>
+#include <tensorflow/core/platform/types.h>
 
 int main() {
-    hello();
+  tensorflow::string str;
+  tensorflow::Tensor tensor;
 }
