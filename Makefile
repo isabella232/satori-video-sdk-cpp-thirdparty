@@ -3,7 +3,7 @@ LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet libvpx ffmpeg zlib
 DOCKER_BUILDER_IMAGE=gcr.io/kubernetes-live/video/video-thirdparty
 
 .RECIPEPREFIX = >
-.PHONY: all video-thirdparty push ${LIBS}
+.PHONY: all image push ${LIBS}
 
 CONAN_LOGIN_COMMAND=conan remote add video http://10.199.28.20:80/ && conan user --remote video -p ${CONAN_PASSWORD} ${CONAN_USER}
 CONAN_UPLOAD_COMMAND=conan upload --confirm --remote video --all '*@satorivideo/*' && echo 'SUCCESS'
@@ -34,7 +34,7 @@ ${LIBS}:
 > docker run --pull --rm ${DOCKER_BUILDER_IMAGE} bash -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Debug && ${CONAN_UPLOAD_COMMAND}"
 > echo "DONE"
 
-video-thirdparty:
+image:
 > docker build --pull -t ${DOCKER_BUILDER_IMAGE} .
 
 push:
