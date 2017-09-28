@@ -30,8 +30,9 @@ all: ${LIBS}
 # Builds and uploads the package
 ${LIBS}: CONAN_CREATE_COMMAND=conan ${CONAN_OPTIONS_$@}
 ${LIBS}:
-> docker run --pull --rm ${DOCKER_BUILDER_IMAGE} -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Release && ${CONAN_UPLOAD_COMMAND}"
-> docker run --pull --rm ${DOCKER_BUILDER_IMAGE} bash -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Debug && ${CONAN_UPLOAD_COMMAND}"
+> docker pull ${DOCKER_BUILDER_IMAGE}
+> docker run --rm ${DOCKER_BUILDER_IMAGE} bash -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Release && ${CONAN_UPLOAD_COMMAND}"
+> docker run --rm ${DOCKER_BUILDER_IMAGE} bash -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Debug && ${CONAN_UPLOAD_COMMAND}"
 > echo "DONE"
 
 image:
