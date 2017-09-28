@@ -30,7 +30,7 @@ int main() {
     std::cout << "*** Found decoder '" << d << "'\n";
   }
 
-  std::vector<std::string> encoders{"mjpeg", "jpeg2000", "libvpx-vp9"};
+  std::vector<std::string> encoders{"mjpeg", "jpeg2000", "libvpx-vp9", "srt"};
   for (const std::string &e : encoders) {
     if (!avcodec_find_encoder_by_name(e.c_str())) {
       std::cerr << "*** Didn't find encoder '" << e << "'\n";
