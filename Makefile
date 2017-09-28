@@ -1,4 +1,4 @@
-LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet libvpx ffmpeg zlib sdl bzip2 loguru
+LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet libvpx ffmpeg zlib sdl bzip2 loguru tensorflow-serving
 
 .RECIPEPREFIX = >
 .PHONY: all video-thirdparty ${LIBS}
@@ -21,6 +21,7 @@ CONAN_OPTIONS_darknet=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_zlib=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_bzip2=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_loguru=${COMMON_CONAN_OPTIONS}
+CONAN_OPTIONS_tensorflow-serving=${COMMON_CONAN_OPTIONS}
 
 all: ${LIBS}
 
