@@ -1,7 +1,9 @@
 LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet libvpx ffmpeg zlib sdl bzip2 loguru tensorflow-serving
 
+DOCKER_BUILDER_IMAGE=gcr.io/kubernetes-live/video/video-thirdparty
+
 .RECIPEPREFIX = >
-.PHONY: all video-thirdparty ${LIBS}
+.PHONY: all video-thirdparty push ${LIBS}
 
 CONAN_LOGIN_COMMAND=conan remote add video http://10.199.28.20:80/ && conan user --remote video -p ${CONAN_PASSWORD} ${CONAN_USER}
 CONAN_UPLOAD_COMMAND=conan upload --confirm --remote video --all '*@satorivideo/*' && echo 'SUCCESS'
@@ -27,10 +29,13 @@ all: ${LIBS}
 
 # Builds and uploads the package
 ${LIBS}: CONAN_CREATE_COMMAND=conan ${CONAN_OPTIONS_$@}
-${LIBS}: video-thirdparty 
-> docker run --rm video-thirdparty bash -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Release && ${CONAN_UPLOAD_COMMAND}"
-> docker run --rm video-thirdparty bash -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Debug && ${CONAN_UPLOAD_COMMAND}"
+${LIBS}:
+> docker run --pull --rm ${DOCKER_BUILDER_IMAGE} -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Release && ${CONAN_UPLOAD_COMMAND}"
+> docker run --pull --rm ${DOCKER_BUILDER_IMAGE} bash -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Debug && ${CONAN_UPLOAD_COMMAND}"
 > echo "DONE"
 
 video-thirdparty:
-> docker build --pull -t $@ .
+> docker build --pull -t ${DOCKER_BUILDER_IMAGE} .
+
+push:
+> docker push ${DOCKER_BUILDER_IMAGE}
