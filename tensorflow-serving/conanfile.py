@@ -39,12 +39,11 @@ class TensorflowservingConan(ConanFile):
             self.run("cd serving/ && bazel build -c opt tensorflow_serving/...")
 
     def package(self):
-        self.copy("*.h", dst="include", src="hello")
-        self.copy("*hello.lib", dst="lib", keep_path=False)
-        self.copy("*.dll", dst="bin", keep_path=False)
-        self.copy("*.so", dst="lib", src="serving/blaze-bin", keep_path=False)
-        self.copy("*.dylib", dst="lib", src="serving/blaze-bin", keep_path=False)
-        self.copy("*.a", dst="lib", src="serving/blaze-bin", keep_path=False)
+        self.copy("*.h", dst="include", src="./serving/tensorflow")
+        self.copy("*.dll", dst="bin", src="serving/bazel-bin", keep_path=False)
+        self.copy("*.so", dst="lib", src="serving/bazel-bin", keep_path=False)
+        self.copy("*.dylib", dst="lib", src="serving/bazel-bin", keep_path=False)
+        self.copy("*.a", dst="lib", src="serving/bazel-bin", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = ["hello"]
