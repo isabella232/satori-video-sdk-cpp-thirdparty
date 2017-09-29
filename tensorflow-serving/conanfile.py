@@ -5,7 +5,7 @@ import sys
 class TensorflowservingConan(ConanFile):
     name = "TensorflowServing"
     version = "1.3.0_master"
-    tag = "c6ace3fed3a0ec7cec6b7267cd86b8ed3a034a50"
+    tag = "6330edb4bb7002b3bf8d32860c2e7fb0d5ab0a16"
     license = "<Put the package license here>"
     url = "<Package recipe repository url here, for issues about the package>"
     settings = "os", "compiler", "build_type", "arch"
