@@ -48,7 +48,7 @@ index 47a1df0..7b0cb50 100644
 
 class FfmpegConan(ConanFile):
     name = "Ffmpeg"
-    version = "3.3.3_05"
+    version = "3.3.3_06"
     source_version = "3.3.3"
     license = "LGPL"
     url = "https://ffmpeg.org/"
@@ -114,6 +114,7 @@ class FfmpegConan(ConanFile):
         configure_args.append("--enable-decoder=rawvideo")
         configure_args.append("--enable-encoder=jpeg2000")
         configure_args.append("--enable-encoder=mjpeg")
+        configure_args.append("--enable-encoder=srt")
         configure_args.append("--enable-bsf=vp9_superframe")
         configure_args.append("--enable-demuxer=mov")
         configure_args.append("--enable-demuxer=matroska")
