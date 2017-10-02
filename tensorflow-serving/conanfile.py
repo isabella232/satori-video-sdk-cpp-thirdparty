@@ -57,14 +57,15 @@ class TensorflowservingConan(ConanFile):
                   src="./serving/bazel-serving/external/nsync/public/")
 
         # libraries
-        self.copy("*.a", dst="lib",
-                  src="./serving/bazel-bin/", keep_path=True,
-                  excludes="*.runfiles*")
         self.copy("*.so", dst="lib",
                   src="./serving/bazel-bin/", keep_path=True,
                   excludes="*.runfiles*")
+        self.copy("*.so", dst="lib",
+                  src="./serving/bazel-out/", keep_path=True,
+                  excludes="*.runfiles*")
 
     def package_info(self):
-        self.cpp_info.libs = ["framework_internal"]
+        self.cpp_info.libs = ["framework_internal",
+                              "lib_internal", "core_cpu_internal", "protos_all_cc"]
         self.cpp_info.libdirs = [
             "lib/external/org_tensorflow/tensorflow/core/"]
