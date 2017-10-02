@@ -32,7 +32,7 @@ class TensorflowservingConan(ConanFile):
             "TF_NEED_CUDA": "0",
             "TF_NEED_MPI": "0",
             "TF_NEED_GDR": "0",
-            "TF_NEED_JEMALLOC": "1",
+            "TF_NEED_JEMALLOC": "0",
         }
         with tools.environment_append(env):
             self.output.info("Build environment: %s" % env)
