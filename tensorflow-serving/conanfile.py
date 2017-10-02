@@ -1,5 +1,6 @@
 from conans import ConanFile, tools
 import sys
+import traceback
 
 
 class TensorflowservingConan(ConanFile):
@@ -38,17 +39,32 @@ class TensorflowservingConan(ConanFile):
             self.output.info("Build environment: %s" % env)
             self.run("cd serving/tensorflow && ./configure")
             self.run("cd serving/ && bazel build -c opt tensorflow_serving/...")
-            self.run("cd serving/ && ls -R")
 
     def package(self):
-        self.copy("*.h", dst="include", src="./serving/tensorflow")
-        self.copy("*", dst="include/third_party/eigen3", src="./serving/tensorflow/third_party/eigen3")
-        self.copy("*.h", dst="include", src="./serving/tf_models/syntaxnet/tensorflow")
-        self.copy("*.dll", dst="bin", src="serving/bazel-bin", keep_path=False)
-        self.copy("*.so", dst="lib", src="serving/bazel-bin", keep_path=False)
-        self.copy("*.dylib", dst="lib", src="serving/bazel-bin", keep_path=False)
-        self.copy("*.a", dst="lib", src="serving/bazel-bin", keep_path=False)
+        # header files
+        self.copy("*.h", dst="include", src="./serving/tensorflow/")
+        self.copy("*.h", dst="include",
+                  src="./serving/tf_models/syntaxnet/tensorflow/")
+        self.copy("*", dst="include",
+                  src="./serving/bazel-serving/external/eigen_archive/")
+        self.copy("*", dst="include/third_party/eigen3",
+                  src="./serving/tensorflow/third_party/eigen3/")
+        self.copy("*.h", dst="include",
+                  src="./serving/bazel-genfiles/external/org_tensorflow/")
+        self.copy("*.h", dst="include",
+                  src="./serving/bazel-serving/external/protobuf_archive/src/")
+        self.copy("*.h", dst="include",
+                  src="./serving/bazel-serving/external/nsync/public/")
+
+        # libraries
+        self.copy("*.a", dst="lib",
+                  src="./serving/bazel-bin/", keep_path=True,
+                  excludes="*.runfiles*")
+        self.copy("*.so", dst="lib",
+                  src="./serving/bazel-bin/", keep_path=True,
+                  excludes="*.runfiles*")
 
     def package_info(self):
-        self.cpp_info.includedirs = ['include']
-        self.cpp_info.libdirs = ['lib']
+        self.cpp_info.libs = ["framework_internal"]
+        self.cpp_info.libdirs = [
+            "lib/external/org_tensorflow/tensorflow/core/"]
