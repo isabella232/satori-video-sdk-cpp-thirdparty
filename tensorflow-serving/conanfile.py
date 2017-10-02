@@ -32,6 +32,7 @@ class TensorflowservingConan(ConanFile):
             "TF_NEED_CUDA": "0",
             "TF_NEED_MPI": "0",
             "TF_NEED_GDR": "0",
+            "TF_NEED_JEMALLOC": "0",
         }
         with tools.environment_append(env):
             self.output.info("Build environment: %s" % env)
@@ -41,6 +42,7 @@ class TensorflowservingConan(ConanFile):
 
     def package(self):
         self.copy("*.h", dst="include", src="./serving/tensorflow")
+        self.copy("*", dst="include/third_party/eigen3", src="./serving/tensorflow/third_party/eigen3")
         self.copy("*.h", dst="include", src="./serving/tf_models/syntaxnet/tensorflow")
         self.copy("*.dll", dst="bin", src="serving/bazel-bin", keep_path=False)
         self.copy("*.so", dst="lib", src="serving/bazel-bin", keep_path=False)
@@ -48,4 +50,5 @@ class TensorflowservingConan(ConanFile):
         self.copy("*.a", dst="lib", src="serving/bazel-bin", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["hello"]
+        self.cpp_info.includedirs = ['include']
+        self.cpp_info.libdirs = ['lib']
