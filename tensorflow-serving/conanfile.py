@@ -42,6 +42,7 @@ class TensorflowservingConan(ConanFile):
 
     def package(self):
         self.copy("*.h", dst="include", src="./serving/tensorflow")
+        self.copy("*", dst="include/third_party/eigen3", src="./serving/tensorflow/third_party/eigen3")
         self.copy("*.h", dst="include", src="./serving/tf_models/syntaxnet/tensorflow")
         self.copy("*.dll", dst="bin", src="serving/bazel-bin", keep_path=False)
         self.copy("*.so", dst="lib", src="serving/bazel-bin", keep_path=False)
