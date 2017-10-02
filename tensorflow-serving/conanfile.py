@@ -60,6 +60,8 @@ class TensorflowservingConan(ConanFile):
             "./serving/bazel-bin/external/org_tensorflow/tensorflow/core/",
             "./serving/bazel-bin/external/protobuf_archive",
             "./serving/bazel-bin/external/nsync",
+            "./serving/bazel-bin/external/png_archive",
+            "./serving/bazel-bin/external/snappy",
         ]
         for d in lib_dirs:
             self.copy("*.lo", dst="lib", src=d,
@@ -73,15 +75,20 @@ class TensorflowservingConan(ConanFile):
         self.cpp_info.libs = ["framework_internal",
                               "lib_internal", "lib_proto_parsing", "core_cpu_internal",
                               "proto_text", "protos_all_cc", "protobuf", "protobuf_lite",
-                              "nsync_cpp", ]
+                              "nsync_cpp", "png", "snappy"]
+
+        self.env_info.DYLD_LIBRARY_PATH.append(
+            os.path.join(self.package_folder, "lib"))
+
+        self.env_info.LD_LIBRARY_PATH.append(
+            os.path.join(self.package_folder, "lib"))
+
+        self.env_info.FOOOOOOOOOOOOOOOOOOOOO.append(
+            os.path.join(self.package_folder, "lib"))
 
         # self.cpp_info.libdirs = [
         #     "lib/external/org_tensorflow/tensorflow/core/",
         #     "lib/external/protobuf_archive",
         # ]
-
-        # for p in self.cpp_info.libdirs:
-        #     self.env_info.DYLD_LIBRARY_PATH.append(
-        #         os.path.join(self.package_folder, p))
 
         # print "***", self.env_info.DYLD_LIBRARY_PATH
