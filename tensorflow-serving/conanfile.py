@@ -1,6 +1,6 @@
 from conans import ConanFile, tools
+import os
 import sys
-import traceback
 
 
 class TensorflowservingConan(ConanFile):
@@ -56,16 +56,32 @@ class TensorflowservingConan(ConanFile):
         self.copy("*.h", dst="include",
                   src="./serving/bazel-serving/external/nsync/public/")
 
-        # libraries
-        self.copy("*.so", dst="lib",
-                  src="./serving/bazel-bin/", keep_path=True,
-                  excludes="*.runfiles*")
-        self.copy("*.so", dst="lib",
-                  src="./serving/bazel-out/", keep_path=True,
-                  excludes="*.runfiles*")
+        lib_dirs = [
+            "./serving/bazel-bin/external/org_tensorflow/tensorflow/core/",
+            "./serving/bazel-bin/external/protobuf_archive",
+            "./serving/bazel-bin/external/nsync",
+        ]
+        for d in lib_dirs:
+            self.copy("*.lo", dst="lib", src=d,
+                      keep_path=True, excludes="*.runfiles*")
+            self.copy("*.so", dst="lib", src=d,
+                      keep_path=True, excludes="*.runfiles*")
+            self.copy("*.a", dst="lib", src=d,
+                      keep_path=True, excludes="*.runfiles*")
 
     def package_info(self):
         self.cpp_info.libs = ["framework_internal",
-                              "lib_internal", "core_cpu_internal", "protos_all_cc"]
-        self.cpp_info.libdirs = [
-            "lib/external/org_tensorflow/tensorflow/core/"]
+                              "lib_internal", "lib_proto_parsing", "core_cpu_internal",
+                              "proto_text", "protos_all_cc", "protobuf", "protobuf_lite",
+                              "nsync_cpp", ]
+
+        # self.cpp_info.libdirs = [
+        #     "lib/external/org_tensorflow/tensorflow/core/",
+        #     "lib/external/protobuf_archive",
+        # ]
+
+        # for p in self.cpp_info.libdirs:
+        #     self.env_info.DYLD_LIBRARY_PATH.append(
+        #         os.path.join(self.package_folder, p))
+
+        # print "***", self.env_info.DYLD_LIBRARY_PATH
