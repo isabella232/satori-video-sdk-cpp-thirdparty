@@ -74,8 +74,7 @@ class TensorflowservingConan(ConanFile):
     def package_info(self):
         self.cpp_info.libs = ["framework_internal",
                               "lib_internal", "lib_proto_parsing", "core_cpu_internal",
-                              "lib_hash_crc32c_accelerate_internal",
-                              "op_gen_lib", "op_gen_overrides_proto_cc", "version_lib",
+                              "lib_hash_crc32c_accelerate_internal", "version_lib",
                               "proto_text", "protos_all_cc", "protobuf", "protobuf_lite",
                               "nsync_cpp", "png", "snappy", "z"]
 
