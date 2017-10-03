@@ -75,7 +75,7 @@ class TensorflowservingConan(ConanFile):
         self.cpp_info.libs = ["framework_internal",
                               "lib_internal", "lib_proto_parsing", "core_cpu_internal",
                               "proto_text", "protos_all_cc", "protobuf", "protobuf_lite",
-                              "nsync_cpp", "png", "snappy"]
+                              "nsync_cpp", "png", "snappy", "z"]
 
         self.env_info.DYLD_LIBRARY_PATH.append(
             os.path.join(self.package_folder, "lib"))
