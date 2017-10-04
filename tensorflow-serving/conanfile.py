@@ -22,6 +22,7 @@ class TensorflowservingConan(ConanFile):
                     "serving/bazel-bin/external/org_tensorflow/tensorflow/core/version_lib",
                     "serving/bazel-bin/external/org_tensorflow/tensorflow/core/proto_text",
                     "serving/bazel-bin/external/org_tensorflow/tensorflow/core/protos_all_cc",
+                    "serving/bazel-bin/external/org_tensorflow/tensorflow/cc",
                     "serving/bazel-bin/external/protobuf_archive/protobuf",
                     "serving/bazel-bin/external/protobuf_archive/protobuf_lite",
                     "serving/bazel-bin/external/nsync/nsync_cpp",
