@@ -62,6 +62,7 @@ class TensorflowservingConan(ConanFile):
             self.output.info("Build environment: %s" % env)
             self.run("cd serving/tensorflow && ./configure")
             self.run("cd serving/ && bazel build -c opt tensorflow_serving/...")
+            self.run("cd serving/bazel-bin && ls -R")
 
     def package(self):
         # header files
