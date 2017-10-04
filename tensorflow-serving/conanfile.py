@@ -14,6 +14,20 @@ class TensorflowservingConan(ConanFile):
     default_options = "shared=False"
     generators = "cmake"
 
+    tf_libraries = ["serving/bazel-bin/external/org_tensorflow/tensorflow/core/framework_internal",
+                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_internal",
+                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_proto_parsing",
+                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/core_cpu_internal",
+                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_hash_crc32c_accelerate_internal",
+                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/version_lib",
+                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/proto_text",
+                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/protos_all_cc",
+                    "serving/bazel-bin/external/protobuf_archive/protobuf",
+                    "serving/bazel-bin/external/protobuf_archive/protobuf_lite",
+                    "serving/bazel-bin/external/nsync/nsync_cpp",
+                    "serving/bazel-bin/external/png_archive/png",
+                    "serving/bazel-bin/external/snappy/snappy"]
+
     def source(self):
         self.run(
             "git clone --recurse-submodules --depth 1 https://github.com/tensorflow/serving")
@@ -56,40 +70,40 @@ class TensorflowservingConan(ConanFile):
         self.copy("*.h", dst="include",
                   src="./serving/bazel-serving/external/nsync/public/")
 
-        lib_dirs = [
-            "./serving/bazel-bin/external/org_tensorflow/tensorflow/core/",
-            "./serving/bazel-bin/external/protobuf_archive",
-            "./serving/bazel-bin/external/nsync",
-            "./serving/bazel-bin/external/png_archive",
-            "./serving/bazel-bin/external/snappy",
-        ]
-        for d in lib_dirs:
-            self.copy("*.lo", dst="lib", src=d,
-                      keep_path=True, excludes="*.runfiles*")
-            self.copy("*.so", dst="lib", src=d,
-                      keep_path=True, excludes="*.runfiles*")
-            self.copy("*.a", dst="lib", src=d,
-                      keep_path=True, excludes="*.runfiles*")
+        for lib in self.tf_libraries:
+            d = os.path.dirname(lib)
+            f = os.path.basename(lib)
+
+            self.output.info("copying  lib%s from %s" % (f, d))
+            self.copy("lib%s.lo" % f, dst="lib",
+                      src=d, keep_path=False)
+            self.copy("lib%s.so" % f, dst="lib",
+                      src=d, keep_path=False)
+            self.copy("lib%s.a" % f, dst="lib",
+                      src=d, keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["framework_internal",
-                              "lib_internal", "lib_proto_parsing", "core_cpu_internal",
-                              "lib_hash_crc32c_accelerate_internal", "version_lib",
-                              "proto_text", "protos_all_cc", "protobuf", "protobuf_lite",
-                              "nsync_cpp", "png", "snappy", "z"]
+        self.cpp_info.libs = [os.path.basename(
+            lib) for lib in self.tf_libraries]
 
-        self.env_info.DYLD_LIBRARY_PATH.append(
-            os.path.join(self.package_folder, "lib"))
+        self.cpp_info.libs.append("z")
+        self.output.info("libs: %s" % self.cpp_info.libs)
 
-        self.env_info.LD_LIBRARY_PATH.append(
-            os.path.join(self.package_folder, "lib"))
+        # lib_dir = os.path.join(self.package_folder, "lib")
 
-        self.env_info.FOOOOOOOOOOOOOOOOOOOOO.append(
-            os.path.join(self.package_folder, "lib"))
+        # self.env_info.DYLD_LIBRARY_PATH.append(lib_dir)
+        # self.env_info.LD_LIBRARY_PATH.append(lib_dir)
+        # self.env_info.FOOOOOOOOOOOOOOOOOOOOO.append(lib_dir)
 
         # self.cpp_info.libdirs = [
-        #     "lib/external/org_tensorflow/tensorflow/core/",
-        #     "lib/external/protobuf_archive",
+        #     "./lib",
+        #     "./lib/bazel-bin/external/org_tensorflow/tensorflow/core/",
+        #     "./lib/bazel-bin/external/protobuf_archive",
+        #     "./lib/bazel-bin/external/nsync",
+        #     "./lib/bazel-bin/external/png_archive",
+        #     "./lib/bazel-bin/external/snappy",
+        #     #     "lib/external/org_tensorflow/tensorflow/core/",
+        #     #     "lib/external/protobuf_archive",
         # ]
 
         # print "***", self.env_info.DYLD_LIBRARY_PATH
