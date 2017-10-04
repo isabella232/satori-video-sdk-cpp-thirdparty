@@ -15,12 +15,16 @@ class TensorflowservingConan(ConanFile):
     generators = "cmake"
 
     tf_libraries = ["serving/bazel-bin/external/org_tensorflow/tensorflow/core/framework_internal",
+                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/gif_internal",
+                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/jpeg_internal",
                     "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_internal",
                     "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_proto_parsing",
                     "serving/bazel-bin/external/org_tensorflow/tensorflow/core/core_cpu_internal",
                     "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_hash_crc32c_accelerate_internal",
                     "serving/bazel-bin/external/org_tensorflow/tensorflow/core/version_lib",
                     "serving/bazel-bin/external/org_tensorflow/tensorflow/core/proto_text",
+                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/reader_base",
+                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/sycl_runtime",
                     "serving/bazel-bin/external/org_tensorflow/tensorflow/core/protos_all_cc",
                     "serving/bazel-bin/external/org_tensorflow/tensorflow/cc/scope",
                     "serving/bazel-bin/external/protobuf_archive/protobuf",
