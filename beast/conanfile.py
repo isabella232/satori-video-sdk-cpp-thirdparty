@@ -3,8 +3,8 @@ from conans import ConanFile
 
 class BeastConan(ConanFile):
     name = "Beast"
-    version = "117"
-    tag = "0f5ea371c18a6797f4623a61f159326428c01400"
+    version = "120"
+    tag = "7fe74b1bf544a64ecf8985fde44abf88f9902251"
     license = "MIT"
     url = "https://github.com/boostorg/beast"
     requires = "Boost/1.64.0@satorivideo/master"
