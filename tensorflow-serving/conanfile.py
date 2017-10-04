@@ -14,24 +14,28 @@ class TensorflowservingConan(ConanFile):
     default_options = "shared=False"
     generators = "cmake"
 
-    tf_libraries = ["serving/bazel-bin/external/org_tensorflow/tensorflow/core/framework_internal",
-                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/gif_internal",
-                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/jpeg_internal",
-                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_internal",
-                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_proto_parsing",
-                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/core_cpu_internal",
-                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_hash_crc32c_accelerate_internal",
-                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/version_lib",
-                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/proto_text",
-                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/reader_base",
-                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/sycl_runtime",
-                    "serving/bazel-bin/external/org_tensorflow/tensorflow/core/protos_all_cc",
-                    "serving/bazel-bin/external/org_tensorflow/tensorflow/cc/scope",
-                    "serving/bazel-bin/external/protobuf_archive/protobuf",
-                    "serving/bazel-bin/external/protobuf_archive/protobuf_lite",
-                    "serving/bazel-bin/external/nsync/nsync_cpp",
-                    "serving/bazel-bin/external/png_archive/png",
-                    "serving/bazel-bin/external/snappy/snappy"]
+    tf_libraries = [
+        "serving/bazel-bin/external/jpeg/jpeg",
+        "serving/bazel-bin/external/jpeg/simd_none",
+        "serving/bazel-bin/external/nsync/nsync_cpp",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/cc/scope",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/core_cpu_internal",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/framework_internal",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/gif_internal",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/jpeg_internal",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_hash_crc32c_accelerate_internal",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_internal",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_proto_parsing",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/proto_text",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/protos_all_cc",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/reader_base",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/sycl_runtime",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/version_lib",
+        "serving/bazel-bin/external/png_archive/png",
+        "serving/bazel-bin/external/protobuf_archive/protobuf_lite",
+        "serving/bazel-bin/external/protobuf_archive/protobuf",
+        "serving/bazel-bin/external/snappy/snappy"
+    ]
 
     def source(self):
         self.run(
@@ -90,9 +94,7 @@ class TensorflowservingConan(ConanFile):
     def package_info(self):
         self.cpp_info.libs = [os.path.basename(
             lib) for lib in self.tf_libraries]
-
         self.cpp_info.libs.append("z")
-        self.output.info("libs: %s" % self.cpp_info.libs)
 
         # lib_dir = os.path.join(self.package_folder, "lib")
 
