@@ -93,7 +93,7 @@ class TensorflowservingConan(ConanFile):
         for lib in self.tf_libraries:
             d = os.path.dirname(lib)
             self.output.info("dir %s:" % d)
-            self.run("cd %s && ls -R" %s)
+            self.run("cd %s && ls -R" % d)
 
     def package(self):
         # header files
