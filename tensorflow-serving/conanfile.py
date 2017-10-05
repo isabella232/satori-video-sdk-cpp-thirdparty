@@ -125,21 +125,8 @@ class TensorflowservingConan(ConanFile):
             lib) for lib in self.tf_libraries]
         self.cpp_info.libs.append("z")
 
-        # lib_dir = os.path.join(self.package_folder, "lib")
-
-        # self.env_info.DYLD_LIBRARY_PATH.append(lib_dir)
-        # self.env_info.LD_LIBRARY_PATH.append(lib_dir)
-        # self.env_info.FOOOOOOOOOOOOOOOOOOOOO.append(lib_dir)
-
-        # self.cpp_info.libdirs = [
-        #     "./lib",
-        #     "./lib/bazel-bin/external/org_tensorflow/tensorflow/core/",
-        #     "./lib/bazel-bin/external/protobuf_archive",
-        #     "./lib/bazel-bin/external/nsync",
-        #     "./lib/bazel-bin/external/png_archive",
-        #     "./lib/bazel-bin/external/snappy",
-        #     #     "lib/external/org_tensorflow/tensorflow/core/",
-        #     #     "lib/external/protobuf_archive",
-        # ]
-
-        # print "***", self.env_info.DYLD_LIBRARY_PATH
+        lib_dir = os.path.join(self.package_folder, "lib")
+        if self.settings.os == "Macos":
+            self.env_info.DYLD_LIBRARY_PATH.append(lib_dir)
+        if self.settings.os == "Linux":
+            self.env_info.LD_LIBRARY_PATH.append(lib_dir)
