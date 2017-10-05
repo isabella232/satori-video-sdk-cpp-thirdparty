@@ -16,7 +16,6 @@ class TensorflowservingConan(ConanFile):
 
     tf_libraries = [
         "serving/bazel-bin/external/jpeg/jpeg",
-        "serving/bazel-bin/external/jpeg/simd_none",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/core_cpu_base",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/core_cpu_internal",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/framework_internal",
@@ -64,6 +63,11 @@ class TensorflowservingConan(ConanFile):
         "serving/bazel-bin/external/nsync/nsync_cpp",
         "serving/bazel-bin/external/snappy/snappy"
     ]
+
+    def configure(self):
+        if self.settings.os == "Macos":
+            self.tf_libraries.append(
+                "serving/bazel-bin/external/jpeg/simd_none")
 
     def source(self):
         self.run(
