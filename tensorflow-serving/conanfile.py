@@ -16,7 +16,7 @@ class TensorflowservingConan(ConanFile):
 
     tf_libraries = [
         "serving/bazel-bin/external/jpeg/jpeg",
-#        "serving/bazel-bin/external/highwayhash/sip_hash",
+        "serving/bazel-bin/external/jpeg/simd_none",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/core_cpu_base",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/core_cpu_internal",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/framework_internal",
