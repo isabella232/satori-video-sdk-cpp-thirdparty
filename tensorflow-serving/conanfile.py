@@ -16,14 +16,14 @@ class TensorflowservingConan(ConanFile):
 
     tf_libraries = [
         "serving/bazel-bin/external/jpeg/jpeg",
-        "serving/bazel-bin/external/nsync/nsync_cpp",
+#        "serving/bazel-bin/external/highwayhash/sip_hash",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/core_cpu_base",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/core_cpu_internal",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/framework_internal",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/gif_internal",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/jpeg_internal",
-        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_hash_crc32c_accelerate_internal",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_internal",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_hash_crc32c_accelerate_internal",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/lib_proto_parsing",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/proto_text",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/shape_inference_testutil",
@@ -61,6 +61,7 @@ class TensorflowservingConan(ConanFile):
         "serving/bazel-bin/external/png_archive/png",
         "serving/bazel-bin/external/protobuf_archive/protobuf_lite",
         "serving/bazel-bin/external/protobuf_archive/protobuf",
+        "serving/bazel-bin/external/nsync/nsync_cpp",
         "serving/bazel-bin/external/snappy/snappy"
     ]
 
