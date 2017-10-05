@@ -90,7 +90,10 @@ class TensorflowservingConan(ConanFile):
             self.output.info("Build environment: %s" % env)
             self.run("cd serving/tensorflow && ./configure")
             self.run("cd serving/ && bazel build -c opt tensorflow_serving/...")
-#            self.run("cd serving/bazel-bin/external/org_tensorflow/tensorflow && ls -R")
+        for lib in self.tf_libraries:
+            d = os.path.dirname(lib)
+            self.output.info("dir %s:" % d)
+            self.run("cd %s && ls -R" %s)
 
     def package(self):
         # header files
