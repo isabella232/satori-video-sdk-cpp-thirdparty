@@ -16,13 +16,7 @@ class TensorflowservingConan(ConanFile):
 
     tf_libraries = [
         "serving/bazel-bin/external/jpeg/jpeg",
-        "serving/bazel-bin/external/jpeg/simd_none",
         "serving/bazel-bin/external/nsync/nsync_cpp",
-        "serving/bazel-bin/external/org_tensorflow/tensorflow/grappler/devices",
-        "serving/bazel-bin/external/org_tensorflow/tensorflow/grappler/op_types",
-        "serving/bazel-bin/external/org_tensorflow/tensorflow/grappler/utils",
-        "serving/bazel-bin/external/org_tensorflow/tensorflow/grappler/cluster",
-        "serving/bazel-bin/external/org_tensorflow/tensorflow/grappler/virtual_cluster",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/core_cpu_base",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/core_cpu_internal",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/framework_internal",
@@ -39,7 +33,6 @@ class TensorflowservingConan(ConanFile):
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/version_lib",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/tensor_testutil",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/test",
-        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/test_lib",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/kernels/captured_function",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/kernels/conditional_accumulator_base",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/kernels/dataset",
