@@ -6,7 +6,7 @@ import sys
 class TensorflowConan(ConanFile):
     name = "Tensorflow"
     version = "1.3.1_master"
-    tag = "251a1e70dc04b10fb25e8013d1ad1f27d5eda30b"
+    tag = "bdbcde775f47d56a98b7f0f7dcd72bcb83867ae8"
     license = "<Put the package license here>"
     url = "<Package recipe repository url here, for issues about the package>"
     settings = "os", "compiler", "build_type", "arch"
