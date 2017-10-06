@@ -39,11 +39,21 @@ class TensorflowConan(ConanFile):
             "TF_NEED_GDR": "0",
             "TF_NEED_JEMALLOC": "0",
         }
+
+        bazel_opts = ["-c opt"]
+
+        if self.settings.compiler == "gcc":
+            if self.settings.compiler.libcxx == "libstdc++":
+                bazel_opts.append("--cxxopt=\"-D_GLIBCXX_USE_CXX11_ABI=0\"")
+            else:
+                bazel_opts.append("--cxxopt=\"-D_GLIBCXX_USE_CXX11_ABI=1\"")
+
         with tools.environment_append(env):
             self.output.info("Build environment: %s" % env)
+            self.output.info("Bazel options: %s" % " ".join(bazel_opts))
             self.run("cd tensorflow && ./configure")
             self.run(
-                "cd tensorflow/ && bazel build -c opt //tensorflow:libtensorflow_cc.so")
+                "cd tensorflow/ && bazel build %s //tensorflow:libtensorflow_cc.so" % " ".join(bazel_opts))
 
     def package(self):
         # header files
