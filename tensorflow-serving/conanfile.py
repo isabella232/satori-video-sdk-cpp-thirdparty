@@ -48,19 +48,20 @@ class TensorflowservingConan(ConanFile):
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/costs/op_level_cost_estimator",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/costs/op_performance_data_cc",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/costs/utils",
-        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/costs/virtual_placer",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/costs/virtual_scheduler",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/costs/virtual_placer",
 
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/utils/frame",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/utils/topological_sort",
+
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/clusters/cluster",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/clusters/utils",
+        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/clusters/virtual_cluster",
 
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/devices",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/grappler_item",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/op_types",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/utils",
-        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/clusters/cluster",
-        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/clusters/utils",
-        "serving/bazel-bin/external/org_tensorflow/tensorflow/core/grappler/clusters/virtual_cluster",
 
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/kernels/captured_function",
         "serving/bazel-bin/external/org_tensorflow/tensorflow/core/kernels/conditional_accumulator_base",
