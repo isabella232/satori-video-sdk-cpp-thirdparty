@@ -5,7 +5,8 @@ import sys
 
 class TensorflowConan(ConanFile):
     name = "Tensorflow"
-    version = "1.3.1"
+    version = "1.3.1_master"
+    tag = "251a1e70dc04b10fb25e8013d1ad1f27d5eda30b"
     license = "<Put the package license here>"
     url = "<Package recipe repository url here, for issues about the package>"
     settings = "os", "compiler", "build_type", "arch"
@@ -20,7 +21,8 @@ class TensorflowConan(ConanFile):
 
     def source(self):
         self.run(
-            "git clone --recurse-submodules --depth 1 -b v%s https://github.com/tensorflow/tensorflow" % self.version)
+            "git clone --recurse-submodules --depth 1 https://github.com/tensorflow/tensorflow")
+        self.run("cd tensorflow && git checkout %s" % self.tag)
 
     def build(self):
         env = {
