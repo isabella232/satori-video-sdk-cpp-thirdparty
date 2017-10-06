@@ -5,8 +5,8 @@ import sys
 
 class TensorflowConan(ConanFile):
     name = "Tensorflow"
-    version = "1.3.1_master"
-    revision = "073d90578904aa00dee34e27d9cc6bac68af2c47"
+    version = "1.3.1"
+    tag = "v1.3.1"
     license = "<Put the package license here>"
     url = "<Package recipe repository url here, for issues about the package>"
     settings = "os", "compiler", "build_type", "arch"
@@ -20,7 +20,8 @@ class TensorflowConan(ConanFile):
 #                "tensorflow/bazel-bin/external/jpeg/simd_none")
 
     def source(self):
-        self.run("git clone https://github.com/tensorflow/tensorflow && cd tensorflow && git checkout %s" % self.revision)
+        self.run(
+            "git clone -b %s https://github.com/tensorflow/tensorflow" % self.tag)
 
     def build(self):
         env = {
@@ -41,7 +42,8 @@ class TensorflowConan(ConanFile):
         with tools.environment_append(env):
             self.output.info("Build environment: %s" % env)
             self.run("cd tensorflow && ./configure")
-            self.run("cd tensorflow/ && bazel build -c opt //tensorflow:libtensorflow_cc.so")
+            self.run(
+                "cd tensorflow/ && bazel build -c opt //tensorflow:libtensorflow_cc.so")
 
     def package(self):
         # header files
@@ -59,7 +61,7 @@ class TensorflowConan(ConanFile):
         self.copy("*.h", dst="include",
                   src="./tensorflow/bazel-tensorflow/external/nsync/public/")
         self.copy("*.so", dst="lib",
-                  src="./tensorflow/bazel-bin/tensorflow/", keep_path=False)
+                  src="./tensorflow/bazel-bin/tensorflow/", keep_path=False, excludes="*.runfiles/*")
 
     def package_info(self):
         self.cpp_info.libs = ["tensorflow_cc", "z"]
