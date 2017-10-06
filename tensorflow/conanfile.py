@@ -5,8 +5,8 @@ import sys
 
 class TensorflowConan(ConanFile):
     name = "Tensorflow"
-    version = "1.3.1"
-    tag = "v1.3.1"
+    version = "1.3.1_master"
+    revision = "073d90578904aa00dee34e27d9cc6bac68af2c47"
     license = "<Put the package license here>"
     url = "<Package recipe repository url here, for issues about the package>"
     settings = "os", "compiler", "build_type", "arch"
@@ -21,7 +21,7 @@ class TensorflowConan(ConanFile):
 
     def source(self):
         self.run(
-            "git clone -b %s https://github.com/tensorflow/tensorflow" % self.tag)
+            "git clone https://github.com/tensorflow/tensorflow && cd tensorflow && git checkout %s" % self.revision)
 
     def build(self):
         env = {
