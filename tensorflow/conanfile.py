@@ -58,7 +58,7 @@ class TensorflowConan(ConanFile):
                   src="./tensorflow/bazel-tensorflow/external/protobuf_archive/src/")
         self.copy("*.h", dst="include",
                   src="./tensorflow/bazel-tensorflow/external/nsync/public/")
-        self.copy("*.so" % f, dst="lib",
+        self.copy("*.so", dst="lib",
                   src="./tensorflow/bazel-bin/tensorflow/", keep_path=False)
 
     def package_info(self):
