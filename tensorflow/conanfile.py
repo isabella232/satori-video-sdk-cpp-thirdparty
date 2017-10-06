@@ -20,7 +20,7 @@ class TensorflowConan(ConanFile):
 
     def source(self):
         self.run(
-            "git clone --recurse-submodules --depth 1 -b %s https://github.com/tensorflow/tensorflow" % self.version)
+            "git clone --recurse-submodules --depth 1 -b v%s https://github.com/tensorflow/tensorflow" % self.version)
 
     def build(self):
         env = {
