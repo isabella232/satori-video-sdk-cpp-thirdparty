@@ -1,4 +1,4 @@
-LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet libvpx ffmpeg zlib sdl bzip2 loguru tensorflow-serving
+LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet libvpx ffmpeg zlib sdl bzip2 loguru tensorflow
 
 DOCKER_BUILDER_IMAGE=gcr.io/kubernetes-live/video/video-thirdparty
 
