@@ -51,7 +51,7 @@ class TensorflowConan(ConanFile):
         self.copy("*", dst="include",
                   src="./tensorflow/bazel-tensorflow/external/eigen_archive/")
         self.copy("*", dst="include/third_party/eigen3",
-                  src="./third_party/eigen3/")
+                  src="./tensorflow/third_party/eigen3/")
         self.copy("*.h", dst="include",
                   src="./tensorflow/bazel-genfiles/external/org_tensorflow/")
         self.copy("*.h", dst="include",
