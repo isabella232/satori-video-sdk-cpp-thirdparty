@@ -62,7 +62,7 @@ class TensorflowConan(ConanFile):
                   src="./tensorflow/bazel-bin/tensorflow/", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["tensorflow", "z"]
+        self.cpp_info.libs = ["tensorflow_cc", "z"]
 
         lib_dir = os.path.join(self.package_folder, "lib")
         if self.settings.os == "Macos":
