@@ -4,15 +4,16 @@ import os
 
 class OpencvConan(ConanFile):
     name = "Opencv"
-    version = "3.3.0_01"
+    version = "3.3.0_02"
     source_version = "3.3.0"
     license = "3-clause BSD License"
     url = "http://opencv.org/"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False],
                "fPIC": [True, False],
-               "with_ipp": [True, False]}
-    default_options = "shared=False", "fPIC=False", "with_ipp=False"
+               "with_ipp": [True, False],
+               "with_dnn": [True, False]}
+    default_options = "shared=False", "fPIC=False", "with_ipp=False", "with_dnn=False"
     generators = "cmake"
 
     def source(self):
@@ -100,9 +101,9 @@ class OpencvConan(ConanFile):
                                 "opencv_shape",
                                 "opencv_imgcodecs",
                                 "opencv_fuzzy",
-                                "opencv_face",
-                                "opencv_dnn",
-                                "opencv_bgsegm",
+                                "opencv_face"] + \
+                              (["opencv_dnn"] if self.options.with_dnn else []) + \
+                               ["opencv_bgsegm",
                                 "opencv_xphoto",
                                 "opencv_video",
                                 "opencv_surface_matching",
@@ -114,9 +115,9 @@ class OpencvConan(ConanFile):
                                 "opencv_ml",
                                 "opencv_imgproc",
                                 "opencv_flann",
-                                "opencv_core",
-                                "libprotobuf",
-                                "libpng",
+                                "opencv_core"] + \
+                              (["libprotobuf"] if self.options.with_dnn else []) + \
+                               ["libpng",
                                 "libjpeg",
                                 "z",
                                 "pthread"]
