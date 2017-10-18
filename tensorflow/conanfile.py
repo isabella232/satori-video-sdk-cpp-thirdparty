@@ -36,7 +36,7 @@ class TensorflowConan(ConanFile):
         }
 
         bazel_opts = ["-c opt"]
-        
+
         if self.settings.os == "Linux":
             env["TF_NEED_MKL"] = "1"
             env["TF_DOWNLOAD_MKL"] = "1"
@@ -54,10 +54,9 @@ class TensorflowConan(ConanFile):
             self.output.info("Using bazel options: %s" % " ".join(bazel_opts))
             self.run(
                 "cd tensorflow/ && bazel build %s //tensorflow:libtensorflow_cc.so" % " ".join(bazel_opts))
-            
-            if self.settings.os == "Macos" || self.settings.os == "Linux":
-                self.run("cd tensorflow/bazel-bin/tensorflow/ && chmod +x *.so")
 
+            if self.settings.os == "Macos" or self.settings.os == "Linux":
+                self.run("cd tensorflow/bazel-bin/tensorflow/ && chmod +x *.so")
 
     def package(self):
         # header files
@@ -77,8 +76,15 @@ class TensorflowConan(ConanFile):
         self.copy("*.so", dst="lib",
                   src="./tensorflow/bazel-bin/tensorflow/", keep_path=False, excludes="*.runfiles/*")
 
+        if self.settings.os == "Linux":
+            self.copy("*.so", dst="lib",
+                      src="./tensorflow/bazel-tensorflow/external/mkl/lib/", keep_path=False)
+
     def package_info(self):
         self.cpp_info.libs = ["tensorflow_cc", "tensorflow_framework", "z"]
+
+        if self.settings.os == "Linux":
+            self.cpp_info.libs.extend(["libmklml_intel.so", "libiomp5.so"])
 
         lib_dir = os.path.join(self.package_folder, "lib")
         if self.settings.os == "Macos":
