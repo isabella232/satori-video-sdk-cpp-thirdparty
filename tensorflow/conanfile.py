@@ -39,6 +39,7 @@ class TensorflowConan(ConanFile):
 
         if self.settings.os == "Linux":
             env["TF_NEED_MKL"] = "1"
+            env["TF_DOWNLOAD_MKL"] = "1"
             bazel_opts.append("--config=mkl")
 
         if self.settings.compiler == "gcc":
@@ -48,9 +49,9 @@ class TensorflowConan(ConanFile):
                 bazel_opts.append("--cxxopt=\"-D_GLIBCXX_USE_CXX11_ABI=1\"")
 
         with tools.environment_append(env):
-            self.output.info("Build environment: %s" % env)
-            self.output.info("Bazel options: %s" % " ".join(bazel_opts))
+            self.output.info("Configuring build environment: %s" % env)
             self.run("cd tensorflow && ./configure")
+            self.output.info("Using bazel options: %s" % " ".join(bazel_opts))
             self.run(
                 "cd tensorflow/ && bazel build %s //tensorflow:libtensorflow_cc.so" % " ".join(bazel_opts))
 
