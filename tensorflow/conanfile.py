@@ -14,11 +14,6 @@ class TensorflowConan(ConanFile):
     default_options = "shared=False"
     generators = "cmake"
 
-#    def configure(self):
-#        if self.settings.os == "Macos":
-#            self.tf_libraries.append(
-#                "tensorflow/bazel-bin/external/jpeg/simd_none")
-
     def source(self):
         self.run(
             "git clone https://github.com/tensorflow/tensorflow && cd tensorflow && git checkout %s" % self.revision)
