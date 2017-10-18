@@ -5,8 +5,8 @@ import sys
 
 class TensorflowConan(ConanFile):
     name = "Tensorflow"
-    version = "1.3.1"
-    revision = "v1.3.1"
+    version = "1.4.0-rc0"
+    revision = "v1.4.0-rc0"
     license = "<Put the package license here>"
     url = "<Package recipe repository url here, for issues about the package>"
     settings = "os", "compiler", "build_type", "arch"
@@ -37,9 +37,6 @@ class TensorflowConan(ConanFile):
 
         bazel_opts = ["-c opt"]
         
-        # 1.3.1 can't be built with latest bazel
-        bazel_opts = ["--incompatible_disallow_set_constructor=false"]
-
         if self.settings.os == "Linux":
             env["TF_NEED_MKL"] = "1"
             env["TF_DOWNLOAD_MKL"] = "1"
