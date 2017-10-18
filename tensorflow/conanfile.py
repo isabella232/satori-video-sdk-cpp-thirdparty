@@ -5,8 +5,8 @@ import sys
 
 class TensorflowConan(ConanFile):
     name = "Tensorflow"
-    version = "1.3.1_master"
-    revision = "073d90578904aa00dee34e27d9cc6bac68af2c47"
+    version = "1.3.1"
+    revision = "v1.3.1"
     license = "<Put the package license here>"
     url = "<Package recipe repository url here, for issues about the package>"
     settings = "os", "compiler", "build_type", "arch"
@@ -41,6 +41,10 @@ class TensorflowConan(ConanFile):
         }
 
         bazel_opts = ["-c opt"]
+
+        if self.settings.os == "Linux":
+            env["TF_NEED_MKL"] = "1"
+            bazel_opts.append("--config=mkl")
 
         if self.settings.compiler == "gcc":
             if self.settings.compiler.libcxx == "libstdc++":
