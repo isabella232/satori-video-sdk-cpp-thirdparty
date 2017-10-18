@@ -54,6 +54,10 @@ class TensorflowConan(ConanFile):
             self.output.info("Using bazel options: %s" % " ".join(bazel_opts))
             self.run(
                 "cd tensorflow/ && bazel build %s //tensorflow:libtensorflow_cc.so" % " ".join(bazel_opts))
+            
+            if self.settings.os == "Macos" || self.settings.os == "Linux":
+                self.run("cd tensorflow/bazel-bin/tensorflow/ && chmod +x *.so")
+
 
     def package(self):
         # header files
