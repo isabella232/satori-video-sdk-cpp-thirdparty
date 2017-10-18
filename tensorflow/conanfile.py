@@ -36,6 +36,9 @@ class TensorflowConan(ConanFile):
         }
 
         bazel_opts = ["-c opt"]
+        
+        # 1.3.1 can't be built with latest bazel
+        bazel_opts = ["--incompatible_disallow_set_constructor=false"]
 
         if self.settings.os == "Linux":
             env["TF_NEED_MKL"] = "1"
