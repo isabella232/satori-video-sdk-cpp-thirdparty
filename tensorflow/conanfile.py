@@ -9,7 +9,7 @@ class TensorflowConan(ConanFile):
     revision = "v1.4.0-rc0"
     license = "<Put the package license here>"
     url = "<Package recipe repository url here, for issues about the package>"
-    settings = "os", "compiler", "build_type", "arch"
+    settings = "os", "compiler", "arch"
     options = {"shared": [True, False]}
     default_options = "shared=False"
     generators = "cmake"
