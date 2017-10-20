@@ -9,10 +9,14 @@ class PrometheuscppConan(ConanFile):
     url = "https://github.com/jupp0r/prometheus-cpp"
     tag = "57f4ce18bec8ed4f9d8ba262078693d583d5b369"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False]}
-    default_options = "shared=False", "Protobuf:shared=False"
+    options = {"shared": [True, False], "fPIC": [True, False]}
+    default_options = "shared=False", "fPIC=False"
     generators = "cmake"
     requires = "Protobuf/3.4.1@satorivideo/master"
+
+    def requirements(self):
+        self.options["Protobuf"].shared = self.options.shared
+        self.options["Protobuf"].fPIC = self.options.fPIC
 
     def source(self):
         self.run("git clone --recursive https://github.com/jupp0r/prometheus-cpp.git")
