@@ -11,7 +11,7 @@ class TensorflowConan(ConanFile):
     url = "<Package recipe repository url here, for issues about the package>"
     settings = "os", "compiler", "arch"
     options = {"shared": [True, False]}
-    default_options = "shared=False"
+    default_options = "shared=True"
     generators = "cmake"
 
     def source(self):
@@ -19,6 +19,9 @@ class TensorflowConan(ConanFile):
             "git clone https://github.com/tensorflow/tensorflow && cd tensorflow && git checkout %s" % self.revision)
 
     def build(self):
+        if not self.options.shared:
+            raise new Exception("static build not supported")
+            
         env = {
             "PYTHON_BIN_PATH": sys.executable,
             "USE_DEFAULT_PYTHON_LIB_PATH": "1",
