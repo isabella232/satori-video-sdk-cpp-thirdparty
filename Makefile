@@ -1,12 +1,14 @@
-LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet libvpx ffmpeg zlib sdl bzip2 loguru tensorflow
+LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet \
+	 libvpx ffmpeg zlib sdl bzip2 loguru tensorflow protobuf
 
 DOCKER_BUILDER_IMAGE=gcr.io/kubernetes-live/video/video-thirdparty
 
 .RECIPEPREFIX = >
 .PHONY: all image push ${LIBS}
 
-CONAN_LOGIN_COMMAND=conan remote add video http://10.199.28.20:80/ && conan user --remote video -p ${CONAN_PASSWORD} ${CONAN_USER}
-CONAN_UPLOAD_COMMAND=conan upload --confirm --remote video --all '*@satorivideo/*' && echo 'SUCCESS'
+CONAN_LOGIN_COMMAND=conan remote add video http://10.199.28.20:80/ && \
+				    conan user --remote video -p ${CONAN_PASSWORD} ${CONAN_USER}
+CONAN_UPLOAD_COMMAND=conan upload --confirm --remote video --all '*@satorivideo/*'
 
 COMMON_CONAN_OPTIONS=create satorivideo/master --build=missing -s compiler.libcxx=libstdc++11
 CONAN_OPTIONS_libcbor=${COMMON_CONAN_OPTIONS} --options Libcbor:fPIC=True --options Libcbor:shared=False
@@ -16,6 +18,7 @@ CONAN_OPTIONS_openssl=${COMMON_CONAN_OPTIONS} --options Openssl:fPIC=True --opti
 CONAN_OPTIONS_libvpx=${COMMON_CONAN_OPTIONS} --options Libvpx:fPIC=True --options Libvpx:shared=False
 CONAN_OPTIONS_ffmpeg=${COMMON_CONAN_OPTIONS} --options Ffmpeg:fPIC=True --options Ffmpeg:shared=False
 CONAN_OPTIONS_sdl=${COMMON_CONAN_OPTIONS} --options Sdl:fPIC=True --options Sdl:shared=False
+CONAN_OPTIONS_protobuf=${COMMON_CONAN_OPTIONS} --options Protobuf:fPIC=True --options Protobuf:shared=False
 CONAN_OPTIONS_gsl=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_rapidjson=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_beast=${COMMON_CONAN_OPTIONS}
@@ -31,7 +34,8 @@ all: ${LIBS}
 ${LIBS}: CONAN_CREATE_COMMAND=conan ${CONAN_OPTIONS_$@}
 ${LIBS}:
 > docker pull ${DOCKER_BUILDER_IMAGE}
-> docker run --rm ${DOCKER_BUILDER_IMAGE} bash -ceux "${CONAN_LOGIN_COMMAND} && cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Release && ${CONAN_UPLOAD_COMMAND}"
+> docker run --rm ${DOCKER_BUILDER_IMAGE} bash -ceux "${CONAN_LOGIN_COMMAND} && \
+  cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Release && ${CONAN_UPLOAD_COMMAND}"
 > echo "DONE"
 
 image:
