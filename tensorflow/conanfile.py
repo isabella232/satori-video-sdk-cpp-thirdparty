@@ -20,7 +20,7 @@ class TensorflowConan(ConanFile):
 
     def build(self):
         if not self.options.shared:
-            raise new Exception("static build not supported")
+            raise Exception("static build not supported")
             
         env = {
             "PYTHON_BIN_PATH": sys.executable,
