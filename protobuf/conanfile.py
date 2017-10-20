@@ -40,7 +40,6 @@ class ProtobufConan(ConanFile):
             self.run("cd protobuf && ./configure %s" %
                      " ".join(configure_args))
             self.run("cd protobuf && make -j 8")
-            self.run("cd protobuf && make -j 8 check")
             self.run("cd protobuf && make -j 8 install")
 
     def package(self):
