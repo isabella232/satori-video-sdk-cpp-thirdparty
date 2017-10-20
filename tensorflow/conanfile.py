@@ -35,9 +35,9 @@ class TensorflowConan(ConanFile):
             "TF_NEED_JEMALLOC": "0",
         }
 
-        bazel_opts = ["-c opt", 
+        bazel_opts = ["-c opt",
                       # https://github.com/tensorflow/tensorflow/issues/7449
-                      "--copt=-mavx", 
+                      "--copt=-mavx",
                       "--copt=-msse4.2",
                       "--copt=-msse4.1",
                       "--copt=-msse3",

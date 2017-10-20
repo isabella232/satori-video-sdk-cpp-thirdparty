@@ -1,5 +1,6 @@
 LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet \
-	 libvpx ffmpeg zlib sdl bzip2 loguru tensorflow protobuf
+	 libvpx ffmpeg zlib sdl bzip2 loguru tensorflow protobuf \
+	 prometheus-cpp
 
 DOCKER_BUILDER_IMAGE=gcr.io/kubernetes-live/video/video-thirdparty
 
@@ -19,6 +20,7 @@ CONAN_OPTIONS_libvpx=${COMMON_CONAN_OPTIONS} --options Libvpx:fPIC=True --option
 CONAN_OPTIONS_ffmpeg=${COMMON_CONAN_OPTIONS} --options Ffmpeg:fPIC=True --options Ffmpeg:shared=False
 CONAN_OPTIONS_sdl=${COMMON_CONAN_OPTIONS} --options Sdl:fPIC=True --options Sdl:shared=False
 CONAN_OPTIONS_protobuf=${COMMON_CONAN_OPTIONS} --options Protobuf:fPIC=True --options Protobuf:shared=False
+CONAN_OPTIONS_prometheus-cpp=${COMMON_CONAN_OPTIONS} --options PrometheusCpp:fPIC=True --options PrometheusCpp:shared=False
 CONAN_OPTIONS_gsl=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_rapidjson=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_beast=${COMMON_CONAN_OPTIONS}
