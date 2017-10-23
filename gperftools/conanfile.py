@@ -1,20 +1,22 @@
 from conans import ConanFile, AutoToolsBuildEnvironment, tools
+
 import os
 
 
-class ProtobufConan(ConanFile):
-    name = "Protobuf"
-    version = "3.4.1"
-    license = "<Put the package license here>"
-    url = "https://github.com/google/protobuf.git"
+class GperftoolsConan(ConanFile):
+    name = "GPerfTools"
+    version = "2017.10.16"
+    tag = "6e3a702fb9c86eb450f22b326ecbceef4b0d6604"
+    license = "BSD-3-Clause"
+    url = "https://github.com/gperftools/gperftools"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "fPIC": [True, False]}
-    default_options = "shared=False", "fPIC=False"
+    options = {"shared": [True, False]}
+    default_options = "shared=False"
     generators = "cmake"
 
     def source(self):
-        self.run(
-            "git clone  --depth 1 -b v%s https://github.com/google/protobuf.git" % self.version)
+        self.run("git clone https://github.com/gperftools/gperftools.git")
+        self.run("cd gperftools && git checkout %s" % self.tag)
 
     def build(self):
         configure_args = []
@@ -27,22 +29,19 @@ class ProtobufConan(ConanFile):
         configure_args.append("--enable-static=%s" %
                               ("yes" if not self.options.shared else "no"))
 
-        if self.options.fPIC:
-            configure_args.append("--with-pic")
-
         env_build = AutoToolsBuildEnvironment(self)
         env_vars = dict(env_build.vars)
         with tools.environment_append(env_vars):
             self.output.info("Build environment: %s" % env_vars)
-            self.run("cd protobuf && ./autogen.sh")
+            self.run("cd gperftools && ./autogen.sh")
             self.output.info("./configure %s" % " ".join(configure_args))
-            self.run("cd protobuf && ./configure %s" %
+            self.run("cd gperftools && ./configure %s" %
                      " ".join(configure_args))
-            self.run("cd protobuf && make -j 8")
-            self.run("cd protobuf && make -j 8 install")
+            self.run("cd gperftools && make -j 8")
+            self.run("cd gperftools && make -j 8 install")
 
     def package(self):
         self.copy("*", src="install")
 
     def package_info(self):
-        self.cpp_info.libs = ["protobuf"]
+        self.cpp_info.libs = ["tcmalloc", "profiler"]
