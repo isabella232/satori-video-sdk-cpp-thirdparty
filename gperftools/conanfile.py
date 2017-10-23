@@ -10,8 +10,9 @@ class GperftoolsConan(ConanFile):
     license = "BSD-3-Clause"
     url = "https://github.com/gperftools/gperftools"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False]}
-    default_options = "shared=False"
+    options = {"shared": [True, False],
+               "fPIC": [True, False]}
+    default_options = "shared=False", "fPIC=False"
     generators = "cmake"
 
     def source(self):
@@ -28,6 +29,9 @@ class GperftoolsConan(ConanFile):
                               ("yes" if self.options.shared else "no"))
         configure_args.append("--enable-static=%s" %
                               ("yes" if not self.options.shared else "no"))
+
+        if self.options.fPIC:
+            configure_args.append("--with-pic")
 
         env_build = AutoToolsBuildEnvironment(self)
         env_vars = dict(env_build.vars)
