@@ -54,10 +54,14 @@ class PrometheuscppConan(ConanFile):
         self.copy("*", dst="include", src="prometheus-cpp/include")
         self.copy("*.h", dst="include",
                   src="lib/cpp/")
-        self.copy("*prometheus*.dll", dst="bin", keep_path=False)
-        self.copy("*prometheus*.so", dst="lib", keep_path=False)
-        self.copy("*prometheus*.dylib", dst="lib", keep_path=False)
-        self.copy("*prometheus*.a", dst="lib", keep_path=False)
+
+        if self.options.shared:
+            self.copy("*prometheus*.dll", dst="bin", keep_path=False)
+            self.copy("*prometheus*.so", dst="lib", keep_path=False)
+            self.copy("*prometheus*.dylib", dst="lib", keep_path=False)
+
+        if not self.options.shared:
+            self.copy("*prometheus*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["prometheus-cpp.a"]
+        self.cpp_info.libs = ["prometheus-cpp"]
