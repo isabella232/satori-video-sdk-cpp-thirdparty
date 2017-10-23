@@ -44,9 +44,12 @@ class GperftoolsConan(ConanFile):
         self.copy("*", src="install")
 
     def package_info(self):
-        self.cpp_info.libs = ["tcmalloc", "profiler"]
+        if self.options.shared:
+            self.cpp_info.libs = ["tcmalloc", "profiler"]
+        else:
+            self.cpp_info.libs = ["tcmalloc_and_profiler"]
 
-        if self.compiler == "gcc":
+        if self.settings.compiler == "gcc":
             self.cpp_info.cflags = [
                 "-fno-builtin-malloc", "-fno-builtin-calloc", "-fno-builtin-realloc", "-fno-builtin-free"]
             self.cpp_info.cppflags = [
