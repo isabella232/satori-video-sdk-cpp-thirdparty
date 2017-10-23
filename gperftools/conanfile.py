@@ -48,6 +48,8 @@ class GperftoolsConan(ConanFile):
             self.cpp_info.libs = ["tcmalloc", "profiler"]
         else:
             self.cpp_info.libs = ["tcmalloc_and_profiler"]
+            
+        self.cpp_info.libs.append("pthread")
 
         if self.settings.compiler == "gcc":
             self.cpp_info.cflags = [
