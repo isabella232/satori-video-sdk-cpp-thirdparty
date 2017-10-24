@@ -1,4 +1,4 @@
-from conans import ConanFile, tools
+from conans import ConanFile, AutoToolsBuildEnvironment, tools
 import os
 import sys
 
@@ -48,6 +48,7 @@ class BoostConan(ConanFile):
         if (self.options.with_regex):
             libraries.append("regex")
         flags.append("--with-libraries=%s" % ",".join(libraries))
+        flags.append("--with-toolset=%s" % self.settings.compiler)
 
         self.output.info("Boostrapping %s %s" % (self.FOLDER_NAME, flags))
 
@@ -55,16 +56,28 @@ class BoostConan(ConanFile):
                  (self.FOLDER_NAME, command, " ".join(flags)))
 
     def build(self):
+        env_build = AutoToolsBuildEnvironment(self)
+        env_vars = dict(env_build.vars)
+        self.output.info("build env: %s" % (env_vars))
+
         self.bootstrap()
-        self.output.info("Building %s" % (self.FOLDER_NAME))
 
         flags = []
-        cxx_flags = []
-        if self.options.fPIC:
-            cxx_flags.append("-fPIC")
-        cxx_flags = 'cxxflags="%s"' % " ".join(cxx_flags) if cxx_flags else ""
-        flags.append(cxx_flags)
 
+        cxxflags = [env_vars["CXXFLAGS"]]
+        if self.options.fPIC:
+            cxxflags.append("-fPIC")
+        flags.append('cxxflags="%s"' % " ".join(cxxflags))
+
+        cflags = [env_vars["CFLAGS"]]
+        if self.options.fPIC:
+            cflags.append("-fPIC")
+        flags.append('cflags="%s"' % " ".join(cflags))
+
+        ldflags = [env_vars["LDFLAGS"]]
+        flags.append('linkflags="%s"' % " ".join(ldflags))
+
+        self.output.info("Building %s %s" % (self.FOLDER_NAME, flags))
         self.run("cd %s && ./b2 %s -j%s" %
                  (self.FOLDER_NAME, " ".join(flags), tools.cpu_count()))
 
