@@ -21,7 +21,7 @@ CONAN_OPTIONS_ffmpeg=${COMMON_CONAN_OPTIONS} --options Ffmpeg:fPIC=True --option
 CONAN_OPTIONS_sdl=${COMMON_CONAN_OPTIONS} --options Sdl:fPIC=True --options Sdl:shared=False
 CONAN_OPTIONS_protobuf=${COMMON_CONAN_OPTIONS} --options Protobuf:fPIC=True --options Protobuf:shared=False
 CONAN_OPTIONS_prometheus-cpp=${COMMON_CONAN_OPTIONS} --options PrometheusCpp:fPIC=True --options PrometheusCpp:shared=False
-CONAN_OPTIONS_gperftools=${COMMON_CONAN_OPTIONS} --options GPerfTools:shared=False GPerfTools:fPIC=True
+CONAN_OPTIONS_gperftools=${COMMON_CONAN_OPTIONS} --options GPerfTools:shared=False --options GPerfTools:fPIC=True
 CONAN_OPTIONS_gsl=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_rapidjson=${COMMON_CONAN_OPTIONS}
 CONAN_OPTIONS_beast=${COMMON_CONAN_OPTIONS}
