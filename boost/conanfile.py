@@ -48,7 +48,9 @@ class BoostConan(ConanFile):
         if (self.options.with_regex):
             libraries.append("regex")
         flags.append("--with-libraries=%s" % ",".join(libraries))
-        flags.append("--with-toolset=%s" % self.settings.compiler)
+        
+        if self.settings.os == "Linux":
+            flags.append("--with-toolset=%s" % self.settings.compiler)
 
         self.output.info("Boostrapping %s %s" % (self.FOLDER_NAME, flags))
 
