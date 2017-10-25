@@ -44,7 +44,6 @@ class TensorflowConan(ConanFile):
                       "--copt=-msse4.2",
                       "--copt=-msse4.1",
                       "--copt=-msse3",
-                      "--copt=-mavx2",
                       "--copt=-mfma"]
 
         if self.settings.os == "Linux":
