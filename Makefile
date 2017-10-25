@@ -9,7 +9,7 @@ DOCKER_BUILDER_IMAGE=gcr.io/kubernetes-live/video/video-thirdparty
 
 CONAN_LOGIN_COMMAND=conan remote add video http://10.199.28.20:80/ && \
 				    conan user --remote video -p ${CONAN_PASSWORD} ${CONAN_USER}
-CONAN_UPLOAD_COMMAND=conan upload --confirm --remote video --all '*@satorivideo/*'
+CONAN_UPLOAD_COMMAND=conan upload --confirm --remote video --all --force '*@satorivideo/*'
 
 COMMON_CONAN_OPTIONS=create satorivideo/master --build=missing -s compiler.libcxx=libstdc++11
 CONAN_OPTIONS_libcbor=${COMMON_CONAN_OPTIONS} --options Libcbor:fPIC=True --options Libcbor:shared=False
