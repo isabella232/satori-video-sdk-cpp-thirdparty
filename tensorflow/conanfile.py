@@ -37,14 +37,20 @@ class TensorflowConan(ConanFile):
             "TF_NEED_GDR": "0",
             "TF_NEED_JEMALLOC": "0",
         }
-
+        
+        # Configured to run on Ivy Bridge with flags: 
+        # fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat 
+        # pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm
+        # constant_tsc rep_good nopl xtopology nonstop_tsc eagerfpu pni 
+        # pclmulqdq ssse3 cx16 sse4_1 sse4_2 x2apic popcnt aes xsave avx f16c 
+        # rdrand hypervisor lahf_lm fsgsbase tsc_adjust smep erms xsaveopt
+        # fma and avx2 not supported.
         bazel_opts = ["-c opt",
                       # https://github.com/tensorflow/tensorflow/issues/7449
                       "--copt=-mavx",
                       "--copt=-msse4.2",
                       "--copt=-msse4.1",
-                      "--copt=-msse3",
-                      "--copt=-mfma"]
+                      "--copt=-msse3"]
 
         if self.settings.os == "Linux":
             env["TF_NEED_MKL"] = "1"
