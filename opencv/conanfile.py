@@ -26,7 +26,6 @@ class OpencvConan(ConanFile):
         cmake = CMake(self)
 
         cmake_options = []
-        cmake_options.append("-GNinja")
         cmake_options.append("-DCMAKE_VERBOSE_MAKEFILE=ON")
 
         # turn off extra deps
@@ -67,7 +66,7 @@ class OpencvConan(ConanFile):
 
         self.run('cmake opencv %s %s' %
                  (cmake.command_line, " ".join(cmake_options)))
-        self.run("cmake --build . %s --target install" % cmake.build_config)
+        self.run("cmake --build . %s --target install -- -j8" % cmake.build_config)
 
     def package(self):
         self.copy("*", src="3rdparty/lib", dst="lib", keep_path=False)
