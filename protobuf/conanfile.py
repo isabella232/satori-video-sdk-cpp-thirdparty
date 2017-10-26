@@ -38,8 +38,8 @@ class ProtobufConan(ConanFile):
             self.output.info("./configure %s" % " ".join(configure_args))
             self.run("cd protobuf && ./configure %s" %
                      " ".join(configure_args))
-            self.run("cd protobuf && make -j 8")
-            self.run("cd protobuf && make -j 8 install")
+            self.run("cd protobuf && make -j%s" % tools.cpu_count())
+            self.run("cd protobuf && make install")
 
     def package(self):
         self.copy("*", src="install")

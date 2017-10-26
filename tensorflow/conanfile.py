@@ -21,7 +21,7 @@ class TensorflowConan(ConanFile):
     def build(self):
         if not self.options.shared:
             raise Exception("static build not supported")
-            
+
         env = {
             "PYTHON_BIN_PATH": sys.executable,
             "USE_DEFAULT_PYTHON_LIB_PATH": "1",
@@ -37,12 +37,12 @@ class TensorflowConan(ConanFile):
             "TF_NEED_GDR": "0",
             "TF_NEED_JEMALLOC": "0",
         }
-        
-        # Configured to run on Ivy Bridge with flags: 
-        # fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat 
+
+        # Configured to run on Ivy Bridge with flags:
+        # fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat
         # pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm
-        # constant_tsc rep_good nopl xtopology nonstop_tsc eagerfpu pni 
-        # pclmulqdq ssse3 cx16 sse4_1 sse4_2 x2apic popcnt aes xsave avx f16c 
+        # constant_tsc rep_good nopl xtopology nonstop_tsc eagerfpu pni
+        # pclmulqdq ssse3 cx16 sse4_1 sse4_2 x2apic popcnt aes xsave avx f16c
         # rdrand hypervisor lahf_lm fsgsbase tsc_adjust smep erms xsaveopt
         # fma and avx2 not supported.
         bazel_opts = ["-c opt",
@@ -71,7 +71,12 @@ class TensorflowConan(ConanFile):
                 "cd tensorflow/ && bazel build %s //tensorflow:libtensorflow_cc.so" % " ".join(bazel_opts))
 
             if self.settings.os == "Macos" or self.settings.os == "Linux":
-                self.run("cd tensorflow/bazel-bin/tensorflow/ && chmod +x *.so")
+                self.output.info("fixing permissions")
+                self.run(
+                    "cd tensorflow/bazel-bin/tensorflow/ && chmod +w *.so")
+                if self.settings.os == "Linux":
+                    self.run(
+                        "cd tensorflow/bazel-tensorflow/external/mkl/lib/ && chmod +w *.so")
 
     def package(self):
         # header files

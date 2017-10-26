@@ -41,8 +41,8 @@ class GperftoolsConan(ConanFile):
             self.output.info("./configure %s" % " ".join(configure_args))
             self.run("cd gperftools && ./configure %s" %
                      " ".join(configure_args))
-            self.run("cd gperftools && make -j 8")
-            self.run("cd gperftools && make -j 8 install")
+            self.run("cd gperftools && make -j%s" % tools.cpu_count())
+            self.run("cd gperftools && make install")
 
     def package(self):
         self.copy("*", src="install")
@@ -52,7 +52,7 @@ class GperftoolsConan(ConanFile):
             self.cpp_info.libs = ["tcmalloc", "profiler"]
         else:
             self.cpp_info.libs = ["tcmalloc_and_profiler"]
-            
+
         self.cpp_info.libs.append("pthread")
 
         if self.settings.compiler == "gcc":
