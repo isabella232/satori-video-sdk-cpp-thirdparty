@@ -5,7 +5,8 @@ import sys
 
 class BoostConan(ConanFile):
     name = "Boost"
-    version = "1.65.1"
+    version = "1.65.1_01"
+    tag = "1.65.1"
     license = "Boost Software License"
     url = "http://www.boost.org/"
     settings = "os", "compiler", "build_type", "arch"
@@ -23,12 +24,12 @@ class BoostConan(ConanFile):
         "with_system=True", \
         "with_regex=True", \
         "with_timer=True"
-    FOLDER_NAME = "boost_%s" % version.replace(".", "_")
+    FOLDER_NAME = "boost_%s" % tag.replace(".", "_")
 
     def source(self):
         zip_name = "%s.zip" % self.FOLDER_NAME if sys.platform == "win32" else "%s.tar.gz" % self.FOLDER_NAME
         url = "http://sourceforge.net/projects/boost/files/boost/%s/%s/download" % (
-            self.version, zip_name)
+            self.tag, zip_name)
         self.output.info("Downloading %s" % url)
         tools.download(url, zip_name)
         tools.unzip(zip_name, ".")
