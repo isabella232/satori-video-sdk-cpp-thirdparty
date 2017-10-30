@@ -15,12 +15,14 @@ class BoostConan(ConanFile):
         "fPIC": [True, False],
         "with_program_options": [True, False],
         "with_system": [True, False],
-        "with_regex": [True, False]}
+        "with_regex": [True, False],
+        "with_timer": [True, False]}
     default_options = "shared=False", \
         "fPIC=False", \
         "with_program_options=True", \
         "with_system=True", \
-        "with_regex=True"
+        "with_regex=True", \
+        "with_timer=True"
     FOLDER_NAME = "boost_%s" % version.replace(".", "_")
 
     def source(self):
@@ -47,6 +49,8 @@ class BoostConan(ConanFile):
             libraries.append("system")
         if (self.options.with_regex):
             libraries.append("regex")
+        if (self.options.with_timer):
+            libraries.append("timer")
         flags.append("--with-libraries=%s" % ",".join(libraries))
         
         if self.settings.os == "Linux":
