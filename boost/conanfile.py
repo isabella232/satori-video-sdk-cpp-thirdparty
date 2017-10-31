@@ -5,7 +5,7 @@ import sys
 
 class BoostConan(ConanFile):
     name = "Boost"
-    version = "1.65.1_02"
+    version = "1.65.1_03"
     tag = "1.65.1"
     license = "Boost Software License"
     url = "http://www.boost.org/"
@@ -116,4 +116,5 @@ class BoostConan(ConanFile):
             libs.append("boost_regex")
         if (self.options.with_timer):
             libs.append("boost_timer")
+            libs.append("boost_chrono")
         self.cpp_info.libs = libs
