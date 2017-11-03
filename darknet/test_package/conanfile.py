@@ -1,13 +1,9 @@
 from conans import ConanFile, CMake, RunEnvironment, tools
 import os
 
-channel = os.getenv("CONAN_CHANNEL", "master")
-username = os.getenv("CONAN_USERNAME", "satorivideo")
-
 
 class LibcborTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    requires = "Darknet/0.1.1@%s/%s" % (username, channel)
     generators = "cmake"
     options = {"shared": [True, False],
                "fPIC": [True, False]}
