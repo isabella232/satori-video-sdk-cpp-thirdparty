@@ -1,13 +1,8 @@
 from conans import ConanFile, CMake, RunEnvironment, tools
 import os
 
-channel = os.getenv("CONAN_CHANNEL", "master")
-username = os.getenv("CONAN_USERNAME", "satorivideo")
-
-
 class LibcborTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    requires = "Opencv/3.3.0_00@%s/%s" % (username, channel)
     generators = "cmake"
     options = {"shared": [False, False],
                "fPIC": [True, False]}
