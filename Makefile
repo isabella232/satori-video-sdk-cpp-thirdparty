@@ -16,7 +16,7 @@ BUILD_TYPE=RelWithDebInfo
 
 CONAN_LOGIN_COMMAND=conan remote add ${CONAN_REMOTE} ${CONAN_SERVER} && \
                     conan user --remote ${CONAN_REMOTE} -p ${CONAN_PASSWORD} ${CONAN_USER}
-CONAN_UPLOAD_COMMAND=conan upload --confirm --force --remote ${CONAN_REMOTE} ${CONAN_UPLOAD_OPTIONS} '*@satorivideo/*'
+CONAN_UPLOAD_COMMAND=conan upload --confirm --force --remote '${CONAN_REMOTE}' ${CONAN_UPLOAD_OPTIONS} '*@satorivideo/*'
 
 COMMON_CONAN_OPTIONS=create satorivideo/master --build=missing -s compiler.libcxx=libstdc++11
 CONAN_OPTIONS_libcbor=${COMMON_CONAN_OPTIONS} --options Libcbor:fPIC=True --options Libcbor:shared=False
