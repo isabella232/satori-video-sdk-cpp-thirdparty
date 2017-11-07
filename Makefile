@@ -3,6 +3,7 @@ LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet \
 	 prometheus-cpp gperftools
 
 DOCKER_BUILDER_IMAGE=gcr.io/kubernetes-live/video/video-thirdparty
+BUILD_TYPE=RelWithDebInfo
 
 .RECIPEPREFIX = >
 .PHONY: all image push ${LIBS}
@@ -38,7 +39,7 @@ ${LIBS}: CONAN_CREATE_COMMAND=conan ${CONAN_OPTIONS_$@}
 ${LIBS}:
 > docker pull ${DOCKER_BUILDER_IMAGE}
 > docker run --rm ${DOCKER_BUILDER_IMAGE} bash -ceux "${CONAN_LOGIN_COMMAND} && \
-  cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=Release && ${CONAN_UPLOAD_COMMAND}"
+  cd $@ && ${CONAN_CREATE_COMMAND} -s build_type=${BUILD_TYPE} && ${CONAN_UPLOAD_COMMAND}"
 > echo "DONE"
 
 image:
