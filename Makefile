@@ -1,16 +1,22 @@
+# Should be defined by environment
+CONAN_SERVER?=
+CONAN_PASSWORD?=
+CONAN_USER?=
+CONAN_REMOTE?=video
+
 LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet \
 	 libvpx ffmpeg zlib sdl bzip2 loguru tensorflow protobuf \
 	 prometheus-cpp gperftools
-
+CONAN_UPLOAD_OPTIONS?=--all
 DOCKER_BUILDER_IMAGE=gcr.io/kubernetes-live/video/video-thirdparty
 BUILD_TYPE=RelWithDebInfo
 
 .RECIPEPREFIX = >
 .PHONY: all image push ${LIBS}
 
-CONAN_LOGIN_COMMAND=conan remote add video http://10.199.28.20:80/ && \
-				    conan user --remote video -p ${CONAN_PASSWORD} ${CONAN_USER}
-CONAN_UPLOAD_COMMAND=conan upload --confirm --remote video --all --force '*@satorivideo/*'
+CONAN_LOGIN_COMMAND=conan remote add ${CONAN_REMOTE} ${CONAN_SERVER} && \
+                    conan user --remote ${CONAN_REMOTE} -p ${CONAN_PASSWORD} ${CONAN_USER}
+CONAN_UPLOAD_COMMAND=conan upload --confirm --force --remote ${CONAN_REMOTE} ${CONAN_UPLOAD_OPTIONS} '*@satorivideo/*'
 
 COMMON_CONAN_OPTIONS=create satorivideo/master --build=missing -s compiler.libcxx=libstdc++11
 CONAN_OPTIONS_libcbor=${COMMON_CONAN_OPTIONS} --options Libcbor:fPIC=True --options Libcbor:shared=False
