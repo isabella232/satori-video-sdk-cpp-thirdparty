@@ -10,7 +10,7 @@ class BeastConan(ConanFile):
 
     license = "MIT"
     url = "https://github.com/boostorg/beast"
-    requires = "Boost/1.65.1@satorivideo/master"
+    requires = "Boost/1.65.1-05@satorivideo/master"
 
     def source(self):
         self.run("git clone %s " % self.git_url)
