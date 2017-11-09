@@ -43,6 +43,8 @@ class OpencvConan(ConanFile):
         cmake_options.append("-DBUILD_opencv_apps=OFF")
         cmake_options.append("-DBUILD_TESTS=OFF")
         cmake_options.append("-DBUILD_PERF_TESTS=OFF")
+        cmake_options.append("-DBUILD_opencv_python2=OFF")
+        cmake_options.append("-DBUILD_opencv_python3=OFF")
         cmake_options.append("-DENABLE_CCACHE=OFF")
 
         # enable OpenMP on linux
