@@ -55,7 +55,11 @@ class BoostConan(ConanFile):
         flags.append("--with-libraries=%s" % ",".join(libraries))
         
         if self.settings.os == "Linux":
-            flags.append("--with-toolset=%s" % self.settings.compiler)
+            if "clang" in self.settings.compiler:
+                flags.append("--with-toolset=clang")
+            else:
+                flags.append("--with-toolset=%s" % self.settings.compiler)
+                
 
         self.output.info("Boostrapping %s %s" % (self.FOLDER_NAME, flags))
 
