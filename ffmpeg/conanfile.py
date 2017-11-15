@@ -48,8 +48,8 @@ index 47a1df0..7b0cb50 100644
 
 class FfmpegConan(ConanFile):
     name = "Ffmpeg"
-    version = "3.3.3_07"
-    source_version = "3.3.3"
+    version = "3.4.0"
+    source_version = "n3.4"
     license = "LGPL"
     url = "https://ffmpeg.org/"
     settings = "os", "compiler", "build_type", "arch"
@@ -69,7 +69,7 @@ class FfmpegConan(ConanFile):
 
     def source(self):
         self.run(
-            "git clone --depth 1 -b n%s https://github.com/FFmpeg/FFmpeg.git" % self.source_version)
+            "git clone --depth 1 -b %s https://github.com/FFmpeg/FFmpeg.git" % self.source_version)
 
     def build(self):
         if self.options.emcc:
