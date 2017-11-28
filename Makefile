@@ -10,7 +10,7 @@ DOCKER_BUILD_OPTIONS?=
 
 LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet \
 	 libvpx ffmpeg zlib sdl bzip2 loguru tensorflow protobuf \
-	 prometheus-cpp gperftools
+	 prometheus-cpp gperftools json
 DOCKER_BUILDER_IMAGE=gcr.io/kubernetes-live/video/video-thirdparty
 BUILD_TYPE=RelWithDebInfo
 
