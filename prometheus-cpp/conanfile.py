@@ -4,10 +4,10 @@ import os
 
 class PrometheuscppConan(ConanFile):
     name = "PrometheusCpp"
-    version = "2017.11.03"
+    version = "2017.12.06"
     license = "<Put the package license here>"
     url = "https://github.com/jupp0r/prometheus-cpp"
-    tag = "871a7673772b266135cc8422490578da1cf63004"
+    tag = "b9906b514baa1ac21f7e13b4271ad9c36be0b170"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = "shared=False", "fPIC=False"
