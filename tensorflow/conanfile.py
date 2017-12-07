@@ -71,12 +71,14 @@ class TensorflowConan(ConanFile):
                 "cd tensorflow/ && bazel build %s //tensorflow:libtensorflow_cc.so" % " ".join(bazel_opts))
 
             if self.settings.os == "Macos" or self.settings.os == "Linux":
-                self.output.info("fixing permissions")
+                self.output.info("fixing permissions and setting sonames equal to file names on linux")
                 self.run(
                     "cd tensorflow/bazel-bin/tensorflow/ && chmod +w *.so")
                 if self.settings.os == "Linux":
                     self.run(
-                        "cd tensorflow/bazel-tensorflow/external/mkl/lib/ && chmod +w *.so")
+                        "cd tensorflow/bazel-bin/tensorflow/ && for f in *.so; do patchelf --set-soname $f $f; done")
+                    self.run(
+                        "cd tensorflow/bazel-tensorflow/external/mkl/lib/ && chmod +w *.so && for f in *.so; do patchelf --set-soname $f $f; done")
 
     def package(self):
         # header files
