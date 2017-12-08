@@ -71,6 +71,10 @@ class TensorflowConan(ConanFile):
                 "cd tensorflow/ && bazel build %s //tensorflow:libtensorflow_cc.so" % " ".join(bazel_opts))
 
             if self.settings.os == "Macos" or self.settings.os == "Linux":
+                # Without soname, when processed with cmake, dynamic library got linked with its absolute path
+                # description of this problem could be found here http://cmake.3232098.n2.nabble.com/How-to-avoid-the-explicit-library-location-when-linking-with-imported-library-targets-td5542269.html
+                # to avoid this situation (as we run bot in a different environment with different paths), I patch resulting libs with patchelf
+                # the other way to do that is to patch bazel build recipe, which is more complex and less hacky
                 self.output.info("fixing permissions and setting sonames equal to file names on linux")
                 self.run(
                     "cd tensorflow/bazel-bin/tensorflow/ && chmod +w *.so")
