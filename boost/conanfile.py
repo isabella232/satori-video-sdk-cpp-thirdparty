@@ -5,8 +5,8 @@ import sys
 
 class BoostConan(ConanFile):
     name = "Boost"
-    version = "1.65.1-05"
-    tag = "1.65.1"
+    version = "1.66.0"
+    tag = "1.66.0"
     license = "Boost Software License"
     url = "http://www.boost.org/"
     settings = "os", "compiler", "build_type", "arch"
