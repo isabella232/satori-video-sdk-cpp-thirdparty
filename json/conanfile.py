@@ -3,7 +3,7 @@ from conans import ConanFile, tools
 
 class JsonConan(ConanFile):
     name = "Json"
-    version = "2.1.1"
+    version = "3.0.0"
     license = "MIT"
     url = "https://github.com/nlohmann/json"
     # No settings/options are necessary, this is header only
