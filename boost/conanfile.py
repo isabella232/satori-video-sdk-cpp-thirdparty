@@ -2,10 +2,14 @@ from conans import ConanFile, AutoToolsBuildEnvironment, tools
 import os
 import sys
 
+USER_CONFIG_JAM = """
+using {toolset} : : {cxx} ;
+"""
+
 
 class BoostConan(ConanFile):
     name = "Boost"
-    version = "1.66.0"
+    version = "1.66.0-01"
     tag = "1.66.0"
     license = "Boost Software License"
     url = "http://www.boost.org/"
@@ -36,44 +40,55 @@ class BoostConan(ConanFile):
         os.unlink(zip_name)
 
     def bootstrap(self):
-        command = "bootstrap" if self.settings.os == "Windows" else "./bootstrap.sh"
+        boostrap_command = "bootstrap" if self.settings.os == "Windows" else "./bootstrap.sh"
+        build_folder = "%s/tools/build" % (self.FOLDER_NAME)
+        b2_path = os.path.abspath(os.curdir)
+
+        self.output.info("Boostrapping Boost.Build")
+        self.run("cd %s && %s" % (build_folder, boostrap_command))
+        self.output.info("Building Boost.Build")
+        self.run("cd %s && %s" %
+                 (build_folder, "./b2 install --prefix=%s/b2" % b2_path))
+
+    def toolset(self):
+        if self.settings.os == "Linux":
+            if "clang" in self.settings.compiler:
+                return "clang"
+            else:
+                return self.settings.compiler
+
+    def build(self):
+        self.bootstrap()
         flags = []
+
+        libraries = []
+        if self.options.with_program_options:
+            libraries.append("program_options")
+        if self.options.with_system:
+            libraries.append("system")
+        if self.options.with_regex:
+            libraries.append("regex")
+        if self.options.with_timer:
+            libraries.append("timer")
+        flags.extend(["--with-%s" % lib for lib in libraries])
+
+        toolset = self.toolset()
+        flags.append("toolset=%s" % toolset)
+        if "CXX" in os.environ:
+            tools.save("%s/tools/build/src/user-config.jam" %
+                       self.FOLDER_NAME, USER_CONFIG_JAM.format(
+                           toolset=toolset,
+                           cxx=os.environ["CXX"]
+                       ))
+
         flags.append("link=%s" %
                      ("static" if not self.options.shared else "shared"))
         flags.append("address-model=%s" %
                      ("32" if self.settings.arch == "x86" else "64"))
 
-        libraries = []
-        if (self.options.with_program_options):
-            libraries.append("program_options")
-        if (self.options.with_system):
-            libraries.append("system")
-        if (self.options.with_regex):
-            libraries.append("regex")
-        if (self.options.with_timer):
-            libraries.append("timer")
-        flags.append("--with-libraries=%s" % ",".join(libraries))
-        
-        if self.settings.os == "Linux":
-            if "clang" in self.settings.compiler:
-                flags.append("--with-toolset=clang")
-            else:
-                flags.append("--with-toolset=%s" % self.settings.compiler)
-                
-
-        self.output.info("Boostrapping %s %s" % (self.FOLDER_NAME, flags))
-
-        self.run("cd %s && %s %s" %
-                 (self.FOLDER_NAME, command, " ".join(flags)))
-
-    def build(self):
         env_build = AutoToolsBuildEnvironment(self)
         env_vars = dict(env_build.vars)
-        self.output.info("build env: %s" % (env_vars))
-
-        self.bootstrap()
-
-        flags = []
+        self.output.info("build env: %s" % env_vars)
 
         cxxflags = [env_vars["CXXFLAGS"]]
         if self.options.fPIC:
@@ -89,7 +104,7 @@ class BoostConan(ConanFile):
         flags.append('linkflags="%s"' % " ".join(ldflags))
 
         self.output.info("Building %s %s" % (self.FOLDER_NAME, flags))
-        self.run("cd %s && ./b2 %s -j%s" %
+        self.run("cd %s && ../b2/bin/b2 %s -j%s stage" %
                  (self.FOLDER_NAME, " ".join(flags), tools.cpu_count()))
 
     def package(self):
@@ -112,13 +127,13 @@ class BoostConan(ConanFile):
 
     def package_info(self):
         libs = []
-        if (self.options.with_program_options):
+        if self.options.with_program_options:
             libs.append("boost_program_options")
-        if (self.options.with_system):
+        if self.options.with_system:
             libs.append("boost_system")
-        if (self.options.with_regex):
+        if self.options.with_regex:
             libs.append("boost_regex")
-        if (self.options.with_timer):
+        if self.options.with_timer:
             libs.append("boost_timer")
             libs.append("boost_chrono")
         self.cpp_info.libs = libs
