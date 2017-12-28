@@ -9,7 +9,7 @@ using {toolset} : : {cxx} ;
 
 class BoostConan(ConanFile):
     name = "Boost"
-    version = "1.66.0-01"
+    version = "1.66.0-02"
     tag = "1.66.0"
     license = "Boost Software License"
     url = "http://www.boost.org/"
@@ -73,13 +73,14 @@ class BoostConan(ConanFile):
         flags.extend(["--with-%s" % lib for lib in libraries])
 
         toolset = self.toolset()
-        flags.append("toolset=%s" % toolset)
-        if "CXX" in os.environ:
-            tools.save("%s/tools/build/src/user-config.jam" %
-                       self.FOLDER_NAME, USER_CONFIG_JAM.format(
-                           toolset=toolset,
-                           cxx=os.environ["CXX"]
-                       ))
+        if toolset is not None:
+            flags.append("toolset=%s" % toolset)
+            if "CXX" in os.environ:
+                tools.save("%s/tools/build/src/user-config.jam" %
+                           self.FOLDER_NAME, USER_CONFIG_JAM.format(
+                               toolset=toolset,
+                               cxx=os.environ["CXX"]
+                           ))
 
         flags.append("link=%s" %
                      ("static" if not self.options.shared else "shared"))
