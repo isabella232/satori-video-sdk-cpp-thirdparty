@@ -5,8 +5,8 @@ import sys
 
 class TensorflowConan(ConanFile):
     name = "Tensorflow"
-    version = "1.4.1"
-    revision = "v1.4.1"
+    version = "1.4.0-rc0"
+    revision = "v1.4.0-rc0"
     license = "<Put the package license here>"
     url = "<Package recipe repository url here, for issues about the package>"
     settings = "os", "compiler", "arch"
