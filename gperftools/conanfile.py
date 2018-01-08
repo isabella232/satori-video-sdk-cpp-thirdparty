@@ -5,8 +5,8 @@ import os
 
 class GperftoolsConan(ConanFile):
     name = "GPerfTools"
-    version = "2017.10.16"
-    tag = "6e3a702fb9c86eb450f22b326ecbceef4b0d6604"
+    version = "2.6.3"
+    tag = "gperftools-2.6.3"
     license = "BSD-3-Clause"
     url = "https://github.com/gperftools/gperftools"
     settings = "os", "compiler", "build_type", "arch"
