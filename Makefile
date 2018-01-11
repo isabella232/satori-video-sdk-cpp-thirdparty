@@ -21,7 +21,7 @@ CONAN_LOGIN_COMMAND=conan remote remove video; conan remote add video ${CONAN_SE
                     conan user --remote video -p ${CONAN_PASSWORD} ${CONAN_USER}
 CONAN_LOGIN_COMMAND2=conan remote remove video; conan remote add video ${CONAN_SERVER2} && \
                     conan user --remote video -p ${CONAN_PASSWORD} ${CONAN_USER}
-					
+
 CONAN_UPLOAD_COMMAND=conan upload --confirm --force --remote video ${CONAN_UPLOAD_OPTIONS} '*@satorivideo/*'
 CONAN_UPLOAD_COMMAND2=conan upload --confirm --force --remote video ${CONAN_UPLOAD_OPTIONS2} '*@satorivideo/*'
 
@@ -41,8 +41,8 @@ all: ${LIBS}
 
 # Builds and uploads the package
 ${LIBS}: DOCKER_BUILDER_IMAGE=gcr.io/kubernetes-live/video/video-thirdparty-$@
-${LIBS}: CONAN_CREATE_COMMAND=conan create satorivideo/master ${COMMON_CONAN_CREATE_OPTIONS} ${CONAN_CREATE_OPTIONS_$@}
-${LIBS}: 
+${LIBS}: CONAN_CREATE_COMMAND=conan create . satorivideo/master ${COMMON_CONAN_CREATE_OPTIONS} ${CONAN_CREATE_OPTIONS_$@}
+${LIBS}:
 > docker build ${DOCKER_BUILD_OPTIONS} \
 	--build-arg LIB=$@ \
 	--build-arg CONAN_LOGIN_COMMAND="${CONAN_LOGIN_COMMAND}" \
@@ -51,4 +51,3 @@ ${LIBS}:
 > docker run --rm ${DOCKER_BUILDER_IMAGE} bash -ceux "${CONAN_LOGIN_COMMAND} && ${CONAN_UPLOAD_COMMAND}"
 > docker run --rm ${DOCKER_BUILDER_IMAGE} bash -ceux "${CONAN_LOGIN_COMMAND2} && ${CONAN_UPLOAD_COMMAND2}"
 > docker rmi ${DOCKER_BUILDER_IMAGE}
-

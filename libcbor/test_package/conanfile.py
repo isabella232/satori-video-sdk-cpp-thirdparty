@@ -13,7 +13,7 @@ class LibcborTestConan(ConanFile):
         self.output.info("conan settings: %s" % self.settings.values_list)
 
         cmake = CMake(self)
-        cmake.configure(source_dir=self.conanfile_directory, build_dir="./", defs={
+        cmake.configure(build_dir="./", defs={
             "CMAKE_VERBOSE_MAKEFILE": "ON"
         })
         cmake.build()
