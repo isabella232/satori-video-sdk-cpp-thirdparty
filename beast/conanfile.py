@@ -4,13 +4,13 @@ from conans import ConanFile
 class BeastConan(ConanFile):
     name = "Beast"
     
-    version = "123"
-    tag = "885b9dfe0b6bfc7be6a9158d60f0760aa43e748a"
+    version = "1.66.0"
+    tag = "boost-1.66.0"
     git_url = "https://github.com/boostorg/beast.git"
 
     license = "MIT"
     url = "https://github.com/boostorg/beast"
-    requires = "Boost/1.65.1-05@satorivideo/master"
+    requires = "Boost/1.66.0-03@satorivideo/master"
 
     def source(self):
         self.run("git clone %s " % self.git_url)
