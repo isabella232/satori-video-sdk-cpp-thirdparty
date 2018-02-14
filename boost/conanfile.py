@@ -9,7 +9,7 @@ using {toolset} : : {cxx} ;
 
 class BoostConan(ConanFile):
     name = "Boost"
-    version = "1.66.0-02"
+    version = "1.66.0-03"
     tag = "1.66.0"
     license = "Boost Software License"
     url = "http://www.boost.org/"
@@ -32,8 +32,9 @@ class BoostConan(ConanFile):
 
     def source(self):
         zip_name = "%s.zip" % self.FOLDER_NAME if sys.platform == "win32" else "%s.tar.gz" % self.FOLDER_NAME
-        url = "http://sourceforge.net/projects/boost/files/boost/%s/%s/download" % (
-            self.tag, zip_name)
+        tag_underscore = self.tag.replace('.', '_')
+        url = "https://dl.bintray.com/boostorg/release/%s/source/boost_%s.tar.gz" % (
+            self.tag, tag_underscore)
         self.output.info("Downloading %s" % url)
         tools.download(url, zip_name)
         tools.unzip(zip_name, ".")
