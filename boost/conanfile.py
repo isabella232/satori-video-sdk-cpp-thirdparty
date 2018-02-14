@@ -9,7 +9,7 @@ using {toolset} : : {cxx} ;
 
 class BoostConan(ConanFile):
     name = "Boost"
-    version = "1.66.0-03"
+    version = "1.66.0-04"
     tag = "1.66.0"
     license = "Boost Software License"
     url = "http://www.boost.org/"
@@ -128,7 +128,7 @@ class BoostConan(ConanFile):
                       src="%s/stage/lib" % self.FOLDER_NAME)
 
     def package_info(self):
-        libs = []
+        libs = ["pthread"]
         if self.options.with_program_options:
             libs.append("boost_program_options")
         if self.options.with_system:
