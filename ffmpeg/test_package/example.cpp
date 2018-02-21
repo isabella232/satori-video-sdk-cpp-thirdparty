@@ -1,9 +1,11 @@
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
 extern "C" {
 #include <libavcodec/avcodec.h>
+#include <libavfilter/avfilter.h>
 #include <libavformat/avformat.h>
 }
 
@@ -11,6 +13,7 @@ int main() {
   std::cout << "*** Running ffmpeg library check\n";
 
   avcodec_register_all();
+  avfilter_register_all();
   av_register_all();
 
   AVCodec *codec = av_codec_next(nullptr);
@@ -69,6 +72,26 @@ int main() {
 
     std::cout << "*** Found input format '" << f << "'\n";
   }
+
+  const std::vector<std::string> expected_filters{"hflip", "vflip", "rotate",
+                                                  "scale", "transpose"};
+  for (const auto &f : expected_filters) {
+    if (!avfilter_get_by_name(f.c_str())) {
+      std::cerr << "*** Didn't find filter '" << f << "'\n";
+      return 1;
+    }
+    std::cout << "*** Found filter '" << f << "'\n";
+  }
+
+  std::ostringstream filters_buffer;
+  const AVFilter *filter{nullptr};
+  while ((filter = avfilter_next(filter)) != nullptr) {
+    if (filters_buffer.tellp() > 0) {
+      filters_buffer << ", ";
+    }
+    filters_buffer << filter->name;
+  }
+  std::cout << "*** Got filters: " << filters_buffer.str() << "\n";
 
   std::cout << "*** FFmpeg library check succeeded\n";
   return 0;

@@ -48,7 +48,7 @@ index 47a1df0..7b0cb50 100644
 
 class FfmpegConan(ConanFile):
     name = "Ffmpeg"
-    version = "3.4.0"
+    version = "3.4.0_01"
     source_version = "n3.4"
     license = "LGPL"
     url = "https://ffmpeg.org/"
@@ -99,6 +99,7 @@ class FfmpegConan(ConanFile):
         # enable libraries
         configure_args.append("--enable-avcodec")
         configure_args.append("--enable-avdevice")
+        configure_args.append("--enable-avfilter")
         configure_args.append("--enable-avformat")
         configure_args.append("--enable-avutil")
         configure_args.append("--enable-swscale")
@@ -138,6 +139,10 @@ class FfmpegConan(ConanFile):
         configure_args.append("--enable-parser=mjpeg")
         configure_args.append("--enable-parser=vp8")
         configure_args.append("--enable-parser=vp9")
+
+        # filters
+        filters = self.get_video_filters()
+        configure_args.append("--enable-filter=" + ','.join(filters))
 
         if self.options.emcc:
             if not self.options.shared:
@@ -180,14 +185,27 @@ class FfmpegConan(ConanFile):
         self.copy("*", src="install")
 
     def package_info(self):
-        self.cpp_info.libs = ["swscale", "avdevice",
+        self.cpp_info.libs = ["avdevice", "avfilter", "swscale",
                               "avformat", "avcodec", "avutil",
                               "pthread", "dl"]
 
         if self.settings.os == "Macos":
             self.cpp_info.libs.append("iconv")
             self.cpp_info.exelinkflags.append("-framework AVFoundation")
+            self.cpp_info.exelinkflags.append("-framework AppKit")
             self.cpp_info.exelinkflags.append("-framework CoreGraphics")
             self.cpp_info.exelinkflags.append("-framework CoreMedia")
             self.cpp_info.exelinkflags.append("-framework Foundation")
+            self.cpp_info.exelinkflags.append("-framework OpenGL")
             self.cpp_info.exelinkflags.append("-framework QuartzCore")
+
+    def get_video_filters(self):
+        self.output.info("Extracting only video filters")
+        video_patterns = ["vf);", "vsrc);", "vsink);", "avf);", "avsrc);"]
+        content = tools.load("FFmpeg/libavfilter/allfilters.c")
+        video_filters = []
+        for line in content.splitlines():
+            if any(p in line for p in video_patterns):
+                parts = line.split(",")
+                video_filters.append(parts[1].strip())
+        return video_filters
