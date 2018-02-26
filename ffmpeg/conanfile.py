@@ -43,12 +43,26 @@ index 47a1df0..7b0cb50 100644
 -#include "libavutil/log2_tab.c"
 +#define ff_log2_tab ff_log2_tab_swscale
 +# include "libavutil/log2_tab.c"
+diff --git a/libavformat/golomb_tab.c b/libavformat/golomb_tab.c
+index 063fae3647..384dec8557 100644
+--- a/libavformat/golomb_tab.c
++++ b/libavformat/golomb_tab.c
+@@ -1 +1 @@
+-#include "libavcodec/golomb.c"
++#define ff_golomb_vlc_len ff_golomb_vlc_len_avformat
+diff --git a/libavformat/log2_tab.c b/libavformat/log2_tab.c
+index 47a1df03b7..0115bbe2ff 100644
+--- a/libavformat/log2_tab.c
++++ b/libavformat/log2_tab.c
+@@ -1 +1 @@
+-#include "libavutil/log2_tab.c"
++#define ff_log2_tab ff_log2_tab_avformat
 """
 
 
 class FfmpegConan(ConanFile):
     name = "Ffmpeg"
-    version = "3.4.0_01"
+    version = "3.4.0_02"
     source_version = "n3.4"
     license = "LGPL"
     url = "https://ffmpeg.org/"
