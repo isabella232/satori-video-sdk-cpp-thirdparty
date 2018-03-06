@@ -9,7 +9,7 @@ using {toolset} : : {cxx} ;
 
 class BoostConan(ConanFile):
     name = "Boost"
-    version = "1.66.0-04"
+    version = "1.66.0-05"
     tag = "1.66.0"
     license = "Boost Software License"
     url = "http://www.boost.org/"
@@ -21,13 +21,15 @@ class BoostConan(ConanFile):
         "with_program_options": [True, False],
         "with_system": [True, False],
         "with_regex": [True, False],
-        "with_timer": [True, False]}
+        "with_timer": [True, False],
+        "with_filesystem": [True, False]}
     default_options = "shared=False", \
         "fPIC=False", \
         "with_program_options=True", \
         "with_system=True", \
         "with_regex=True", \
-        "with_timer=True"
+        "with_timer=True", \
+        "with_filesystem=True"
     FOLDER_NAME = "boost_%s" % tag.replace(".", "_")
 
     def source(self):
@@ -71,6 +73,8 @@ class BoostConan(ConanFile):
             libraries.append("regex")
         if self.options.with_timer:
             libraries.append("timer")
+        if self.options.with_filesystem:
+            libraries.append("filesystem")
         flags.extend(["--with-%s" % lib for lib in libraries])
 
         toolset = self.toolset()
@@ -138,4 +142,6 @@ class BoostConan(ConanFile):
         if self.options.with_timer:
             libs.append("boost_timer")
             libs.append("boost_chrono")
+        if self.options.with_filesystem:
+            libs.append("boost_filesystem")
         self.cpp_info.libs = libs
