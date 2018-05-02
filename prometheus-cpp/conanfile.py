@@ -1,26 +1,23 @@
-from conans import ConanFile, CMake, tools
+from conans import ConanFile, CMake
 import os
 
 
 class PrometheuscppConan(ConanFile):
     name = "PrometheusCpp"
-    version = "2017.12.13"
-    license = "<Put the package license here>"
+    version = "2018.04.23"
+    tag = "73ac260f489300dc54d743e595d310de7eb255fa"
+    license = "MIT"
     url = "https://github.com/jupp0r/prometheus-cpp"
-    tag = "a5d981dab82ad6b90f78141eb189694d69c3fe0f"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = "shared=False", "fPIC=False"
     generators = "cmake"
-    requires = "Protobuf/3.4.1@satorivideo/master"
 
-    def requirements(self):
-        self.options["Protobuf"].shared = self.options.shared
-        self.options["Protobuf"].fPIC = self.options.fPIC
 
     def source(self):
         self.run("git clone --recursive https://github.com/jupp0r/prometheus-cpp.git")
         self.run("cd prometheus-cpp && git checkout %s" % self.tag)
+
 
     def build(self):
         if self.options.shared:
@@ -28,32 +25,25 @@ class PrometheuscppConan(ConanFile):
 
         cmake = CMake(self)
 
-        cmake.definitions["CMAKE_LIBRARY_PATH"] = os.path.join(
-            self.deps_cpp_info["Protobuf"].rootpath,
-            self.deps_cpp_info["Protobuf"].libdirs[0])
+        cmake_options = []
+        cmake_options.append("-GNinja")
+        cmake_options.append("-DCMAKE_VERBOSE_MAKEFILE=ON")
+        cmake_options.append("-DCMAKE_BUILD_TYPE=%s" %
+                             self.settings.build_type)
+        cmake_options.append("-DCMAKE_INSTALL_PREFIX=install")
+        if self.options.fPIC:
+            cmake_options.append("-DCMAKE_C_FLAGS=-fPIC")
+            cmake_options.append("-DCMAKE_CXX_FLAGS=-fPIC")
 
-        cmake.definitions["Protobuf_INCLUDE_DIR"] = os.path.join(
-            self.deps_cpp_info["Protobuf"].rootpath,
-            self.deps_cpp_info["Protobuf"].includedirs[0])
+        cmake_command = ('cmake prometheus-cpp %s %s' %
+                         (cmake.command_line, " ".join(cmake_options)))
+        self.output.info(cmake_command)
+        self.run(cmake_command)
+        self.run("cmake --build . %s --target install" % cmake.build_config)
 
-        cmake.definitions["Protobuf_LIBRARIES"] = os.path.join(
-            self.deps_cpp_info["Protobuf"].rootpath,
-            self.deps_cpp_info["Protobuf"].libdirs[0],
-            "libprotobuf.a")
-
-        cmake.definitions["Protobuf_PROTOC_EXECUTABLE"] = os.path.join(
-            self.deps_cpp_info["Protobuf"].rootpath,
-            self.deps_cpp_info["Protobuf"].bindirs[0],
-            "protoc")
-
-        self.output.warn("Configuring: cmake %s" % cmake.command_line)
-        cmake.configure(source_dir="prometheus-cpp", build_dir="./")
-        cmake.build()
 
     def package(self):
         self.copy("*", dst="include", src="prometheus-cpp/include")
-        self.copy("*.h", dst="include",
-                  src="lib/cpp/")
 
         if self.options.shared:
             self.copy("*prometheus*.dll", dst="bin", keep_path=False)
@@ -62,6 +52,7 @@ class PrometheuscppConan(ConanFile):
 
         if not self.options.shared:
             self.copy("*prometheus*.a", dst="lib", keep_path=False)
+
 
     def package_info(self):
         self.cpp_info.libs = ["prometheus-cpp"]
