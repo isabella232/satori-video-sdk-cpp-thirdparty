@@ -1,9 +1,10 @@
+import os
 from conans import ConanFile, CMake, tools
 
 
 class LibcborConan(ConanFile):
     name = "Libcbor"
-    version = "0.5.0"
+    version = "0.5.0-40"
     license = "MIT"
     url = "https://github.com/PJK/libcbor"
     settings = "os", "compiler", "build_type", "arch"
@@ -27,8 +28,15 @@ class LibcborConan(ConanFile):
         cmake_options.append("-DBUILD_SHARED_LIBS=%s" %
                              ("ON" if self.options.shared else "OFF"))
         if self.options.fPIC:
-            cmake_options.append("-DCMAKE_C_FLAGS=-fPIC")
-            cmake_options.append("-DCMAKE_CXX_FLAGS=-fPIC")
+            if "CFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_C_FLAGS=\"-fPIC %s\"" % os.environ["CFLAGS"])
+            if "CXXFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_CXX_FLAGS=\"-fPIC %s\"" % os.environ["CXXFLAGS"])
+        else:
+            if "CFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_C_FLAGS=\"%s\"" % os.environ["CFLAGS"])
+            if "CXXFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_CXX_FLAGS=\"%s\"" % os.environ["CXXFLAGS"])
 
         cmake_command = ('cmake libcbor %s %s' %
                          (cmake.command_line, " ".join(cmake_options)))

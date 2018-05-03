@@ -4,7 +4,7 @@ import os
 
 class ProtobufConan(ConanFile):
     name = "Protobuf"
-    version = "3.4.1"
+    version = "3.4.1-40"
     license = "<Put the package license here>"
     url = "https://github.com/google/protobuf.git"
     settings = "os", "compiler", "build_type", "arch"

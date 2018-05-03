@@ -9,7 +9,7 @@ using {toolset} : : {cxx} ;
 
 class BoostConan(ConanFile):
     name = "Boost"
-    version = "1.66.0-05"
+    version = "1.66.0-40"
     tag = "1.66.0"
     license = "Boost Software License"
     url = "http://www.boost.org/"

@@ -5,7 +5,7 @@ import os
 
 class GperftoolsConan(ConanFile):
     name = "GPerfTools"
-    version = "2.6.3"
+    version = "2.6.3-40"
     tag = "gperftools-2.6.3"
     license = "BSD-3-Clause"
     url = "https://github.com/gperftools/gperftools"

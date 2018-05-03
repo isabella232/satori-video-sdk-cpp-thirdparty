@@ -3,7 +3,7 @@ from conans import ConanFile
 
 class RapidjsonConan(ConanFile):
     name = "Rapidjson"
-    version = "1.1.0"
+    version = "1.1.0-40"
     license = "MIT"
     url = "https://github.com/miloyip/rapidjson.git"
 

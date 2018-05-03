@@ -3,7 +3,7 @@ from conans import ConanFile
 
 class GslConan(ConanFile):
     name = "Gsl"
-    version = "20017.07.27"
+    version = "20017.07.27-40"
     tag = "2b8d20425e990c5a3e9a0158e2cedacbcdf9e522"
     license = "MIT"
     url = "https://github.com/Microsoft/GSL"

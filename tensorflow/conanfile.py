@@ -5,7 +5,7 @@ import sys
 
 class TensorflowConan(ConanFile):
     name = "Tensorflow"
-    version = "1.4.1"
+    version = "1.4.1-40"
     revision = "v1.4.1"
     license = "<Put the package license here>"
     url = "<Package recipe repository url here, for issues about the package>"
@@ -22,10 +22,17 @@ class TensorflowConan(ConanFile):
         if not self.options.shared:
             raise Exception("static build not supported")
 
+        cflags = "-march=native"
+        if "CFLAGS" in os.environ:
+            cflags = os.environ["CFLAGS"]
+        cxxflags = ""
+        if "CXXFLAGS" in os.environ:
+            cxxflags = os.environ["CXXFLAGS"]
+
         env = {
             "PYTHON_BIN_PATH": sys.executable,
             "USE_DEFAULT_PYTHON_LIB_PATH": "1",
-            "CC_OPT_FLAGS": "-march=native",
+            "CC_OPT_FLAGS": cflags,
             "TF_NEED_MKL": "0",
             "TF_NEED_GCP": "0",
             "TF_NEED_HDFS": "0",
@@ -59,9 +66,9 @@ class TensorflowConan(ConanFile):
 
         if self.settings.compiler == "gcc":
             if self.settings.compiler.libcxx == "libstdc++":
-                bazel_opts.append("--cxxopt=\"-D_GLIBCXX_USE_CXX11_ABI=0\"")
+                bazel_opts.append("--cxxopt=\"-D_GLIBCXX_USE_CXX11_ABI=0 %s\"" % cxxflags)
             else:
-                bazel_opts.append("--cxxopt=\"-D_GLIBCXX_USE_CXX11_ABI=1\"")
+                bazel_opts.append("--cxxopt=\"-D_GLIBCXX_USE_CXX11_ABI=1 %s\"" % cxxflags)
 
         with tools.environment_append(env):
             self.output.info("Configuring build environment: %s" % env)

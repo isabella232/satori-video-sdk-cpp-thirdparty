@@ -4,7 +4,7 @@ import os
 
 class LibvpxConan(ConanFile):
     name = "Libvpx"
-    version = "1.6.1"
+    version = "1.6.1-40"
     license = "custom"
     url = "https://chromium.googlesource.com/webm/libvpx"
     settings = "os", "compiler", "build_type", "arch"

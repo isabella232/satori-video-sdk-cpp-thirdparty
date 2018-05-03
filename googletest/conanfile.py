@@ -3,7 +3,7 @@ from conans import ConanFile, CMake, tools
 
 class GoogletestConan(ConanFile):
     name = "Googletest"
-    version = "1.8.0"
+    version = "1.8.0-40"
     license = "BSD 3"
     url = "https://github.com/google/googletest"
     settings = "os", "compiler", "build_type", "arch"
@@ -27,8 +27,15 @@ class GoogletestConan(ConanFile):
                              ("ON" if self.options.shared else "OFF"))
         ## cmake_options.append("-DCMAKE_INSTALL_PREFIX=install")
         if self.options.fPIC:
-            cmake_options.append("-DCMAKE_C_FLAGS=-fPIC")
-            cmake_options.append("-DCMAKE_CXX_FLAGS=-fPIC")
+            if "CFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_C_FLAGS=\"-fPIC %s\"" % os.environ["CFLAGS"])
+            if "CXXFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_CXX_FLAGS=\"-fPIC %s\"" % os.environ["CXXFLAGS"])
+        else:
+            if "CFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_C_FLAGS=\"%s\"" % os.environ["CFLAGS"])
+            if "CXXFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_CXX_FLAGS=\"%s\"" % os.environ["CXXFLAGS"])
 
         cmake_command = ('cmake googletest %s %s' %
                          (cmake.command_line, " ".join(cmake_options)))

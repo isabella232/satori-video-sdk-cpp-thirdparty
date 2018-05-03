@@ -62,7 +62,7 @@ index 47a1df03b7..0115bbe2ff 100644
 
 class FfmpegConan(ConanFile):
     name = "Ffmpeg"
-    version = "3.4.0_02"
+    version = "3.4.0-40"
     source_version = "n3.4"
     license = "LGPL"
     url = "https://ffmpeg.org/"
@@ -70,7 +70,7 @@ class FfmpegConan(ConanFile):
     options = {"shared": [True, False], "fPIC": [
         True, False], "emcc": [True, False]}
     default_options = "shared=False", "fPIC=False", "emcc=False"
-    requires = "Libvpx/1.6.1@satorivideo/master", "Zlib/1.2.11@satorivideo/master", "Bzip2/1.0.6@satorivideo/master"
+    requires = "Libvpx/1.6.1-40@satorivideo/master", "Zlib/1.2.11-40@satorivideo/master", "Bzip2/1.0.6-40@satorivideo/master"
 
     def requirements(self):
         self.options["Libvpx"].shared = self.options.shared
@@ -182,6 +182,12 @@ class FfmpegConan(ConanFile):
             configure_args.append("--cc=%s" % os.environ["CC"])
         if "CXX" in os.environ:
             configure_args.append("--cxx=%s" % os.environ["CXX"])
+        if "CFLAGS" in os.environ:
+            configure_args.append("--extra-cflags=%s" % os.environ["CFLAGS"])
+        if "CXXFLAGS" in os.environ:
+            configure_args.append("--extra-cxxflags=%s" % os.environ["CXXFLAGS"])
+        if "LDFLAGS" in os.environ:
+            configure_args.append("--extra-ldflags=%s" % os.environ["LDFLAGS"])
 
         env_build = AutoToolsBuildEnvironment(self)
         env_vars = dict(env_build.vars)

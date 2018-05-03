@@ -3,7 +3,7 @@ from conans import ConanFile, CMake, tools
 
 class DarknetConan(ConanFile):
     name = "Darknet"
-    version = "0.1.1"
+    version = "0.1.1-40"
     # this packet has no releases, it is known stable commit
     revision = "7a223d8591e0a497889b9fce9bc43ac4bd3969fd"
     license = "MIT"
@@ -24,7 +24,7 @@ class DarknetConan(ConanFile):
             tools.replace_in_file("darknet/Makefile", "OPENMP=0", "OPENMP=1")
 
     def build(self):
-        self.run("make -C darknet")
+        self.run("make -e -C darknet")
 
     def package(self):
         self.copy("*.h", dst="include", src="darknet/include")

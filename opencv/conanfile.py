@@ -4,7 +4,7 @@ import os
 
 class OpencvConan(ConanFile):
     name = "Opencv"
-    version = "3.4.0"
+    version = "3.4.0-40"
     source_version = "3.4.0"
     license = "3-clause BSD License"
     url = "http://opencv.org/"
@@ -59,8 +59,16 @@ class OpencvConan(ConanFile):
                              ("ON" if self.options.shared else "OFF"))
         cmake_options.append("-DOPENCV_EXTRA_MODULES_PATH=opencv_contrib/modules")
         if self.options.fPIC:
-            cmake_options.append("-DCMAKE_C_FLAGS=-fPIC")
-            cmake_options.append("-DCMAKE_CXX_FLAGS=-fPIC")
+            if "CFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_C_FLAGS=\"-fPIC %s\"" % os.environ["CFLAGS"])
+            if "CXXFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_CXX_FLAGS=\"-fPIC %s\"" % os.environ["CXXFLAGS"])
+        else:
+            if "CFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_C_FLAGS=\"%s\"" % os.environ["CFLAGS"])
+            if "CXXFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_CXX_FLAGS=\"%s\"" % os.environ["CXXFLAGS"])
+
         cmake_options.append("-DWITH_IPP=%s" %
                              ("ON" if self.options.with_ipp else "OFF"))
 

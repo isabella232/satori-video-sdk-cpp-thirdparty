@@ -24,7 +24,7 @@ MAC_SONAME_PATCH = """
 
 class Bzip2Conan(ConanFile):
     name = "Bzip2"
-    version = "1.0.6"
+    version = "1.0.6-40"
     license = "BSD-style"
     url = "http://www.bzip.org/"
     settings = "os", "compiler", "build_type", "arch"
@@ -59,6 +59,9 @@ class Bzip2Conan(ConanFile):
 
         env_build = AutoToolsBuildEnvironment(self)
         env_vars = dict(env_build.vars)
+        cflags = [env_vars["CFLAGS"]]
+        ldflags = [env_vars["LDFLAGS"]]
+        env_build.flags.append(cflags)
         with tools.environment_append(env_vars):
             self.output.info("Build environment: %s" % env_vars)
             self.run("cd %s && make -j%s install PREFIX=%s" %

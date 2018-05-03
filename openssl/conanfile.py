@@ -4,7 +4,7 @@ import os
 
 class OpensslConan(ConanFile):
     name = "Openssl"
-    version = "1.1.0g"
+    version = "1.1.0g-40"
     license = "OpenSSL License"
     url = "https://www.openssl.org/"
     settings = "os", "compiler", "build_type", "arch"

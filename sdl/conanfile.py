@@ -4,7 +4,7 @@ import os
 
 class SdlConan(ConanFile):
     name = "SDL"
-    version = "2.0.5"
+    version = "2.0.5-40"
     license = "zlib"
     url = "https://www.libsdl.org/index.php"
     settings = "os", "compiler", "build_type", "arch"
@@ -34,8 +34,15 @@ class SdlConan(ConanFile):
                              ("ON" if self.options.shared else "OFF"))
         cmake_options.append("-DCMAKE_INSTALL_PREFIX=install")
         if self.options.fPIC:
-            cmake_options.append("-DCMAKE_C_FLAGS=-fPIC")
-            cmake_options.append("-DCMAKE_CXX_FLAGS=-fPIC")
+            if "CFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_C_FLAGS=\"-fPIC %s\"" % os.environ["CFLAGS"])
+            if "CXXFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_CXX_FLAGS=\"-fPIC %s\"" % os.environ["CXXFLAGS"])
+        else:
+            if "CFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_C_FLAGS=\"%s\"" % os.environ["CFLAGS"])
+            if "CXXFLAGS" in os.environ:
+                cmake_options.append("-DCMAKE_CXX_FLAGS=\"%s\"" % os.environ["CXXFLAGS"])
 
         cmake_command = ('cmake %s %s %s' %
                          (self.folder_name, cmake.command_line, " ".join(cmake_options)))

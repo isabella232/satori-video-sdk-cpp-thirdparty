@@ -3,7 +3,7 @@ from conans import ConanFile
 
 class LoguruConan(ConanFile):
     name = "Loguru"
-    version = "1.5.0"
+    version = "1.5.0-40"
     license = "custom"
     url = "https://github.com/emilk/loguru"
     # No settings/options are necessary, this is header only
