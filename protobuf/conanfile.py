@@ -5,6 +5,7 @@ import os
 class ProtobufConan(ConanFile):
     name = "Protobuf"
     version = "3.4.1-40"
+    source_version = "3.4.1"
     license = "<Put the package license here>"
     url = "https://github.com/google/protobuf.git"
     settings = "os", "compiler", "build_type", "arch"
@@ -14,7 +15,7 @@ class ProtobufConan(ConanFile):
 
     def source(self):
         self.run(
-            "git clone  --depth 1 -b v%s https://github.com/google/protobuf.git" % self.version)
+            "git clone  --depth 1 -b v%s https://github.com/google/protobuf.git" % self.source_version)
 
     def build(self):
         configure_args = []

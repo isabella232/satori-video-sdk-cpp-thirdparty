@@ -5,6 +5,7 @@ from conans import ConanFile, CMake
 class ZlibConan(ConanFile):
     name = "Zlib"
     version = "1.2.11-40"
+    source_version = "1.2.11"
     license = "BSD-like"
     url = "http://zlib.net/"
     settings = "os", "compiler", "build_type", "arch"
@@ -14,7 +15,7 @@ class ZlibConan(ConanFile):
     generators = "cmake"
 
     def source(self):
-        self.run("git clone -b v%s https://github.com/madler/zlib" % self.version)
+        self.run("git clone -b v%s https://github.com/madler/zlib" % self.source_version)
 
     def build(self):
         cmake = CMake(self)

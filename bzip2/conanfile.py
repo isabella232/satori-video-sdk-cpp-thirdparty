@@ -25,17 +25,18 @@ MAC_SONAME_PATCH = """
 class Bzip2Conan(ConanFile):
     name = "Bzip2"
     version = "1.0.6-40"
+    source_version = "1.0.6"
     license = "BSD-style"
     url = "http://www.bzip.org/"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False],
                "fPIC": [True, False]}
     default_options = "shared=False", "fPIC=False"
-    folder_name = "bzip2-%s" % version
+    folder_name = "bzip2-%s" % source_version
 
     def source(self):
         zip_name = "%s.tar.gz" % self.folder_name
-        url = "http://www.bzip.org/%s/%s" % (self.version, zip_name)
+        url = "http://www.bzip.org/%s/%s" % (self.source_version, zip_name)
         self.output.info("Downloading %s" % url)
         tools.download(url, zip_name)
         tools.unzip(zip_name, ".")

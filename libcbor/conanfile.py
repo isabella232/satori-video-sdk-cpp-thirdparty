@@ -5,6 +5,7 @@ from conans import ConanFile, CMake, tools
 class LibcborConan(ConanFile):
     name = "Libcbor"
     version = "0.5.0-40"
+    source_version = "0.5.0"
     license = "MIT"
     url = "https://github.com/PJK/libcbor"
     settings = "os", "compiler", "build_type", "arch"
@@ -15,7 +16,7 @@ class LibcborConan(ConanFile):
 
     def source(self):
         self.run(
-            "git clone --depth 1 --branch v%s https://github.com/PJK/libcbor.git" % self.version)
+            "git clone --depth 1 --branch v%s https://github.com/PJK/libcbor.git" % self.source_version)
         tools.replace_in_file("libcbor/CMakeLists.txt", "-flto", "")
 
     def build(self):

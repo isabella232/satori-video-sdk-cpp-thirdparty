@@ -5,13 +5,14 @@ import os
 class OpensslConan(ConanFile):
     name = "Openssl"
     version = "1.1.0g-40"
+    source_version = "1.1.0g"
     license = "OpenSSL License"
     url = "https://www.openssl.org/"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False],
                "fPIC": [True, False]}
     default_options = "shared=False", "fPIC=False"
-    folder_name = "openssl-%s" % version
+    folder_name = "openssl-%s" % source_version
 
     def source(self):
         zip_name = "%s.tar.gz" % self.folder_name

@@ -5,12 +5,13 @@ import os
 class SdlConan(ConanFile):
     name = "SDL"
     version = "2.0.5-40"
+    source_version = "2.0.5"
     license = "zlib"
     url = "https://www.libsdl.org/index.php"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = "shared=False", "fPIC=False"
-    folder_name = "SDL2-%s" % version
+    folder_name = "SDL2-%s" % source_version
 
     def source(self):
         zip_name = "%s.tar.gz" % self.folder_name

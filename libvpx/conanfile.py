@@ -5,6 +5,7 @@ import os
 class LibvpxConan(ConanFile):
     name = "Libvpx"
     version = "1.6.1-40"
+    source_version = "1.6.1"
     license = "custom"
     url = "https://chromium.googlesource.com/webm/libvpx"
     settings = "os", "compiler", "build_type", "arch"
@@ -14,7 +15,7 @@ class LibvpxConan(ConanFile):
 
     def source(self):
         self.run(
-            "git clone --depth 1 -b v%s https://chromium.googlesource.com/webm/libvpx" % (self.version))
+            "git clone --depth 1 -b v%s https://chromium.googlesource.com/webm/libvpx" % (self.source_version))
 
     def build(self):
         configure_args = []

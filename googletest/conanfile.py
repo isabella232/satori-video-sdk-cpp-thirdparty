@@ -4,6 +4,7 @@ from conans import ConanFile, CMake, tools
 class GoogletestConan(ConanFile):
     name = "Googletest"
     version = "1.8.0-40"
+    source_version = "1.8.0"
     license = "BSD 3"
     url = "https://github.com/google/googletest"
     settings = "os", "compiler", "build_type", "arch"
@@ -13,7 +14,7 @@ class GoogletestConan(ConanFile):
     generators = "cmake"
 
     def source(self):
-        self.run("git clone -b release-%s https://github.com/google/googletest" % self.version)
+        self.run("git clone -b release-%s https://github.com/google/googletest" % self.source_version)
 
     def build(self):
         cmake = CMake(self)
