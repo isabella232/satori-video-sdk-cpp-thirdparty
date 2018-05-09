@@ -32,7 +32,7 @@ class TensorflowConan(ConanFile):
         env = {
             "PYTHON_BIN_PATH": sys.executable,
             "USE_DEFAULT_PYTHON_LIB_PATH": "1",
-            "CC_OPT_FLAGS": cflags,
+            #"CC_OPT_FLAGS": cflags,
             "TF_NEED_MKL": "0",
             "TF_NEED_GCP": "0",
             "TF_NEED_HDFS": "0",
@@ -52,23 +52,25 @@ class TensorflowConan(ConanFile):
         # pclmulqdq ssse3 cx16 sse4_1 sse4_2 x2apic popcnt aes xsave avx f16c
         # rdrand hypervisor lahf_lm fsgsbase tsc_adjust smep erms xsaveopt
         # fma and avx2 not supported.
-        bazel_opts = ["-c opt",
+        bazel_opts = ["-c opt"]
                       # https://github.com/tensorflow/tensorflow/issues/7449
-                      "--copt=-mavx",
-                      "--copt=-msse4.2",
-                      "--copt=-msse4.1",
-                      "--copt=-msse3"]
+                      #"--copt=-mavx",
+                      #"--copt=-msse4.2",
+                      #"--copt=-msse4.1",
+                      #"--copt=-msse3"]
+        bazel_opts += ["--copt=" + i for i in filter(None, cflags.split(' '))]
+        bazel_opts += ["--cxxopt=" + i for i in filter(None, cxxflags.split(' '))]
 
         if self.settings.os == "Linux":
             env["TF_NEED_MKL"] = "1"
             env["TF_DOWNLOAD_MKL"] = "1"
             bazel_opts.append("--config=mkl")
 
-        if self.settings.compiler == "gcc":
-            if self.settings.compiler.libcxx == "libstdc++":
-                bazel_opts.append("--cxxopt=\"-D_GLIBCXX_USE_CXX11_ABI=0 %s\"" % cxxflags)
-            else:
-                bazel_opts.append("--cxxopt=\"-D_GLIBCXX_USE_CXX11_ABI=1 %s\"" % cxxflags)
+        #if self.settings.compiler == "gcc":
+        #    if self.settings.compiler.libcxx == "libstdc++":
+        #        bazel_opts.append("--cxxopt=\"-D_GLIBCXX_USE_CXX11_ABI=0 %s\"" % cxxflags)
+        #    else:
+        #        bazel_opts.append("--cxxopt=\"-D_GLIBCXX_USE_CXX11_ABI=1 %s\"" % cxxflags)
 
         with tools.environment_append(env):
             self.output.info("Configuring build environment: %s" % env)
