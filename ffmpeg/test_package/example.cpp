@@ -43,7 +43,7 @@ int main() {
     std::cout << "*** Found encoder '" << e << "'\n";
   }
 
-  std::vector<std::string> output_formats{"matroska"};
+  std::vector<std::string> output_formats{"matroska", "mp4"};
   for (const std::string &of : output_formats) {
     if (!av_guess_format(of.c_str(), nullptr, nullptr)) {
       std::cerr << "*** Didn't find output format '" << of << "'\n";

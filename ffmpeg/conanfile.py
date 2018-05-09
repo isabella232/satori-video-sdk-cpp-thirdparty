@@ -62,7 +62,7 @@ index 47a1df03b7..0115bbe2ff 100644
 
 class FfmpegConan(ConanFile):
     name = "Ffmpeg"
-    version = "3.4.0-40"
+    version = "3.4.0-41"
     source_version = "n3.4"
     license = "LGPL"
     url = "https://ffmpeg.org/"
@@ -140,6 +140,7 @@ class FfmpegConan(ConanFile):
         configure_args.append("--enable-demuxer=flv")
         configure_args.append("--enable-demuxer=mjpeg")
         configure_args.append("--enable-muxer=matroska")
+        configure_args.append("--enable-muxer=mp4")
 
         # protocols
         configure_args.append("--enable-protocol=file")
