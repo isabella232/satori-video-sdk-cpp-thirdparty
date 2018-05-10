@@ -62,7 +62,7 @@ index 47a1df03b7..0115bbe2ff 100644
 
 class FfmpegConan(ConanFile):
     name = "Ffmpeg"
-    version = "3.4.0-41"
+    version = "3.4.0-43"
     source_version = "n3.4"
     license = "LGPL"
     url = "https://ffmpeg.org/"
@@ -180,15 +180,15 @@ class FfmpegConan(ConanFile):
             configure_args.append("--disable-stripping")
 
         if "CC" in os.environ:
-            configure_args.append("--cc=%s" % os.environ["CC"])
+            configure_args.append("--cc=\"%s\"" % os.environ["CC"])
         if "CXX" in os.environ:
-            configure_args.append("--cxx=%s" % os.environ["CXX"])
+            configure_args.append("--cxx=\"%s\"" % os.environ["CXX"])
         if "CFLAGS" in os.environ:
-            configure_args.append("--extra-cflags=%s" % os.environ["CFLAGS"])
+            configure_args.append("--extra-cflags=\"%s\"" % os.environ["CFLAGS"])
         if "CXXFLAGS" in os.environ:
-            configure_args.append("--extra-cxxflags=%s" % os.environ["CXXFLAGS"])
+            configure_args.append("--extra-cxxflags=\"%s\"" % os.environ["CXXFLAGS"])
         if "LDFLAGS" in os.environ:
-            configure_args.append("--extra-ldflags=%s" % os.environ["LDFLAGS"])
+            configure_args.append("--extra-ldflags=\"%s\"" % os.environ["LDFLAGS"])
 
         env_build = AutoToolsBuildEnvironment(self)
         env_vars = dict(env_build.vars)
