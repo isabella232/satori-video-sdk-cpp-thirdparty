@@ -10,7 +10,7 @@ DOCKER_BUILD_OPTIONS?=
 
 LIBS=gsl rapidjson libcbor boost beast opencv openssl darknet \
 	 libvpx ffmpeg zlib sdl bzip2 loguru tensorflow protobuf \
-	 prometheus-cpp gperftools json
+	 prometheus-cpp gperftools json lapack
 DOCKER_BUILDER_IMAGE=gcr.io/kubernetes-live/video/video-thirdparty
 BUILD_TYPE=RelWithDebInfo
 
@@ -27,6 +27,7 @@ CONAN_UPLOAD_COMMAND2=conan upload --confirm --force --remote video ${CONAN_UPLO
 
 COMMON_CONAN_CREATE_OPTIONS=-s build_type=${BUILD_TYPE} --build=missing -s compiler.libcxx=libstdc++11
 CONAN_CREATE_OPTIONS_libcbor=--options Libcbor:fPIC=True --options Libcbor:shared=False
+CONAN_CREATE_OPTIONS_lapack=--options Lapack:fPIC=True --options Lapack:shared=False
 CONAN_CREATE_OPTIONS_boost=--options Boost:fPIC=True --options Boost:shared=False
 CONAN_CREATE_OPTIONS_opencv=--options Opencv:fPIC=True --options Opencv:shared=False
 CONAN_CREATE_OPTIONS_openssl=--options Openssl:fPIC=True --options Openssl:shared=False
